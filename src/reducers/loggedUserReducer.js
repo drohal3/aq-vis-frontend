@@ -32,7 +32,7 @@ export const setUser = (user) => {
 }
 
 export const signOut = () => {
-  window.localStorage.removeItem("IdealAQUser")
+  window.localStorage.removeItem("IdealAQConsoleUserToken")
   return (dispatch) => {
     dispatch(reset());
   }

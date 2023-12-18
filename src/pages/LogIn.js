@@ -51,10 +51,7 @@ export default function LogIn() {
     const token = token_data.access_token
     const currentUser = await loginService.currentUser(token)
 
-    window.localStorage.setItem(
-      "IdealAQConsoleUser",
-      JSON.stringify({...currentUser, token: token})
-    );
+    window.localStorage.setItem("IdealAQConsoleUserToken", token);
 
     dispatch(setUser({...currentUser, token: token}))
 

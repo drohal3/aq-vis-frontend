@@ -3,9 +3,10 @@ import Dashboard from "./pages/Dashboard";
 import LogIn from "./pages/LogIn";
 import Home from "./pages/Home"
 import {useDispatch} from "react-redux";
-import {useEffect} from "react";
-import {setUser} from "./reducers/loggedUserReducer";
+import {useEffect, useState} from "react";
+import {setUser, signOut} from "./reducers/loggedUserReducer";
 import {useAuthData} from "./hooks/useAuthHooks";
+import loginService from './services/login'
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
   console.log(user)
@@ -13,16 +14,35 @@ const ProtectedRoute = ({user, redirectPath = '/login'}) => {
 }
 
 function App() {
+  const [dataReady, setDataReady] = useState(false);
   const dispatch = useDispatch()
+  const localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
+
   const auth = useAuthData()
 
-  if (!auth?.token) {
-    const user = window.localStorage.getItem("IdealAQConsoleUser")
-    if (user) {
-      console.log(`set user: ${user}`)
-      dispatch(setUser(JSON.parse(user)))
+  useEffect(() => {
+    console.log("use effect")
+    const fetchData = async () => {
+      console.log("fetch user data")
+      try {
+        const currentUser = await loginService.currentUser(localToken)
+        dispatch(setUser({...currentUser, token: localToken}))
+        setDataReady(true)
+      } catch (e) {
+        dispatch(signOut())
+        console.log("Signed Out")
+        setDataReady(true)
+      }
     }
-  }
+
+    if (localToken && !auth?.token) {
+      fetchData()
+    } else {
+      setDataReady(true)
+    }
+  }, [])
+  // TODO: load user data from backend
+
 
   const auth2 = useAuthData()
 
@@ -35,7 +55,7 @@ function App() {
   // }, [])
 
 
-  return (
+  return dataReady ? (
     <>
       <BrowserRouter>
         <Routes>
@@ -47,7 +67,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </>
-  );
+  ) : <p>Loading...</p>;
 }
 
 export default App;
