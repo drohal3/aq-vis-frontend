@@ -11,7 +11,6 @@ const userSlice = createSlice({ // TODO: use cookies/cache instead
   initialState,
   reducers: {
     set: (state, action) => { //login
-      console.log("step 3 - changing the state, new state: ", action.payload)
       return action.payload
     },
     reset: () => { //logout
@@ -24,8 +23,6 @@ export const { set, reset } = userSlice.actions;
 
 
 export const setUser = (user) => {
-
-  console.log("step 2 - user reducer", user);
   return (dispatch) => { // TODO: caches/cookies?
     dispatch(set(user));
   }

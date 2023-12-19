@@ -1,6 +1,7 @@
 import deviceService from '../services/devices'
 import {useEffect, useState} from "react";
 import {useAuthData} from "../hooks/useAuthHooks";
+
 function Dashboard(){
   const auth = useAuthData()
   const [devices, setDevices] = useState([])
@@ -9,7 +10,6 @@ function Dashboard(){
     async function fetchData() {
       const devices = await deviceService.devices(auth)
       setDevices(devices)
-      console.log(devices)
     }
 
     fetchData()

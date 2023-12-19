@@ -7,11 +7,15 @@ import {useEffect, useState} from "react";
 import {setUser, signOut} from "./reducers/loggedUserReducer";
 import {useAuthData} from "./hooks/useAuthHooks";
 import loginService from './services/login'
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import aqTheme from "./themes/aqTheme";
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
   console.log(user)
   return !user?.token ? (<Navigate to={redirectPath} replace />) : <Outlet />;
 }
+
+
 
 function App() {
   const [dataReady, setDataReady] = useState(false);
@@ -21,7 +25,6 @@ function App() {
   const auth = useAuthData()
 
   useEffect(() => {
-    console.log("use effect")
     const fetchData = async () => {
       console.log("fetch user data")
       try {
@@ -41,31 +44,22 @@ function App() {
       setDataReady(true)
     }
   }, [])
-  // TODO: load user data from backend
-
 
   const auth2 = useAuthData()
 
-  // useEffect(() => {
-  //   const user = window.localStorage.getItem("IdealAQConsoleUser")
-  //   console.log(`set user: ${user}`)
-  //   if (user) {
-  //     dispatch(setUser(JSON.parse(user)))
-  //   }
-  // }, [])
-
-
   return dataReady ? (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="login" element={<LogIn/>} />
-          <Route path="/" element={<Home/>} />
-          <Route element={<ProtectedRoute user={auth2} />}>
-            <Route index path="dashboard" element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider theme={aqTheme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="login" element={<LogIn/>} />
+            <Route path="/" element={<Home/>} />
+            <Route element={<ProtectedRoute user={auth2} />}>
+              <Route index path="dashboard" element={<Dashboard />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </>
   ) : <p>Loading...</p>;
 }
