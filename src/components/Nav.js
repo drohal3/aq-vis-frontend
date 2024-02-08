@@ -20,7 +20,10 @@ import {useAuthData} from "../hooks/useAuthHooks";
 
 
 const pages = ['About Us', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = [
+  {title:"Settings", link: '/settings'},
+  {title: "Logout", link: '/logout'}
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -138,9 +141,11 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
+                  <Link component={RouterLink} to={setting.link} >
+                    <MenuItem key={setting.title} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting.title}</Typography>
+                    </MenuItem>
+                  </Link>
                 ))}
               </Menu>
             </Box>
