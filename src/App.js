@@ -1,6 +1,7 @@
 import { Navigate, Outlet, BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import LogIn from "./pages/LogIn";
+import LogOut from "./pages/LogOut";
 import Home from "./pages/Home"
 import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
@@ -16,6 +17,13 @@ const ProtectedRoute = ({user, redirectPath = '/login'}) => {
 }
 
 
+function TODO() {
+  return (
+    <>
+      <p>TODO:</p>
+    </>
+  )
+}
 
 function App() {
   const [dataReady, setDataReady] = useState(false);
@@ -53,9 +61,11 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="login" element={<LogIn/>} />
+            <Route path="logout" element={<LogOut />} />
             <Route path="/" element={<Home/>} />
             <Route element={<ProtectedRoute user={auth2} />}>
               <Route index path="dashboard" element={<Dashboard />} />
+              <Route path="account" element={<TODO />} />
             </Route>
           </Routes>
         </BrowserRouter>

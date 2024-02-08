@@ -24,6 +24,7 @@ export const { set, reset } = userSlice.actions;
 
 export const setUser = (user) => {
   return (dispatch) => { // TODO: caches/cookies?
+    window.localStorage.setItem("IdealAQConsoleUserToken", user.token)
     dispatch(set(user));
   }
 }
