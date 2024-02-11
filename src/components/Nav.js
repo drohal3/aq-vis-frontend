@@ -19,7 +19,7 @@ import Link from '@mui/material/Link';
 import {useAuthData} from "../hooks/useAuthHooks";
 
 
-const pages = ['About Us', 'Pricing', 'Blog'];
+const pages = ['Dashboard', 'About Us'];
 const settings = [
   {title:"Settings", link: '/settings'},
   {title: "Logout", link: '/logout'}
