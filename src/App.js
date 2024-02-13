@@ -7,8 +7,10 @@ import {useEffect, useState} from "react";
 import {setUser, signOut} from "./reducers/loggedUserReducer";
 import {useAuthData} from "./hooks/useAuthHooks";
 import loginService from './services/login'
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {ThemeProvider} from "@mui/material/styles";
 import aqTheme from "./themes/aqTheme";
+import Devices from "./pages/Devices";
+import Organisation from "./pages/Organisation";
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
   console.log(user)
@@ -63,6 +65,8 @@ function App() {
             <Route path="logout" element={<LogOut />} />
             <Route element={<ProtectedRoute user={auth2} />}>
               <Route index path="/" element={<Measurements />} />
+              <Route path="/devices" element={<Devices />} />
+              <Route path="/organisation" element={<Organisation />} />
               <Route path="account" element={<TODO />} />
             </Route>
           </Routes>
