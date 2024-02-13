@@ -6,7 +6,7 @@ const initialState = {
   name: null
 }
 
-const userSlice = createSlice({ // TODO: use cookies/cache instead
+const userSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -23,7 +23,7 @@ export const { set, reset } = userSlice.actions;
 
 
 export const setUser = (user) => {
-  return (dispatch) => { // TODO: caches/cookies?
+  return (dispatch) => {
     window.localStorage.setItem("IdealAQConsoleUserToken", user.token)
     dispatch(set(user));
   }
