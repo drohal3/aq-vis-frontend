@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = []
+const initialState = {
+  devices_to_plot: []
+}
 
 // const exampleState = [
 //     {device: "device_id", options: ["option2", "option3"]}
@@ -11,19 +13,25 @@ const measurementFormSlice = createSlice({
   initialState,
   reducers: {
     addDevice: (state, action) => {
+      console.log("payload", action.payload)
       const device_id = action.payload.device_id
       const options = action.payload.options
-      return [ ...state, {device_id, options}]
+      const new_devices_to_plot = [ ...state.devices_to_plot, {device_id, options}]
+      const newState = {...state, devices_to_plot: new_devices_to_plot}
+      console.log("new state", newState)
+      return newState
     },
     setDeviceOptions: (state, action) => {
       const device_id = action.payload.device_id
       const options = action.payload.options
-      return state.map((device) => {
+      const new_devices_to_plot =  state.devices_to_plot.map((device) => {
         if (device.device_id === device_id) {
           return {...device, options}
         }
         return device
       })
+
+      return {state, devices_to_plot: new_devices_to_plot}
     },
     reset: () => { //logout
       return initialState
@@ -40,14 +48,15 @@ export const resetMeasurementForm = () => {
 }
 
 export const addMeasurementDevice = (device_id, options = []) => {
+  console.log("dispatching add device", device_id)
   return (dispatch) => {
-    return dispatch(addDevice(device_id, options))
+    return dispatch(addDevice({device_id, options}));
   }
 }
 
 export const setMeasurementOptions = (device_id, options) => {
   return (dispatch) => {
-    dispatch(setDeviceOptions(device_id, options))
+    dispatch(setDeviceOptions({device_id, options}));
   }
 }
 
