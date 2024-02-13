@@ -1,13 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import blogReducer from "../reducers/blogReducer";
-// import alertReducer from "../reducers/alertReducer";
 import authReducer from '../reducers/loggedUserReducer'
+import measurementFormReducer from "../reducers/measurementFormReducer";
+import devicesReducer from "../reducers/devicesReducer";
 
 // TODO: create root reducer with combineReducers
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    // alerts: alertReducer,
+    measurementForm: measurementFormReducer,
+    devices: devicesReducer,
   },
 });
 

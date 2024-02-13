@@ -5,7 +5,7 @@ import LogOut from "./pages/LogOut";
 import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
 import {setUser, signOut} from "./reducers/loggedUserReducer";
-import {useAuthData} from "./hooks/useAuthHooks";
+import {useAuthData} from "./hooks/useAuthHook";
 import loginService from './services/login'
 import {ThemeProvider} from "@mui/material/styles";
 import aqTheme from "./themes/aqTheme";

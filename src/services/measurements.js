@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from '../utils/api'
-import {useAuthData} from "../hooks/useAuthHooks";
+import {useAuthData} from "../hooks/useAuthHook";
 
 const baseUrl = "/measurements";
 
