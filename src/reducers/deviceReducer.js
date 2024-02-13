@@ -30,3 +30,5 @@ export const resetDevices = () => {
 }
 
 export default devicesSlice.reducer
+
+// TODO: use this reducer!!!
