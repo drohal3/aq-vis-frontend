@@ -1,7 +1,7 @@
 import loginService from "../services/login"
 import { useDispatch } from "react-redux";
 import {setUser} from "../reducers/loggedUserReducer";
-import {useAuthData} from "../hooks/useAuthHooks";
+import {useAuthData} from "../hooks/useAuthHook";
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

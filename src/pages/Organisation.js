@@ -1,4 +1,4 @@
-import {useAuthData} from "../hooks/useAuthHooks";
+import {useAuthData} from "../hooks/useAuthHook";
 import AppLayout from "../components/AppLayout";
 import Typography from "@mui/material/Typography";
 
