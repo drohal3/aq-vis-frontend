@@ -6,20 +6,26 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
+import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import logo from '../move_to_public/ideal-aq-logo-white.png'
 import {useNavigate} from "react-router-dom";
+import Accordion from '@mui/material/Accordion';
+import {AccordionDetails, AccordionSummary} from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+
 
 // TODO: refactor to "parent component"
 
@@ -34,6 +40,8 @@ const styles = {
 
 const drawerLinks = [
   {title: "Measurements", icon: (<SsidChartIcon />), link: "/"},
+  {title: "Devices", icon: (<SettingsInputComponentIcon />), link: "/devices"},
+  {title: "Organisation", icon: (<PeopleAltIcon />), link: "/organisation"},
 ]
 
 function ResponsiveDrawer(props) {
@@ -72,7 +80,7 @@ function ResponsiveDrawer(props) {
           </ListItem>
         ))}
       </List>
-      <Divider />
+      <Divider/>
       <List>
         <ListItem key="logout" disablePadding onClick={() => navigate('/logout')}>
           <ListItemButton>
@@ -83,6 +91,7 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
       </List>
+
     </div>
   );
 
