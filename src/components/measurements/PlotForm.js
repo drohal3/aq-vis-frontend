@@ -22,7 +22,7 @@ export default function PlotForm() {
   // const devicesToPlotOptions = devices.filter((device) => {
   //   let ret = false
   //   devicesToPlot.forEach((deviceToPlot) => {
-  //     if (deviceToPlot.device_id === device.device_id) {
+  //     if (deviceToPlot.deviceId === device.deviceId) {
   //       ret = true
   //       return ret
   //     }
@@ -36,7 +36,7 @@ export default function PlotForm() {
     for (let index = 0; index < devices.length; index++) {
       const device = devices[index]
 
-      if (device.device_id === deviceToPlot.device_id) {
+      if (device.deviceId === deviceToPlot.deviceId) {
         console.log(deviceToPlot)
         const selectedValues = deviceToPlot.values
         devicesToPlotOptions.push({...device, selectedValues })

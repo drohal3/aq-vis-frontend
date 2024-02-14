@@ -17,7 +17,7 @@ const get = async (deviceId, token = null) => {
   const params = {
     date_time_from: "2024-02-09 17:12:21",
     date_time_to: "2024-02-09 17:12:23",
-    device_id: deviceId,
+    deviceId,
   }
 
   const response = await api.get("/measurements", {params})
