@@ -15,15 +15,15 @@ const measurementFormSlice = createSlice({
     addDevice: (state, action) => {
       console.log("payload", action.payload)
       const device_id = action.payload.device_id
-      const options = action.payload.options
-      const new_devices_to_plot = [ ...state.devices_to_plot, {device_id, options}]
+      const values = action.payload.values
+      const new_devices_to_plot = [ ...state.devices_to_plot, {device_id, values}]
       const newState = {...state, devices_to_plot: new_devices_to_plot}
       console.log("new state", newState)
       return newState
     },
-    setDeviceOptions: (state, action) => {
+    setDeviceValues: (state, action) => {
       const device_id = action.payload.device_id
-      const values = action.payload.options
+      const values = action.payload.values
       const new_devices_to_plot =  state.devices_to_plot.map((device) => {
         if (device.device_id === device_id) {
           return {...device, values}
@@ -39,7 +39,7 @@ const measurementFormSlice = createSlice({
   }
 })
 
-export const { addDevice, setDeviceOptions, reset } = measurementFormSlice.actions;
+export const { addDevice, setDeviceValues, reset } = measurementFormSlice.actions;
 
 export const resetMeasurementForm = () => {
   return (dispatch) => {
@@ -47,16 +47,16 @@ export const resetMeasurementForm = () => {
   }
 }
 
-export const addMeasurementDevice = (device_id, options = []) => {
+export const addMeasurementDevice = (device_id, values = []) => {
   console.log("dispatching add device", device_id)
   return (dispatch) => {
-    return dispatch(addDevice({device_id, options}));
+    return dispatch(addDevice({device_id, values}));
   }
 }
 
-export const setMeasurementOptions = (device_id, options) => {
+export const setMeasurementValues = (device_id, values) => {
   return (dispatch) => {
-    dispatch(setDeviceOptions({device_id, options}));
+    dispatch(setDeviceValues({device_id, values}));
   }
 }
 

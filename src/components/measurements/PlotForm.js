@@ -19,15 +19,32 @@ export default function PlotForm() {
   const devicesToPlot = devicesToPlotData?.devices_to_plot
   const devices = useDevicesData()
 
-  const devicesToPlotOptions = devices.filter((device) => {
-    let ret = false
-    devicesToPlot.forEach((deviceToPlot) => {
-      if (deviceToPlot.device_id === device.device_id) {
-        ret = true
-        return ret
+  // const devicesToPlotOptions = devices.filter((device) => {
+  //   let ret = false
+  //   devicesToPlot.forEach((deviceToPlot) => {
+  //     if (deviceToPlot.device_id === device.device_id) {
+  //       ret = true
+  //       return ret
+  //     }
+  //   })
+  //   return ret
+  // })
+
+  let devicesToPlotOptions = []
+
+  devicesToPlot.forEach((deviceToPlot) => {
+    for (let index = 0; index < devices.length; index++) {
+      const device = devices[index]
+
+      if (device.device_id === deviceToPlot.device_id) {
+        console.log(deviceToPlot)
+        const selectedValues = deviceToPlot.values
+        devicesToPlotOptions.push({...device, selectedValues })
+        break
       }
-    })
-    return ret
+    }
+
+
   })
 
   return (
