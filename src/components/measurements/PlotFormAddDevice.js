@@ -12,16 +12,16 @@ import {useDispatch} from "react-redux";
 
 export default function PlotFormAddDevice({afterConfirmClick, afterCancelClick, devices}) {
   const dispatch = useDispatch();
-  const [device_to_add, set_device_to_add] = useState("")
+  const [deviceToAdd, setDeviceToAdd] = useState("")
 
   const handleAddDeviceSelectChange = (event) => {
     console.log(event.target.value)
-    set_device_to_add(event.target.value)
+    setDeviceToAdd(event.target.value)
   }
 
   const handleConfirmDevice = () => {
-    dispatch(addMeasurementDevice(device_to_add))
-    set_device_to_add("")
+    dispatch(addMeasurementDevice(deviceToAdd))
+    setDeviceToAdd("")
     afterConfirmClick()
   }
 
@@ -37,7 +37,7 @@ export default function PlotFormAddDevice({afterConfirmClick, afterCancelClick, 
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={device_to_add}
+            value={deviceToAdd}
             label="Device"
             onChange={handleAddDeviceSelectChange}
           >
