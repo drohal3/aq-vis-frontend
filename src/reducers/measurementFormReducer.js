@@ -5,7 +5,7 @@ const initialState = {
 }
 
 // const exampleState = [
-//     {device: "device_id", options: ["option2", "option3"]}
+//     {device: "device_id", values: ["option2", "option3"]}
 // ]
 
 const measurementFormSlice = createSlice({
@@ -23,10 +23,10 @@ const measurementFormSlice = createSlice({
     },
     setDeviceOptions: (state, action) => {
       const device_id = action.payload.device_id
-      const options = action.payload.options
+      const values = action.payload.options
       const new_devices_to_plot =  state.devices_to_plot.map((device) => {
         if (device.device_id === device_id) {
-          return {...device, options}
+          return {...device, values}
         }
         return device
       })

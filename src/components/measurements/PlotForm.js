@@ -17,11 +17,18 @@ export default function PlotForm() {
 
   const devicesToPlotData = useMeasurementData()
   const devicesToPlot = devicesToPlotData?.devices_to_plot
-
   const devices = useDevicesData()
 
-  console.log("devicesToPlot", devicesToPlot)
-
+  const devicesToPlotOptions = devices.filter((device) => {
+    let ret = false
+    devicesToPlot.forEach((deviceToPlot) => {
+      if (deviceToPlot.device_id === device.device_id) {
+        ret = true
+        return ret
+      }
+    })
+    return ret
+  })
 
   return (
     <>
@@ -42,7 +49,7 @@ export default function PlotForm() {
           </Grid>
         </Grid>
       </Box>
-      <PlotFormDeviceOptions devicesToPlot={devicesToPlot} />
+      <PlotFormDeviceOptions devicesToPlot={devicesToPlotOptions} />
     </>
   )
 }
