@@ -19,7 +19,7 @@ export default function PlotForm() {
   const devicesToPlot = devicesToPlotData?.devices_to_plot
   const devices = useDevicesData()
 
-  let devicesToPlotOptions = []
+  let plotConfiguration = []
 
   devicesToPlot.forEach((deviceToPlot) => {
     for (let index = 0; index < devices.length; index++) {
@@ -28,7 +28,7 @@ export default function PlotForm() {
       if (device.deviceId === deviceToPlot.deviceId) {
         console.log(deviceToPlot)
         const selectedValues = deviceToPlot.values
-        devicesToPlotOptions.push({...device, selectedValues })
+        plotConfiguration.push({...device, selectedValues })
         break
       }
     }
@@ -55,7 +55,7 @@ export default function PlotForm() {
           </Grid>
         </Grid>
       </Box>
-      <PlotFormDeviceOptions devicesToPlot={devicesToPlotOptions} />
+      <PlotFormDeviceOptions plotConfiguration={plotConfiguration} />
     </>
   )
 }

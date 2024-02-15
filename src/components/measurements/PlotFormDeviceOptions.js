@@ -8,12 +8,12 @@ function PlotFormDeviceOption({device}) {
   )
 }
 
-export default function PlotFormDeviceOptions({devicesToPlot}) {
-  console.log("merged devicesToPlot", devicesToPlot)
+export default function PlotFormDeviceOptions({plotConfiguration}) {
+  console.log("merged devicesToPlot", plotConfiguration)
 
   return (
     <>
-      {devicesToPlot.map((deviceToPlot) => (
+      {plotConfiguration.map((deviceToPlot) => (
         <PlotFormDeviceOption key={deviceToPlot.deviceId} device={deviceToPlot} />
       ))}
     </>
