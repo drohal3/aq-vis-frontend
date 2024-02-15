@@ -19,17 +19,6 @@ export default function PlotForm() {
   const devicesToPlot = devicesToPlotData?.devices_to_plot
   const devices = useDevicesData()
 
-  // const devicesToPlotOptions = devices.filter((device) => {
-  //   let ret = false
-  //   devicesToPlot.forEach((deviceToPlot) => {
-  //     if (deviceToPlot.deviceId === device.deviceId) {
-  //       ret = true
-  //       return ret
-  //     }
-  //   })
-  //   return ret
-  // })
-
   let devicesToPlotOptions = []
 
   devicesToPlot.forEach((deviceToPlot) => {
