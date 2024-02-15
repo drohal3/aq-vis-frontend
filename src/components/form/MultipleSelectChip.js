@@ -42,8 +42,6 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
   *
   * */
 
-  console.log("CHIP: options:", options)
-  console.log("CHIP: selected", selectedOptions)
 
   const theme = useTheme();
 
@@ -63,8 +61,6 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
       return [...acc, cur.name]
     }
   }, [])
-
-  console.log("value", value)
 
   return (
     <div>
