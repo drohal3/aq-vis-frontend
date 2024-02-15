@@ -2,21 +2,24 @@ import Typography from "@mui/material/Typography";
 import MultipleSelectChip from "../form/MultipleSelectChip";
 
 function PlotFormDeviceOption({device}) {
+  console.log("deviceee", device)
+  const deviceValuesOptions = device.values.map((option) => {
+    return {
+      name: option.name,
+      code: option.code
+    }
+  })
 
-  // const deviceValuesOptions = device.options.map((option) => {
-  //   return {
-  //     name: option.name,
-  //     code: option.deviceId
-  //   }
-  // })
+  // const deviceValuesOptions = [
+  //   {name: "some name", code: "coode"}
+  // ]
 
-  const deviceValuesOptions = [
-    {name: "some name", code: "coode"}
-  ]
+  const selectedDeviceValuesOptions = device.selectedValues
 
-  // const selectedDeviceValuesOptions = device.selectedValues
+  console.log("values", deviceValuesOptions)
+  console.log("selected values", selectedDeviceValuesOptions)
 
-  const selectedDeviceValuesOptions = ["coode"]
+  // const selectedDeviceValuesOptions = ["coode"]
 
   return (
     <>

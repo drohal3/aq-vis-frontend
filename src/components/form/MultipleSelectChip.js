@@ -59,7 +59,10 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
     if (selectedOptions.indexOf(cur.code) !== -1) {
       return [...acc, cur.name]
     }
+    return acc
   }, [])
+
+  console.log("value", value)
 
   return (
     <div>
