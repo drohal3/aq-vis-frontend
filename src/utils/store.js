@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from '../reducers/loggedUserReducer'
-import measurementFormReducer from "../reducers/measurementFormReducer";
+import measurementFormReducer from "../reducers/plotConfigurationReducer";
 import devicesReducer from "../reducers/devicesReducer";
 
 // TODO: create root reducer with combineReducers
