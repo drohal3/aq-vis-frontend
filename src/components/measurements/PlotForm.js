@@ -2,7 +2,7 @@ import {FormGroup, Stack} from "@mui/material";
 import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 
-import {useMeasurementData} from "../../hooks/useMeasurementDataHook";
+import {useMeasurementData} from "../../hooks/usePlotConfigurationDataHook";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 
