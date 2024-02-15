@@ -56,7 +56,6 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
   };
 
   const value = options.reduce((acc, cur) => {
-    console.log("cur", cur)
     if (selectedOptions.indexOf(cur.code) !== -1) {
       return [...acc, cur.name]
     }
