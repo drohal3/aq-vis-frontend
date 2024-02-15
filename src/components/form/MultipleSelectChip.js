@@ -29,8 +29,23 @@ function getStyles(option, selectedOptions, theme) {
 }
 
 export default function MultipleSelectChip({options, selectedOptions, title, setOnChange}) {
+  /*
+  * expected values:
+  *
+  * options: [
+  *   {name: "some title 1", code: "code1"},
+  *   {name: "some title 2", code: "code2"},
+  *   {name: "some title 3", code: "code3"}
+  * ]
+  *
+  * selectedOptions: ["code2, code3"]
+  *
+  * */
+
+  console.log("CHIP: options:", options)
+  console.log("CHIP: selected", selectedOptions)
+
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
 
   const handleChange = (event) => {
     const {
@@ -42,11 +57,14 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
     setOnChange(retValue)
   };
 
-  console.log("selectedValues Chip", selectedOptions)
+  const value = options.reduce((acc, cur) => {
+    console.log("cur", cur)
+    if (selectedOptions.indexOf(cur.code) !== -1) {
+      return [...acc, cur.name]
+    }
+  }, [])
 
-  const value = selectedOptions.map((selectedOption) => {
-    return selectedOption.name
-  })
+  console.log("value", value)
 
   return (
     <div>
