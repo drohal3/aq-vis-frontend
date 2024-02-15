@@ -1,6 +1,11 @@
+import Typography from "@mui/material/Typography";
 
 function PlotFormDeviceOption({device}) {
-
+  return (
+    <Typography>
+      {device.name}
+    </Typography>
+  )
 }
 
 export default function PlotFormDeviceOptions({devicesToPlot}) {
@@ -8,9 +13,9 @@ export default function PlotFormDeviceOptions({devicesToPlot}) {
 
   return (
     <>
-      <p>
-        PlotFormDeviceOptions
-      </p>
+      {devicesToPlot.map((deviceToPlot) => (
+        <PlotFormDeviceOption key={deviceToPlot.deviceId} device={deviceToPlot} />
+      ))}
     </>
   )
 }
