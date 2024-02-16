@@ -21,7 +21,9 @@ export default function PlotForm() {
 
   let plotConfiguration = []
 
+  let mappedDevicesToPlotCodes = []
   devicesToPlot.forEach((deviceToPlot) => {
+    mappedDevicesToPlotCodes.push(deviceToPlot.deviceId)
     for (let index = 0; index < devices.length; index++) {
       const device = devices[index]
 
@@ -32,9 +34,15 @@ export default function PlotForm() {
         break
       }
     }
-
-
   })
+
+  const devicesToAdd = devices.reduce((acc, cur) => {
+    if (mappedDevicesToPlotCodes.indexOf(cur.deviceId) === -1) {
+      return [...acc, cur]
+    }
+
+    return acc
+  }, [])
 
   return (
     <>
@@ -50,7 +58,7 @@ export default function PlotForm() {
             <PlotFormAddDevice
               afterCancelClick={() => set_form_hidden(true)}
               afterConfirmClick={() => set_form_hidden(true)}
-              devices = {devices}
+              devices = {devicesToAdd}
             />
           </Grid>
         </Grid>
