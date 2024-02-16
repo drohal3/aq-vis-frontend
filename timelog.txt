@@ -1,1 +1,2 @@
-12-16.02.2024 : 40h (~5*8h) - wrestling with Material UI, work mostly on frontend, Measurements view
+12-16.02.2024 : 40h (5x~8h) - wrestling with Material UI, work mostly on frontend, Measurements view, plot configurator
+                            - customizing multiselect chip component

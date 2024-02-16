@@ -90,7 +90,7 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
               value={option.code}
               style={getStyles(option, selectedOptions, theme)}
             >
-              {option.code}
+              {option.name}
             </MenuItem>
           ))}
         </Select>
