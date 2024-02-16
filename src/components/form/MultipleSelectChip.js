@@ -57,8 +57,11 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
     setOnChange(retValue)
   };
 
+  let mappedValues = []
+
   const value = options.reduce((acc, cur) => {
     if (selectedOptions.indexOf(cur.code) !== -1) {
+      mappedValues[cur.code] = cur.name
       return [...acc, cur.code]
     }
     return acc
@@ -78,7 +81,7 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip key={value} label={mappedValues[value]} />
               ))}
             </Box>
           )}
