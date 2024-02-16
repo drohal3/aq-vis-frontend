@@ -8,7 +8,7 @@ function PlotFormDeviceOption({device}) {
 
   const deviceValuesOptions = device.values.map((option) => {
     return {
-      name: option.name,
+      label: option.name,
       code: option.code
     }
   })
@@ -18,9 +18,6 @@ function PlotFormDeviceOption({device}) {
   // ]
 
   const selectedDeviceValuesOptions = device.selectedValues
-
-  console.log("values", deviceValuesOptions)
-  console.log("selected values", selectedDeviceValuesOptions)
 
   // const selectedDeviceValuesOptions = ["coode"]
   const handleSetOnChange = (value) => {
@@ -43,8 +40,6 @@ function PlotFormDeviceOption({device}) {
 }
 
 export default function PlotFormDeviceOptions({plotConfiguration}) {
-  console.log("merged devicesToPlot", plotConfiguration)
-
   return (
     <>
       {plotConfiguration.map((deviceToPlot) => (

@@ -33,9 +33,9 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
   * expected values:
   *
   * options: [
-  *   {name: "some title 1", code: "code1"},
-  *   {name: "some title 2", code: "code2"},
-  *   {name: "some title 3", code: "code3"}
+  *   {label: "some title 1", code: "code1"},
+  *   {label: "some title 2", code: "code2"},
+  *   {label: "some title 3", code: "code3"}
   * ]
   *
   * selectedOptions: ["code2, code3"]
@@ -50,8 +50,6 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
       target: { value },
     } = event;
 
-    console.log("vaaal", value)
-
     const retValue = typeof value === 'string' ? value.split(',') : value
 
     setOnChange(retValue)
@@ -61,7 +59,7 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
 
   const value = options.reduce((acc, cur) => {
     if (selectedOptions.indexOf(cur.code) !== -1) {
-      mappedValues[cur.code] = cur.name
+      mappedValues[cur.code] = cur.label
       return [...acc, cur.code]
     }
     return acc
@@ -93,7 +91,7 @@ export default function MultipleSelectChip({options, selectedOptions, title, set
               value={option.code}
               style={getStyles(option, selectedOptions, theme)}
             >
-              {option.name}
+              {option.label}
             </MenuItem>
           ))}
         </Select>
