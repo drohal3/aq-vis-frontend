@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-  devices_to_plot: []
-}
+const initialState = []
+
 
 // const exampleState = [
 //     {device: "deviceId", values: ["option2", "option3"]}
@@ -16,22 +15,25 @@ const measurementFormSlice = createSlice({
       console.log("payload", action.payload)
       const deviceId = action.payload.deviceId
       const values = action.payload.values
-      const new_devices_to_plot = [ ...state.devices_to_plot, {deviceId, values}]
-      const newState = {...state, devices_to_plot: new_devices_to_plot}
+      const newDevicesToPlot = [ ...state, {deviceId, values}]
+      const newState = newDevicesToPlot
       console.log("new state", newState)
       return newState
+    },
+    removeDevice: (state, action) => {
+      return state.filter(device => device.deviceId !== action.payload.deviceId)
     },
     setDeviceValues: (state, action) => {
       const deviceId = action.payload.deviceId
       const values = action.payload.values
-      const new_devices_to_plot =  state.devices_to_plot.map((device) => {
+      const new_devices_to_plot =  state.map((device) => {
         if (device.deviceId === deviceId) {
           return {...device, values}
         }
         return device
       })
 
-      return {state, devices_to_plot: new_devices_to_plot}
+      return new_devices_to_plot
     },
     reset: () => { //logout
       return initialState
@@ -39,7 +41,7 @@ const measurementFormSlice = createSlice({
   }
 })
 
-export const { addDevice, setDeviceValues, reset } = measurementFormSlice.actions;
+export const { addDevice, removeDevice, setDeviceValues, reset } = measurementFormSlice.actions;
 
 export const resetMeasurementForm = () => {
   return (dispatch) => {
@@ -48,9 +50,14 @@ export const resetMeasurementForm = () => {
 }
 
 export const addMeasurementDevice = (deviceId, values = []) => {
-  console.log("dispatching add device", deviceId)
   return (dispatch) => {
     return dispatch(addDevice({deviceId, values}));
+  }
+}
+
+export const removeMeasurementDevice = (deviceId) => {
+  return (dispatch) => {
+    return dispatch(removeDevice({deviceId}))
   }
 }
 

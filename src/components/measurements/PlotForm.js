@@ -15,8 +15,7 @@ import {useDevicesData} from "../../hooks/useDevicesDataHook";
 export default function PlotForm() {
   const [form_hidden, set_form_hidden] = useState(true)
 
-  const devicesToPlotData = useMeasurementData()
-  const devicesToPlot = devicesToPlotData?.devices_to_plot
+  const devicesToPlot = useMeasurementData()
   const devices = useDevicesData()
 
   let plotConfiguration = []

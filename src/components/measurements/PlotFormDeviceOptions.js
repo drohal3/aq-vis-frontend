@@ -1,7 +1,10 @@
 import Typography from "@mui/material/Typography";
 import MultipleSelectChip from "../form/MultipleSelectChip";
-import {setMeasurementValues} from "../../reducers/plotConfigurationReducer";
+import {setMeasurementValues, removeMeasurementDevice} from "../../reducers/plotConfigurationReducer";
 import {useDispatch} from "react-redux";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function PlotFormDeviceOption({device}) {
   const dispatch = useDispatch();
@@ -24,6 +27,10 @@ function PlotFormDeviceOption({device}) {
     dispatch(setMeasurementValues(device.deviceId, value))
   }
 
+  const handleDeleteButtonClick = () => {
+    dispatch(removeMeasurementDevice(device.deviceId))
+  }
+
   return (
     <>
       <Typography>
@@ -35,6 +42,9 @@ function PlotFormDeviceOption({device}) {
         options={deviceValuesOptions}
         selectedOptions={selectedDeviceValuesOptions}
       />
+      <IconButton aria-label="delete" size="large" onClick={handleDeleteButtonClick}>
+        <DeleteIcon fontSize="inherit" />
+      </IconButton>
     </>
   )
 }
