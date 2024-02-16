@@ -1,8 +1,11 @@
 import Typography from "@mui/material/Typography";
 import MultipleSelectChip from "../form/MultipleSelectChip";
+import {setMeasurementValues} from "../../reducers/plotConfigurationReducer";
+import {useDispatch} from "react-redux";
 
 function PlotFormDeviceOption({device}) {
-  console.log("deviceee", device)
+  const dispatch = useDispatch();
+
   const deviceValuesOptions = device.values.map((option) => {
     return {
       name: option.name,
@@ -20,6 +23,9 @@ function PlotFormDeviceOption({device}) {
   console.log("selected values", selectedDeviceValuesOptions)
 
   // const selectedDeviceValuesOptions = ["coode"]
+  const handleSetOnChange = (value) => {
+    dispatch(setMeasurementValues(device.deviceId, value))
+  }
 
   return (
     <>
@@ -28,7 +34,7 @@ function PlotFormDeviceOption({device}) {
       </Typography>
       <MultipleSelectChip
         title="Values to plot"
-        setOnChange={(value) => console.log(value)}
+        setOnChange={handleSetOnChange}
         options={deviceValuesOptions}
         selectedOptions={selectedDeviceValuesOptions}
       />
