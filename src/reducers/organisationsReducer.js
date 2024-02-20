@@ -22,3 +22,5 @@ export const setOrganisation = (organisation) => {
     dispatch(set(organisation))
   }
 }
+
+export default organisationSlice.reducer
