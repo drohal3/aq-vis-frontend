@@ -4,7 +4,7 @@ const initialState = []
 
 
 // const exampleState = [
-//     {device: "deviceId", values: ["option2", "option3"]}
+//     {device: "code", values: ["option2", "option3"]}
 // ]
 
 const measurementFormSlice = createSlice({
@@ -13,21 +13,21 @@ const measurementFormSlice = createSlice({
   reducers: {
     addDevice: (state, action) => {
       console.log("payload", action.payload)
-      const deviceId = action.payload.deviceId
+      const code = action.payload.code
       const values = action.payload.values
-      const newDevicesToPlot = [ ...state, {deviceId, values}]
+      const newDevicesToPlot = [ ...state, {code, values}]
       const newState = newDevicesToPlot
       console.log("new state", newState)
       return newState
     },
     removeDevice: (state, action) => {
-      return state.filter(device => device.deviceId !== action.payload.deviceId)
+      return state.filter(device => device.code !== action.payload.code)
     },
     setDeviceValues: (state, action) => {
-      const deviceId = action.payload.deviceId
+      const code = action.payload.code
       const values = action.payload.values
       const new_devices_to_plot =  state.map((device) => {
-        if (device.deviceId === deviceId) {
+        if (device.code === code) {
           return {...device, values}
         }
         return device
@@ -49,21 +49,21 @@ export const resetMeasurementForm = () => {
   }
 }
 
-export const addMeasurementDevice = (deviceId, values = []) => {
+export const addMeasurementDevice = (code, values = []) => {
   return (dispatch) => {
-    return dispatch(addDevice({deviceId, values}));
+    return dispatch(addDevice({code, values}));
   }
 }
 
-export const removeMeasurementDevice = (deviceId) => {
+export const removeMeasurementDevice = (code) => {
   return (dispatch) => {
-    return dispatch(removeDevice({deviceId}))
+    return dispatch(removeDevice({code}))
   }
 }
 
-export const setMeasurementValues = (deviceId, values) => {
+export const setMeasurementValues = (code, values) => {
   return (dispatch) => {
-    dispatch(setDeviceValues({deviceId, values}));
+    dispatch(setDeviceValues({code, values}));
   }
 }
 

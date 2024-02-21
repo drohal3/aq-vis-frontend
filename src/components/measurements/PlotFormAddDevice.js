@@ -43,7 +43,7 @@ export default function PlotFormAddDevice({afterConfirmClick, afterCancelClick, 
           >
             {
               devices.map((device) => {
-                return (<MenuItem key={device.deviceId} value={device.deviceId}>{device.name}</MenuItem>)
+                return (<MenuItem key={device.code} value={device.code}>{device.name}</MenuItem>)
               })
             }
           </Select>

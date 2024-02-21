@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = [ // TODO: load from DB
-  {deviceId: "iaq1", name: "Ideal AQ 1", values: [{code: "conc", name: "concentration"}, {code: "pm10", name: "PM 10"}]},
-  {deviceId: "iaq2", name: "Ideal AQ 2", values: [{code: "conc", name: "concentration"}]},
-  {deviceId: "iaq3", name: "Ideal AQ 3", values: [{code: "conc", name: "concentration"}]},
+  {code: "iaq1", name: "Ideal AQ 1", values: [{code: "conc", name: "concentration"}, {code: "pm10", name: "PM 10"}]},
+  {code: "iaq2", name: "Ideal AQ 2", values: [{code: "conc", name: "concentration"}]},
+  {code: "iaq3", name: "Ideal AQ 3", values: [{code: "conc", name: "concentration"}]},
 ]
 
 const devicesSlice = createSlice({

@@ -24,11 +24,11 @@ function PlotFormDeviceOption({device}) {
 
   // const selectedDeviceValuesOptions = ["coode"]
   const handleSetOnChange = (value) => {
-    dispatch(setMeasurementValues(device.deviceId, value))
+    dispatch(setMeasurementValues(device.code, value))
   }
 
   const handleDeleteButtonClick = () => {
-    dispatch(removeMeasurementDevice(device.deviceId))
+    dispatch(removeMeasurementDevice(device.code))
   }
 
   return (
@@ -53,7 +53,7 @@ export default function PlotFormDeviceOptions({plotConfiguration}) {
   return (
     <>
       {plotConfiguration.map((deviceToPlot) => (
-        <PlotFormDeviceOption key={deviceToPlot.deviceId} device={deviceToPlot} />
+        <PlotFormDeviceOption key={deviceToPlot.code} device={deviceToPlot} />
       ))}
     </>
   )

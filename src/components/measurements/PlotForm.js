@@ -22,11 +22,11 @@ export default function PlotForm() {
 
   let mappedDevicesToPlotCodes = []
   devicesToPlot.forEach((deviceToPlot) => {
-    mappedDevicesToPlotCodes.push(deviceToPlot.deviceId)
+    mappedDevicesToPlotCodes.push(deviceToPlot.code)
     for (let index = 0; index < devices.length; index++) {
       const device = devices[index]
 
-      if (device.deviceId === deviceToPlot.deviceId) {
+      if (device.code === deviceToPlot.code) {
         console.log(deviceToPlot)
         const selectedValues = deviceToPlot.values
         plotConfiguration.push({...device, selectedValues })
@@ -36,7 +36,7 @@ export default function PlotForm() {
   })
 
   const devicesToAdd = devices.reduce((acc, cur) => {
-    if (mappedDevicesToPlotCodes.indexOf(cur.deviceId) === -1) {
+    if (mappedDevicesToPlotCodes.indexOf(cur.code) === -1) {
       return [...acc, cur]
     }
 
