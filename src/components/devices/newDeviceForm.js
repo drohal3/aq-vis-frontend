@@ -104,7 +104,9 @@ function AddParameterForm(params){
   )
 }
 
-function NewDeviceForm(){
+function NewDeviceForm(params){
+  const {onConfirmClick, onCancelClick} = params
+
   const [name, setDeviceName] = useState("")
   const [code, setDeviceCode] = useState("")
   const [parameters, setDeviceParameters] = useState([])
@@ -128,16 +130,28 @@ function NewDeviceForm(){
 
   const auth = useAuthData()
 
+  const resetForm = () => {
+    setDeviceName("")
+    setDeviceCode("")
+    setDeviceParameters([])
+  }
+
   const handleConfirmClick = async () => {
     console.log("handle click")
-    const response = await deviceService.create(auth, {
-      name, code, "organisation": auth.organisation
-    })
+    const data = {
+      name, code, "organisation": auth.organisation, parameters
+    }
+
+    console.log("create device", data)
+    const response = await deviceService.create(auth, data)
     console.log(response)
+
+    resetForm()
   }
 
   const handleCancelClick = async () => {
     console.log("Cancel click")
+    resetForm()
   }
 
   const addParameter = (parameter) => {
