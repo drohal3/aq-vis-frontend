@@ -178,23 +178,16 @@ function NewDeviceForm(params){
                  onChange={(event) => setDeviceName(event.target.value)} />
       <TextField id="device-code" label="Device Code" variant="filled" value={code}
                  onChange={(event) => setDeviceCode(event.target.value)}/>
-      <Typography>
-        Parameters:
-      </Typography>
-      <Box hidden={!parameterFormHidden}>
-        <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {setParameterFormHidden(false)}}>
-          Add parameter
-        </Button>
-      </Box>
-      <Box hidden={parameterFormHidden} sx={{ border: '1px dashed #e3dbdb', p: 1 }}>
-        <AddParameterForm onConfirmClick={addParameter} onCancelClick={() => setParameterFormHidden(true)}/>
-      </Box>
+
       <Stack direction="row"
              justifyContent="flex-start"
-             alignItems="space-between"
+             alignItems="center"
              spacing={1}
              flexWrap="wrap"
              useFlexGap>
+        <Typography>
+          Parameters:
+        </Typography>
         {parameters.map(parameter => (
           <Chip
             key={parameter.code}
@@ -204,6 +197,14 @@ function NewDeviceForm(params){
           />
         ))}
       </Stack>
+      <Box hidden={!parameterFormHidden}>
+        <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {setParameterFormHidden(false)}}>
+          Add parameter
+        </Button>
+      </Box>
+      <Box hidden={parameterFormHidden} sx={{ border: '1px dashed #e3dbdb', p: 1 }}>
+        <AddParameterForm onConfirmClick={addParameter} onCancelClick={() => setParameterFormHidden(true)}/>
+      </Box>
       <Divider />
       <Stack
         direction="row"
