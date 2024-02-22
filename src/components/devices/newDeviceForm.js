@@ -188,6 +188,10 @@ function NewDeviceForm(params){
         <Typography>
           Parameters:
         </Typography>
+        <Box hidden={parameters.length > 0}>
+          <Chip label="empty" />
+        </Box>
+
         {parameters.map(parameter => (
           <Chip
             key={parameter.code}
