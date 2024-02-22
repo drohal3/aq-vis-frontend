@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import NewDeviceForm from "../components/devices/newDeviceForm";
 import {useEffect} from "react";
 import deviceService from "../services/devices"
+import Box from "@mui/material/Box";
 
 
 function Devices(){
@@ -27,7 +28,9 @@ function Devices(){
         <Typography>
           TODO: mapping device ID - Device Name, restricted access, organisation
         </Typography>
-        <NewDeviceForm />
+        <Box maxWidth="400px">
+          <NewDeviceForm />
+        </Box>
       </AppLayout>
       {/*{devices.map((device, key) => (<p key={key}>{device.name}</p>))}*/}
     </>

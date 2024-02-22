@@ -5,9 +5,8 @@ import { signOut } from '../reducers/loggedUserReducer'
 
 function LogOut() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(signOut())
-  })
+  // useEffect?
+  dispatch(signOut())
 
   return (
     <Navigate to='/' />
