@@ -104,11 +104,12 @@ function AddParameterForm(params){
   )
 }
 
+function NewDeviceForm(){
+  const [name, setDeviceName] = useState("")
+  const [code, setDeviceCode] = useState("")
+  const [parameters, setDeviceParameters] = useState([])
 
-
-function Parameters(){
   const [parameterFormHidden, setParameterFormHidden] = useState(true)
-  const [parametersToSave, setParametersToSave] = useState([])
 
   const dispatch = useDispatch()
   const units = useUnitsData()
@@ -125,6 +126,31 @@ function Parameters(){
     }
   }, []);
 
+  const auth = useAuthData()
+
+  const handleConfirmClick = async () => {
+    console.log("handle click")
+    const response = await deviceService.create(auth, {
+      name, code, "organisation": auth.organisation
+    })
+    console.log(response)
+  }
+
+  const handleCancelClick = async () => {
+    console.log("Cancel click")
+  }
+
+  const addParameter = (parameter) => {
+    setDeviceParameters([...parameters, parameter])
+    setParameterFormHidden(true)
+    console.log("added", parameter)
+  }
+
+  const deleteParameter = (parameterCode) => {
+    const nparameters = parameters.filter(parameter => parameter.code !== parameterCode)
+    setDeviceParameters(nparameters)
+  }
+
   const findUnitSymbolById = (unitId) => {
     console.log("looking for unit", unitId)
     console.log("looking in", units)
@@ -132,19 +158,12 @@ function Parameters(){
     return unit?.symbol ?? "unknown"
   }
 
-  const addParameter = (parameter) => {
-    setParametersToSave([...parametersToSave, parameter])
-    setParameterFormHidden(true)
-    console.log("added", parameter)
-  }
-
-  const deleteParameter = (parameterCode) => {
-    const parameters = parametersToSave.filter(parameter => parameter.code !== parameterCode)
-    setParametersToSave(parameters)
-  }
-
   return (
-    <>
+    <Stack spacing={2}>
+      <TextField id="device-name" label="Device Name" variant="filled" value={name}
+                 onChange={(event) => setDeviceName(event.target.value)} />
+      <TextField id="device-code" label="Device Code" variant="filled" value={code}
+                 onChange={(event) => setDeviceCode(event.target.value)}/>
       <Typography>
         Parameters:
       </Typography>
@@ -162,7 +181,7 @@ function Parameters(){
              spacing={1}
              flexWrap="wrap"
              useFlexGap>
-        {parametersToSave.map(parameter => (
+        {parameters.map(parameter => (
           <Chip
             key={parameter.code}
             label={`${parameter.code} - ${parameter.name} [${findUnitSymbolById(parameter.unit)}]`}
@@ -171,34 +190,6 @@ function Parameters(){
           />
         ))}
       </Stack>
-    </>
-  )
-}
-
-function NewDeviceForm(){
-  const [name, setDeviceName] = useState("")
-  const [code, setDeviceCode] = useState("")
-  const auth = useAuthData()
-
-  const handleConfirmClick = async () => {
-    console.log("handle click")
-    const response = await deviceService.create(auth, {
-      name, code, "organisation": auth.organisation
-    })
-    console.log(response)
-  }
-
-  const handleCancelClick = async () => {
-    console.log("Cancel click")
-  }
-
-  return (
-    <Stack spacing={2}>
-      <TextField id="device-name" label="Device Name" variant="filled" value={name}
-                 onChange={(event) => setDeviceName(event.target.value)} />
-      <TextField id="device-code" label="Device Code" variant="filled" value={code}
-                 onChange={(event) => setDeviceCode(event.target.value)}/>
-      <Parameters />
       <Divider />
       <Stack
         direction="row"
