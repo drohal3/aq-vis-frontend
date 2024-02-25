@@ -20,7 +20,7 @@ import {useDispatch} from "react-redux";
 import {useUnitsData} from "../../hooks/useUnitsHook";
 import unitsService from "../../services/units"
 import {setUnits} from "../../reducers/unitsReducer";
-
+import {addDevice} from "../../reducers/devicesReducer";
 
 
 function AddParameterForm(params){
@@ -145,13 +145,15 @@ function NewDeviceForm(params){
     console.log("create device", data)
     const response = await deviceService.create(auth, data)
     console.log(response)
-
+    dispatch(addDevice(response))
     resetForm()
+    onConfirmClick()
   }
 
   const handleCancelClick = async () => {
     console.log("Cancel click")
     resetForm()
+    onCancelClick()
   }
 
   const addParameter = (parameter) => {

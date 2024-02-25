@@ -24,4 +24,9 @@ const create = async (auth, data) => {
   return response.data
 }
 
-export default {get, create}
+const remove = async (auth, device_id) => {
+  setToken(auth.token)
+  await api.delete(`/devices/${device_id}`)
+}
+
+export default {get, create, remove}

@@ -9,8 +9,9 @@ import {useAuthData} from "./hooks/useAuthHook";
 import loginService from './services/login'
 import {ThemeProvider} from "@mui/material/styles";
 import aqTheme from "./themes/aqTheme";
-import Devices from "./pages/Devices";
+import Devices from "./pages/devices/Devices";
 import Organisation from "./pages/Organisation";
+import NewDevice from "./pages/devices/NewDevice";
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
   console.log(user)
@@ -66,6 +67,7 @@ function App() {
             <Route element={<ProtectedRoute user={auth2} />}>
               <Route index path="/" element={<Measurements />} />
               <Route path="/devices" element={<Devices />} />
+              <Route path="/devices/new" element={<NewDevice/>} />
               <Route path="/organisation" element={<Organisation />} />
               <Route path="account" element={<TODO />} />
             </Route>

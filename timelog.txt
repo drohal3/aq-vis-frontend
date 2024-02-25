@@ -1,3 +1,4 @@
 12-16.02.2024 : 40h (5x~8h) - wrestling with Material UI, work mostly on frontend, Measurements view, plot configurator
                             - customizing multiselect chip component
 22.02.2024: 5h Devices and device parameters form
+25.02.2024: 3.5h Devices table, delete device (+ backend), extracted new device form

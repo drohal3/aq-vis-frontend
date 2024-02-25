@@ -13,6 +13,10 @@ const devicesSlice = createSlice({
     set: (state, action) => {
       return action.payload
     },
+    remove: (state, action) => {
+      const device_id = action.payload
+      return state.filter((device) => device.id !== device_id)
+    },
     add: (state, action) => {
       return [...state, action.payload]
     },
@@ -22,7 +26,7 @@ const devicesSlice = createSlice({
   }
 })
 
-export const { set, add, reset } = devicesSlice.actions;
+export const { set, add, remove, reset } = devicesSlice.actions;
 
 export const setDevices = (devices) => {
   return (dispatch) => {
@@ -39,6 +43,12 @@ export const resetDevices = () => {
 export const addDevice = (device) => {
   return (dispatch) => {
     dispatch(add(device))
+  }
+}
+
+export const removeDevice = (device_id) => {
+  return (dispatch) => {
+    dispatch(remove(device_id))
   }
 }
 
