@@ -28,7 +28,7 @@ export default function PlotForm() {
 
       if (device.code === deviceToPlot.code) {
         console.log(deviceToPlot)
-        const selectedValues = deviceToPlot.values
+        const selectedValues = deviceToPlot.parameters
         plotConfiguration.push({...device, selectedValues })
         break
       }

@@ -14,8 +14,8 @@ const measurementFormSlice = createSlice({
     addDevice: (state, action) => {
       console.log("payload", action.payload)
       const code = action.payload.code
-      const values = action.payload.values
-      const newDevicesToPlot = [ ...state, {code, values}]
+      const parameters = action.payload.parameters
+      const newDevicesToPlot = [ ...state, {code, parameters}]
       const newState = newDevicesToPlot
       console.log("new state", newState)
       return newState
@@ -25,10 +25,10 @@ const measurementFormSlice = createSlice({
     },
     setDeviceValues: (state, action) => {
       const code = action.payload.code
-      const values = action.payload.values
+      const parameters = action.payload.parameters
       const new_devices_to_plot =  state.map((device) => {
         if (device.code === code) {
-          return {...device, values}
+          return {...device, parameters}
         }
         return device
       })

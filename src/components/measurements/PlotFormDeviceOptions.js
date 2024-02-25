@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function PlotFormDeviceOption({device}) {
   const dispatch = useDispatch();
 
-  const deviceValuesOptions = device.values.map((option) => {
+  const deviceValuesOptions = device.parameters.map((option) => {
     return {
       label: option.name,
       code: option.code
