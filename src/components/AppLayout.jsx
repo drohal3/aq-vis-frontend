@@ -18,7 +18,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import logo from '../move_to_public/ideal-aq-logo-white.png'
+import logo from '../../public/ideal-aq-logo-white.png'
 import {useNavigate} from "react-router-dom";
 import Accordion from '@mui/material/Accordion';
 import {AccordionDetails, AccordionSummary} from "@mui/material";

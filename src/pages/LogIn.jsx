@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from "react-router-dom";
-import logo from '../move_to_public/ideal-aq-logo.png'
+import logo from '../../public/ideal-aq-logo.png'
 import {Divider} from "@mui/material";
 
 
