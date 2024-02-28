@@ -8,8 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import PlotFormAddDevice from "./PlotFormAddDevice";
-import PlotFormDeviceOptions from "./PlotFormDeviceOptions";
+import PlotFormAddDevice from "./PlotFormAddDevice.jsx";
+import PlotFormDeviceOptions from "./PlotFormDeviceOptions.jsx";
 import {useDevicesData} from "../../hooks/useDevicesDataHook";
 
 export default function PlotForm() {

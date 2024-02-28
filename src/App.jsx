@@ -1,7 +1,7 @@
 import { Navigate, Outlet, BrowserRouter, Routes, Route } from "react-router-dom";
-import Measurements from "./pages/Measurements";
-import LogIn from "./pages/LogIn";
-import LogOut from "./pages/LogOut";
+import Measurements from "./pages/Measurements.jsx";
+import LogIn from "./pages/LogIn.jsx";
+import LogOut from "./pages/LogOut.jsx";
 import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
 import {setUser, signOut} from "./reducers/loggedUserReducer";
@@ -9,9 +9,9 @@ import {useAuthData} from "./hooks/useAuthHook";
 import loginService from './services/login'
 import {ThemeProvider} from "@mui/material/styles";
 import aqTheme from "./themes/aqTheme";
-import Devices from "./pages/devices/Devices";
-import Organisation from "./pages/Organisation";
-import NewDevice from "./pages/devices/NewDevice";
+import Devices from "./pages/devices/Devices.jsx";
+import Organisation from "./pages/Organisation.jsx";
+import NewDevice from "./pages/devices/NewDevice.jsx";
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
   console.log(user)

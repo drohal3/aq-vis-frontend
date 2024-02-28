@@ -1,6 +1,6 @@
-import AppLayout from "../../components/AppLayout";
+import AppLayout from "../../components/AppLayout.jsx";
 import Typography from "@mui/material/Typography";
-import NewDeviceForm from "../../components/devices/newDeviceForm";
+import NewDeviceForm from "../../components/devices/newDeviceForm.jsx";
 import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom";
 

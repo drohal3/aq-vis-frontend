@@ -1,5 +1,5 @@
 import {useAuthData} from "../hooks/useAuthHook";
-import AppLayout from "../components/AppLayout";
+import AppLayout from "../components/AppLayout.jsx";
 import Typography from "@mui/material/Typography";
 import organisationService from "../services/organisations"
 import {useEffect} from "react";
