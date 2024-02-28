@@ -1,5 +1,5 @@
 import {useAuthData} from "../../hooks/useAuthHook";
-import AppLayout from "../../components/AppLayout";
+import AppLayout from "../../components/AppLayout.jsx";
 import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
 import deviceService from "../../services/devices"
@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import {useDispatch} from "react-redux";
 import {setDevices} from "../../reducers/devicesReducer";
 import {useDevicesData} from "../../hooks/useDevicesDataHook";
-import DevicesTable from "../../components/devices/devicesTable";
+import DevicesTable from "../../components/devices/devicesTable.jsx";
 import {Stack} from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
