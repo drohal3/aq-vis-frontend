@@ -1,6 +1,4 @@
-import {FormGroup, Stack} from "@mui/material";
-import {useEffect, useState} from "react";
-import Typography from "@mui/material/Typography";
+import {useState} from "react";
 
 import {useMeasurementData} from "../../hooks/usePlotConfigurationDataHook";
 import Button from "@mui/material/Button";

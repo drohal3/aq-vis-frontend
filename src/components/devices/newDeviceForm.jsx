@@ -43,7 +43,7 @@ function AddParameterForm(params){
 
       loadUnits()
     }
-  }, []);
+  },[]);
 
 
   const resetForm = () => {
@@ -126,7 +126,7 @@ function NewDeviceForm(params){
 
       loadUnits()
     }
-  }, []);
+  },[]);
 
   const auth = useAuthData()
 

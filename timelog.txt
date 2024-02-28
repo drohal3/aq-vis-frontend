@@ -2,3 +2,5 @@
                             - customizing multiselect chip component
 22.02.2024: 5h Devices and device parameters form
 25.02.2024: 3.5h Devices table, delete device (+ backend), extracted new device form
+28.02.2024: 5h - Transited from create-react to React + Vite
+               - started deployment pipeline, linting and transition to Typescript

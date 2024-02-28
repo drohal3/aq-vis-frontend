@@ -1,8 +1,6 @@
-import axios from "axios";
 import api from '../utils/api'
-import {useAuthData} from "../hooks/useAuthHook";
 
-const baseUrl = "/measurements";
+// const baseUrl = "/measurements";
 
 const setToken = (token) => {
   api.interceptors.request.use((config) => {

@@ -4,15 +4,6 @@ import NewDeviceForm from "../../components/devices/newDeviceForm.jsx";
 import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom";
 
-
-function Device({device}) {
-  return (
-    <p>
-      {device.id}
-    </p>
-  )
-}
-
 function NewDevice(){
   const navigate = useNavigate()
 

@@ -1,7 +1,7 @@
 import {useAuthData} from "../../hooks/useAuthHook";
 import AppLayout from "../../components/AppLayout.jsx";
 import Typography from "@mui/material/Typography";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import deviceService from "../../services/devices"
 import Box from "@mui/material/Box";
 import {useDispatch} from "react-redux";
@@ -13,17 +13,8 @@ import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import {useNavigate} from "react-router-dom";
 
-
-function Device({device}) {
-  return (
-    <p>
-      {device.id}
-    </p>
-  )
-}
-
 function Devices(){
-  const [newDeviceFormOpen, setNewDeviceFormOpen] = useState(false)
+  // const [newDeviceFormOpen, setNewDeviceFormOpen] = useState(false)
   const dispatch = useDispatch()
   const devices = useDevicesData()
   const navigate = useNavigate();
@@ -41,7 +32,7 @@ function Devices(){
       console.log("devices already loaded", devices)
     }
 
-  }, []);
+  },[]);
 
   const auth = useAuthData()
 
