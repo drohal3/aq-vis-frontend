@@ -14,9 +14,14 @@ function Organisation(){
 
   useEffect(() => {
     const loadOrganisation = async () => {
-      const organisation = await organisationService.get(auth, auth.organisation)
+      let organisation_id = null
+      if (auth.currentUser) {
+        organisation_id = auth.currentUser.organisation
+      }
+      const organisation = await organisationService.get(auth, organisation_id)
       console.log("load organisation", organisation)
       dispatch(setOrganisation(organisation))
+
     }
 
     if (!organisationData) {

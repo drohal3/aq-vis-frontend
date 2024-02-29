@@ -1,22 +1,23 @@
 import api from '../utils/api'
+import {AuthData} from "../reducers/loggedUserReducer.ts";
 
-const setToken = (token) => {
+const setToken = (token:string|null) => {
   api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
     return config;
   });
 }
 
-const get = async (auth) => {
+const get = async (auth:AuthData) => {
   setToken(auth.token)
   const params = {
-    organisation: auth.organisation
+    organisation: auth.currentUser?.organisation
   }
   const response = await api.get('/devices', {params})
   return response.data
 }
 
-const create = async (auth, data) => {
+const create = async (auth:AuthData, data) => {
   const token = auth.token
   setToken(token)
   const response = await api.post('/devices', data);
@@ -24,7 +25,7 @@ const create = async (auth, data) => {
   return response.data
 }
 
-const remove = async (auth, device_id) => {
+const remove = async (auth:AuthData, device_id: string) => {
   setToken(auth.token)
   await api.delete(`/devices/${device_id}`)
 }

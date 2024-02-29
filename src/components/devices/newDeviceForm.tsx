@@ -139,7 +139,7 @@ function NewDeviceForm(params){
   const handleConfirmClick = async () => {
     console.log("handle click")
     const data = {
-      name, code, "organisation": auth.organisation, parameters
+      name, code, "organisation": auth.currentUser?.organisation, parameters
     }
 
     console.log("create device", data)

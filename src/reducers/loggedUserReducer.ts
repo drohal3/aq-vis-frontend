@@ -1,16 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Dispatch } from 'redux';
 
-export interface AuthState {
-  token: string;
+export interface CurrentUser {
   username: string;
-  name: string;
+  email: string;
+  full_name: string;
+  organisation: string;
+  disabled: boolean
+}
+
+export interface AuthData {
+  token: string | null;
+  currentUser: CurrentUser | null;
 }
 
 const initialState = {
   token: null,
-  username: null,
-  name: null
+  currentUser: null
 }
 
 const userSlice = createSlice({
@@ -29,16 +34,16 @@ const userSlice = createSlice({
 export const { set, reset } = userSlice.actions;
 
 
-export const setUser = (user:AuthState) => {
-  return (dispatch: Dispatch) => {
-    window.localStorage.setItem("IdealAQConsoleUserToken", user.token)
+export const setUser = (user:AuthData) => {
+  return (dispatch) => {
+    window.localStorage.setItem("IdealAQConsoleUserToken", user.token ?? "")
     dispatch(set(user));
   }
 }
 
 export const signOut = () => {
   window.localStorage.removeItem("IdealAQConsoleUserToken")
-  return (dispatch: Dispatch) => {
+  return (dispatch) => {
     dispatch(reset());
   }
 }
