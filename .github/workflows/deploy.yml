@@ -7,6 +7,14 @@ on:
     branches: [ main ]
     types: [ opened, synchronize ]
 jobs:
+#  pipeline:
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - name: Checkout to the repository
+#        uses: actions/checkout@v4 # checkout to the repository
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '18'
   publish-docker-hub:
     name: Publish image to Docker Hub
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
