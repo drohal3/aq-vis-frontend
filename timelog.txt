@@ -4,3 +4,4 @@
 25.02.2024: 3.5h Devices table, delete device (+ backend), extracted new device form
 28.02.2024: 5h - Transited from create-react to React + Vite
                - started deployment pipeline, linting and transition to Typescript
+29.02.2024: xh - rewriting to Typescript
