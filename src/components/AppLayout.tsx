@@ -17,15 +17,8 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import logo from '../../public/ideal-aq-logo-white.png'
 import {useNavigate} from "react-router-dom";
-import Accordion from '@mui/material/Accordion';
-import {AccordionDetails, AccordionSummary} from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
-
 
 // TODO: refactor to "parent component"
 
@@ -44,8 +37,8 @@ const drawerLinks = [
   {title: "Organisation", icon: (<PeopleAltIcon />), link: "/organisation"},
 ]
 
-function ResponsiveDrawer(props) {
-  const { window } = props;
+/* eslint-disable-next-line */
+function ResponsiveDrawer(props:any) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const navigate = useNavigate();
@@ -69,7 +62,7 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <Divider />
       <List>
-        {drawerLinks.map((link, index) => (
+        {drawerLinks.map((link) => (
           <ListItem key={link.title} disablePadding onClick={() => navigate(link.link)}>
             <ListItemButton>
               <ListItemIcon>

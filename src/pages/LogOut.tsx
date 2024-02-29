@@ -9,6 +9,7 @@ function LogOut() {
   useEffect(() => {
     dispatch(signOut())
     setSignedOut(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

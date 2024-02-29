@@ -38,9 +38,11 @@ function App() {
         const fetchData = async () => {
             console.log("fetch user data")
             try {
-                const currentUser = await loginService.currentUser(localToken)
-                dispatch(setUser({currentUser, token: localToken}))
-                setDataReady(true)
+                if (localToken) {
+                    const currentUser = await loginService.currentUser(localToken)
+                    dispatch(setUser({currentUser, token: localToken}))
+                    setDataReady(true)
+                }
             } catch (e) {
                 dispatch(signOut())
                 console.log("Signed Out")
@@ -53,6 +55,7 @@ function App() {
         } else {
             setDataReady(true)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const auth2 = useAuthData()

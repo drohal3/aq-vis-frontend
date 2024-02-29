@@ -48,6 +48,7 @@ function AddParameterForm(params:AddParameterFormProps){
 
       loadUnits()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
 
@@ -135,6 +136,7 @@ function NewDeviceForm(params: NewDeviceFormProps){
 
       loadUnits()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const auth = useAuthData()

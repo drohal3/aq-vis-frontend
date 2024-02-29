@@ -18,6 +18,7 @@ import {useAppDispatch} from "../hooks/hooks.ts";
 import { FormEvent } from "react";
 
 
+/* eslint-disable-next-line */
 function Copyright(props:any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -39,8 +40,16 @@ export default function LogIn() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
+    const username = data.get('email')
+    const password = data.get('password')
+
+    if (!username || !password) {
+      throw Error("Invalid credentials.")
+    }
+
     const credentials = {
-      username: data.get('email'), password: data.get('password')
+      username: username.toString(), password: password.toString()
     }
     const token_data = await loginService.login(credentials)
     const token = token_data.access_token

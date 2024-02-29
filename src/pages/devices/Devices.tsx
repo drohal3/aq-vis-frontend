@@ -31,7 +31,7 @@ function Devices(){
     } else {
       console.log("devices already loaded", devices)
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const auth = useAuthData()
