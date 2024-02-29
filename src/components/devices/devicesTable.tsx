@@ -16,10 +16,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
 import deviceService from "../../services/devices"
-import {removeDevice} from "@src/reducers/devicesReducer";
-import {useAuthData} from "@src/hooks/useAuthHook";
-import {useAppDispatch} from "@src/hooks/hooks";
-
+import {removeDevice} from "../../reducers/devicesReducer.ts";
+import {useAuthData} from "../../hooks/useAuthHook.ts";
+import {useAppDispatch} from "../../hooks/hooks.ts";
 
 
 function Row(props) {

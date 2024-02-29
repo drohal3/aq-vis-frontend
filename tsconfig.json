@@ -21,10 +21,10 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "@src/*": [
-        "src/*.tsx",
-        "src/*.ts"
-      ]
+//      "@src/*": [
+//        "src/*.tsx",
+//        "src/*.ts"
+//      ]
     }
   },
   "include": ["src"],

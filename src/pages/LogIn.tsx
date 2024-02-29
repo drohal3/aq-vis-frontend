@@ -15,8 +15,7 @@ import Container from '@mui/material/Container';
 import { Navigate } from "react-router-dom";
 import logo from '../../public/ideal-aq-logo.png'
 import {Divider} from "@mui/material";
-import {useAppDispatch} from "@src/hooks/hooks";
-
+import {useAppDispatch} from "../hooks/hooks.ts";
 
 
 function Copyright(props) {

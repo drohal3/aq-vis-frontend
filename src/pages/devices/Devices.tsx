@@ -11,7 +11,7 @@ import {Stack} from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "@src/hooks/hooks";
+import {useAppDispatch} from "../../hooks/hooks.ts";
 
 function Devices(){
   // const [newDeviceFormOpen, setNewDeviceFormOpen] = useState(false)

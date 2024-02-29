@@ -16,11 +16,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import {useUnitsData} from "@src/hooks/useUnitsHook";
+import {useUnitsData} from "../../hooks/useUnitsHook.ts";
 import unitsService from "../../services/units"
-import {setUnits} from "@src/reducers/unitsReducer";
-import {addDevice} from "@src/reducers/devicesReducer";
-import {useAppDispatch} from "@src/hooks/hooks";
+import {setUnits} from "../../reducers/unitsReducer.ts";
+import {addDevice} from "../../reducers/devicesReducer.ts";
+import {useAppDispatch} from "../../hooks/hooks.ts";
 
 
 function AddParameterForm(params){

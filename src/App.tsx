@@ -11,7 +11,7 @@ import aqTheme from "./themes/aqTheme";
 import Devices from "./pages/devices/Devices";
 import Organisation from "./pages/Organisation";
 import NewDevice from "./pages/devices/NewDevice";
-import {useAppDispatch} from "@src/hooks/hooks";
+import { useAppDispatch } from "./hooks/hooks";
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
     console.log(user)

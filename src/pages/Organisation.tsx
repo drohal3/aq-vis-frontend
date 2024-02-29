@@ -5,7 +5,7 @@ import organisationService from "../services/organisations"
 import {useEffect} from "react";
 import {setOrganisation} from "../reducers/organisationsReducer";
 import {useOrganisationData} from "../hooks/useOrganisationsHook.js";
-import {useAppDispatch} from "@src/hooks/hooks";
+import {useAppDispatch} from "../hooks/hooks.ts";
 
 function Organisation(){
   const auth = useAuthData()

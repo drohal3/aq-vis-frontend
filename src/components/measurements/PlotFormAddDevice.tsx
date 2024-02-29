@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import {useState} from "react";
-import {addMeasurementDevice} from "@src/reducers/plotConfigurationReducer";
-import {useAppDispatch} from "@src/hooks/hooks";
+import {addMeasurementDevice} from "../../reducers/plotConfigurationReducer.ts";
+import {useAppDispatch} from "../../hooks/hooks.ts";
 
 export default function PlotFormAddDevice({afterConfirmClick, afterCancelClick, devices}) {
   const dispatch = useAppDispatch();

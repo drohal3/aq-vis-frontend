@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { signOut } from '../reducers/loggedUserReducer'
 import {useEffect, useState} from "react";
-import {useAppDispatch} from "@src/hooks/hooks";
+import {useAppDispatch} from "../hooks/hooks.ts";
 
 function LogOut() {
   const dispatch = useAppDispatch();

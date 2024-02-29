@@ -1,4 +1,4 @@
-import {useAppSelector} from "@src/hooks/hooks";
+import {useAppSelector} from "./hooks.ts";
 
 export const useUnitsData = () => {
   return useAppSelector((state) => state.units);

@@ -3,7 +3,7 @@ import MultipleSelectChip from "../form/MultipleSelectChip.tsx";
 import {setMeasurementValues, removeMeasurementDevice} from "../../reducers/plotConfigurationReducer";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useAppDispatch} from "@src/hooks/hooks";
+import {useAppDispatch} from "../../hooks/hooks.ts";
 
 
 function PlotFormDeviceOption({device}) {
