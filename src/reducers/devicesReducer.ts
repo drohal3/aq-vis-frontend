@@ -1,16 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {AppDispatch} from "../utils/store.ts";
 
-const initialState = [ // TODO: load from DB
-  // {code: "iaq1", name: "Ideal AQ 1", parameters: [{code: "conc", name: "concentration"}, {code: "pm10", name: "PM 10"}]},
-  // {code: "iaq2", name: "Ideal AQ 2", parameters: [{code: "conc", name: "concentration"}]},
-  // {code: "iaq3", name: "Ideal AQ 3", parameters: [{code: "conc", name: "concentration"}]},
-]
+export interface DeviceParameterData{
+  unit: string,
+  name: string,
+  code: string
+}
+
+export interface DeviceData {
+  id: string,
+  code: string,
+  name: string,
+  organisation: string;
+  parameters: Array<DeviceParameterData>
+}
+
+const initialState = Array<DeviceData>()
 
 const devicesSlice = createSlice({
   name: 'devices',
   initialState,
   reducers: {
-    set: (state, action) => {
+    set: (_state, action) => {
       return action.payload
     },
     remove: (state, action) => {
@@ -20,7 +31,7 @@ const devicesSlice = createSlice({
     add: (state, action) => {
       return [...state, action.payload]
     },
-    reset: () => { //logout
+    reset: ():Array<DeviceData> => { //logout
       return initialState
     }
   }
@@ -28,26 +39,26 @@ const devicesSlice = createSlice({
 
 export const { set, add, remove, reset } = devicesSlice.actions;
 
-export const setDevices = (devices) => {
-  return (dispatch) => {
+export const setDevices = (devices:[DeviceData]) => {
+  return (dispatch:AppDispatch) => {
     dispatch(set(devices))
   }
 }
 
 export const resetDevices = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(reset())
   }
 }
 
-export const addDevice = (device) => {
-  return (dispatch) => {
+export const addDevice = (device:DeviceData) => {
+  return (dispatch: AppDispatch) => {
     dispatch(add(device))
   }
 }
 
-export const removeDevice = (device_id) => {
-  return (dispatch) => {
+export const removeDevice = (device_id:string) => {
+  return (dispatch: AppDispatch) => {
     dispatch(remove(device_id))
   }
 }
