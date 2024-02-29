@@ -1,7 +1,11 @@
 import api from '../utils/api'
 
+export type Credentials = {
+  username: string;
+  password: string;
+}
 
-const login = async (credentials) => {
+const login = async (credentials:Credentials) => {
   // credentials: email, password
   console.log("login service")
   const formData = new URLSearchParams();
@@ -19,7 +23,7 @@ const login = async (credentials) => {
   return response.data;
 };
 
-const currentUser = async (token) => {
+const currentUser = async (token:string) => {
   api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
     return config;
