@@ -1,8 +1,9 @@
 import api from '../utils/api'
+import {AuthData} from "../reducers/loggedUserReducer.ts";
 
 const baseUrl = "/organisations";
 
-const get = async (auth, organisationId) => {
+const get = async (auth:AuthData, organisationId:string) => {
   const token = auth.token
   const config = {
     headers: {

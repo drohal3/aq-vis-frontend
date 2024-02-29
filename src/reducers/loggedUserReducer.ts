@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {AppDispatch} from "../utils/store.ts";
 
 export interface CurrentUser {
   username: string;
@@ -35,7 +36,7 @@ export const { set, reset } = userSlice.actions;
 
 
 export const setUser = (user:AuthData) => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     window.localStorage.setItem("IdealAQConsoleUserToken", user.token ?? "")
     dispatch(set(user));
   }
@@ -43,7 +44,7 @@ export const setUser = (user:AuthData) => {
 
 export const signOut = () => {
   window.localStorage.removeItem("IdealAQConsoleUserToken")
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(reset());
   }
 }

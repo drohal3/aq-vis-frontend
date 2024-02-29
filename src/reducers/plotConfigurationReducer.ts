@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {AppDispatch} from "../utils/store.ts";
 
 const initialState = []
 
@@ -44,25 +45,25 @@ const measurementFormSlice = createSlice({
 export const { addDevice, removeDevice, setDeviceValues, reset } = measurementFormSlice.actions;
 
 export const resetMeasurementForm = () => {
-  return (dispatch) => {
+  return (dispatch:AppDispatch) => {
     dispatch(reset())
   }
 }
 
 export const addMeasurementDevice = (code, values = []) => {
-  return (dispatch) => {
+  return (dispatch:AppDispatch) => {
     return dispatch(addDevice({code, values}));
   }
 }
 
 export const removeMeasurementDevice = (code) => {
-  return (dispatch) => {
+  return (dispatch:AppDispatch) => {
     return dispatch(removeDevice({code}))
   }
 }
 
 export const setMeasurementValues = (code, values) => {
-  return (dispatch) => {
+  return (dispatch:AppDispatch) => {
     dispatch(setDeviceValues({code, values}));
   }
 }

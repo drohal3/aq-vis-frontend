@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {AppDispatch} from "../utils/store.ts";
 
 const initialState = false
 
@@ -18,7 +19,7 @@ const organisationSlice = createSlice({
 export const { set, reset } = organisationSlice.actions;
 
 export const setOrganisation = (organisation) => {
-  return (dispatch) => {
+  return (dispatch:AppDispatch) => {
     dispatch(set(organisation))
   }
 }

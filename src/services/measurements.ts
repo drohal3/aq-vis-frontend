@@ -2,14 +2,14 @@ import api from '../utils/api'
 
 // const baseUrl = "/measurements";
 
-const setToken = (token) => {
+const setToken = (token:string|null) => {
   api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
     return config;
   });
 }
 
-const get = async (deviceId, token = null) => {
+const get = async (deviceId:string, token = null) => {
   setToken(token)
 
   const params = {
