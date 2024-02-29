@@ -3,11 +3,16 @@ import {AppDispatch} from "../utils/store.ts";
 
 const initialState = false
 
+export interface OrganisationData {
+  id: string;
+  name: string;
+}
+
 const organisationSlice = createSlice({
   name: 'organisation',
   initialState,
   reducers: {
-    set: (state, action) => {
+    set: (_state, action) => {
       return action.payload
     },
     reset: () => {
@@ -18,7 +23,8 @@ const organisationSlice = createSlice({
 
 export const { set, reset } = organisationSlice.actions;
 
-export const setOrganisation = (organisation) => {
+export const setOrganisation = (organisation:OrganisationData) => {
+  console.log("organisation", organisation)
   return (dispatch:AppDispatch) => {
     dispatch(set(organisation))
   }
