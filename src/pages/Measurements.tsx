@@ -1,18 +1,18 @@
-import {useState} from "react";
+// import {useState} from "react";
 // import {useAuthData} from "../hooks/useAuthHook";
 import AppLayout from "../components/AppLayout.tsx";
 import Typography from "@mui/material/Typography";
 
 // import measurementsService from "../services/measurements"
 
-import PlotForm from "../components/measurements/PlotForm.tsx";
+// import PlotForm from "../components/measurements/PlotForm.tsx";
 import Divider from '@mui/material/Divider';
 import Box from "@mui/material/Box";
 
 
 function Measurements(){
   // const auth = useAuthData()
-  const [devices, setDevices] = useState([])
+  // const [devices, setDevices] = useState([])
 
   // useEffect( () => {
   //   const loadMeasurements = async () => await measurementsService.get(0, auth?.token)
@@ -30,7 +30,7 @@ function Measurements(){
           <Divider />
         </Box>
 
-        <PlotForm devices={devices} setDevices={setDevices}/>
+        {/*<PlotForm devices={devices} setDevices={setDevices}/>*/}
 
 
       </AppLayout>

@@ -19,11 +19,16 @@ import InputLabel from "@mui/material/InputLabel";
 import {useUnitsData} from "../../hooks/useUnitsHook.ts";
 import unitsService from "../../services/units"
 import {setUnits} from "../../reducers/unitsReducer.ts";
-import {addDevice} from "../../reducers/devicesReducer.ts";
+import {addDevice, DeviceParameterData} from "../../reducers/devicesReducer.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
 
 
-function AddParameterForm(params){
+interface AddParameterFormProps {
+  onConfirmClick: (parameter:DeviceParameterData) => void,
+  onCancelClick: () => void
+}
+
+function AddParameterForm(params:AddParameterFormProps){
   const {onConfirmClick, onCancelClick} = params
 
   const dispatch = useAppDispatch()
@@ -104,12 +109,16 @@ function AddParameterForm(params){
   )
 }
 
-function NewDeviceForm(params){
+interface NewDeviceFormProps {
+  onConfirmClick: () => void;
+  onCancelClick: () => void;
+}
+function NewDeviceForm(params: NewDeviceFormProps){
   const {onConfirmClick, onCancelClick} = params
 
   const [name, setDeviceName] = useState("")
   const [code, setDeviceCode] = useState("")
-  const [parameters, setDeviceParameters] = useState([])
+  const [parameters, setDeviceParameters] = useState(Array<DeviceParameterData>())
 
   const [parameterFormHidden, setParameterFormHidden] = useState(true)
 
@@ -138,8 +147,14 @@ function NewDeviceForm(params){
 
   const handleConfirmClick = async () => {
     console.log("handle click")
+    const organisation_id = auth.currentUser?.organisation
+
+    if (!organisation_id) {
+      throw Error("Missing organisation")
+    }
+
     const data = {
-      name, code, "organisation": auth.currentUser?.organisation, parameters
+      name, code, "organisation": organisation_id, parameters
     }
 
     console.log("create device", data)
@@ -156,18 +171,18 @@ function NewDeviceForm(params){
     onCancelClick()
   }
 
-  const addParameter = (parameter) => {
+  const addParameter = (parameter: DeviceParameterData) => {
     setDeviceParameters([...parameters, parameter])
     setParameterFormHidden(true)
     console.log("added", parameter)
   }
 
-  const deleteParameter = (parameterCode) => {
+  const deleteParameter = (parameterCode:string) => {
     const nparameters = parameters.filter(parameter => parameter.code !== parameterCode)
     setDeviceParameters(nparameters)
   }
 
-  const findUnitSymbolById = (unitId) => {
+  const findUnitSymbolById = (unitId:string) => {
     console.log("looking for unit", unitId)
     console.log("looking in", units)
     const unit = units.find(unit => unit.id === unitId)

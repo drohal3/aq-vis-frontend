@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -16,17 +15,16 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
 import deviceService from "../../services/devices"
-import {removeDevice} from "../../reducers/devicesReducer.ts";
+import {DeviceData, removeDevice} from "../../reducers/devicesReducer.ts";
 import {useAuthData} from "../../hooks/useAuthHook.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
 
 
-function Row(props) {
-  const { device } = props;
+function Row({ device }: {device: DeviceData}) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useAppDispatch()
   const auth = useAuthData()
-  const handleDeleteClick = async (device_id) => {
+  const handleDeleteClick = async (device_id:string) => {
     console.log("delete", device_id)
     await deviceService.remove(auth, device_id)
     dispatch(removeDevice(device_id))
@@ -52,7 +50,8 @@ function Row(props) {
           <IconButton aria-label="delete" size="medium">
             <EditIcon fontSize="inherit" />
           </IconButton>
-          <IconButton aria-label="delete" size="medium" onClick={() => handleDeleteClick(device.id)}>
+          <IconButton aria-label="delete" size="medium"
+                      onClick={async () => { if (device.id){await handleDeleteClick(device.id)}}}>
             <DeleteIcon fontSize="inherit" />
           </IconButton>
         </TableCell>
@@ -106,7 +105,7 @@ function Row(props) {
   );
 }
 
-function DevicesTable({devices}) {
+function DevicesTable({devices}:{devices: Array<DeviceData>}) {
   console.log("devices", devices)
   return (
     <TableContainer component={Paper}>

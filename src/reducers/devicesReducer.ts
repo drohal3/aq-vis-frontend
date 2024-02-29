@@ -8,7 +8,7 @@ export interface DeviceParameterData{
 }
 
 export interface DeviceData {
-  id: string,
+  id?: string,
   code: string,
   name: string,
   organisation: string;

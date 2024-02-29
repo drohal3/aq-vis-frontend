@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {AppDispatch} from "../utils/store.ts";
 
-const initialState = false
+const initialState = {
+  id: null,
+  name: null
+}
 
 export interface OrganisationData {
-  id: string;
-  name: string;
+  id: string|null;
+  name: string|null;
 }
 
 const organisationSlice = createSlice({

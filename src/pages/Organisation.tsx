@@ -18,10 +18,11 @@ function Organisation(){
       if (auth.currentUser) {
         organisation_id = auth.currentUser.organisation
       }
-      const organisation = await organisationService.get(auth, organisation_id)
-      console.log("load organisation", organisation)
-      dispatch(setOrganisation(organisation))
-
+      if (organisation_id) {
+        const organisation = await organisationService.get(auth, organisation_id)
+        console.log("load organisation", organisation)
+        dispatch(setOrganisation(organisation))
+      }
     }
 
     if (!organisationData) {
