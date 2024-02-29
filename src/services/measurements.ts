@@ -1,0 +1,26 @@
+import api from '../utils/api'
+
+// const baseUrl = "/measurements";
+
+const setToken = (token:string|null) => {
+  api.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  });
+}
+
+const get = async (deviceId:string, token = null) => {
+  setToken(token)
+
+  const params = {
+    date_time_from: "2024-02-09 17:12:21",
+    date_time_to: "2024-02-09 17:12:23",
+    device_id: deviceId,
+  }
+
+  const response = await api.get("/measurements", {params})
+
+  console.log(response.data)
+}
+
+export default  {get}
