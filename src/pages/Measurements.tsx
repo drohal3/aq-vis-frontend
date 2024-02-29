@@ -1,11 +1,11 @@
 import {useState} from "react";
 // import {useAuthData} from "../hooks/useAuthHook";
-import AppLayout from "../components/AppLayout.jsx";
+import AppLayout from "../components/AppLayout.tsx";
 import Typography from "@mui/material/Typography";
 
 // import measurementsService from "../services/measurements"
 
-import PlotForm from "../components/measurements/PlotForm.jsx";
+import PlotForm from "../components/measurements/PlotForm.tsx";
 import Divider from '@mui/material/Divider';
 import Box from "@mui/material/Box";
 

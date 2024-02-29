@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import MultipleSelectChip from "../form/MultipleSelectChip.jsx";
+import MultipleSelectChip from "../form/MultipleSelectChip.tsx";
 import {setMeasurementValues, removeMeasurementDevice} from "../../reducers/plotConfigurationReducer";
 import {useDispatch} from "react-redux";
 import IconButton from "@mui/material/IconButton";

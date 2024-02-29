@@ -18,7 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import deviceService from "../../services/devices"
 import {removeDevice} from "../../reducers/devicesReducer";
 import {useDispatch} from "react-redux";
-import {useAuthData} from "../../hooks/useAuthHook";
+import {useAuthData} from "../../hooks/useAuthHook.js";
 
 
 

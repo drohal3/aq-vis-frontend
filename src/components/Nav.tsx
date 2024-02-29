@@ -16,7 +16,7 @@ import { Icon } from '@mui/material';
 import logo from '../move_to_public/ideal-aq-logo-white.png'
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
-import {useAuthData} from "../hooks/useAuthHook";
+import {useAuthData} from "../hooks/useAuthHook.js";
 
 
 const pages = ['Dashboard', 'About Us'];

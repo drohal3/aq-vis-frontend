@@ -1,11 +1,11 @@
-import {useAuthData} from "../hooks/useAuthHook";
-import AppLayout from "../components/AppLayout.jsx";
+import {useAuthData} from "../hooks/useAuthHook.js";
+import AppLayout from "../components/AppLayout.tsx";
 import Typography from "@mui/material/Typography";
 import organisationService from "../services/organisations"
 import {useEffect} from "react";
 import {setOrganisation} from "../reducers/organisationsReducer";
 import {useDispatch} from "react-redux";
-import {useOrganisationData} from "../hooks/useOrganisationsHook";
+import {useOrganisationData} from "../hooks/useOrganisationsHook.js";
 
 function Organisation(){
   const auth = useAuthData()

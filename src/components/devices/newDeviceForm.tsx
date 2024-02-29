@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import deviceService from "../../services/devices"
-import {useAuthData} from "../../hooks/useAuthHook";
+import {useAuthData} from "../../hooks/useAuthHook.js";
 import {Stack} from "@mui/material";
 import Divider from '@mui/material/Divider';
 import AddIcon from "@mui/icons-material/Add";
@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import {useDispatch} from "react-redux";
-import {useUnitsData} from "../../hooks/useUnitsHook";
+import {useUnitsData} from "../../hooks/useUnitsHook.js";
 import unitsService from "../../services/units"
 import {setUnits} from "../../reducers/unitsReducer";
 import {addDevice} from "../../reducers/devicesReducer";

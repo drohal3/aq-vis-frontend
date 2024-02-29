@@ -1,14 +1,14 @@
 import {useState} from "react";
 
-import {useMeasurementData} from "../../hooks/usePlotConfigurationDataHook";
+import {useMeasurementData} from "../../hooks/usePlotConfigurationDataHook.js";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import PlotFormAddDevice from "./PlotFormAddDevice.jsx";
-import PlotFormDeviceOptions from "./PlotFormDeviceOptions.jsx";
-import {useDevicesData} from "../../hooks/useDevicesDataHook";
+import PlotFormAddDevice from "./PlotFormAddDevice.tsx";
+import PlotFormDeviceOptions from "./PlotFormDeviceOptions.tsx";
+import {useDevicesData} from "../../hooks/useDevicesDataHook.js";
 
 export default function PlotForm() {
   const [form_hidden, set_form_hidden] = useState(true)

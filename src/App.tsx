@@ -1,5 +1,5 @@
 import { Navigate, Outlet, BrowserRouter, Routes, Route } from "react-router-dom";
-import Measurements from "./pages/Measurements";
+import Measurements from './pages/Measurements';
 import LogIn from "./pages/LogIn";
 import LogOut from "./pages/LogOut";
 import {useDispatch} from "react-redux";
