@@ -5,3 +5,4 @@
 28.02.2024: 5h - Transited from create-react to React + Vite
                - started deployment pipeline, linting and transition to Typescript
 29.02.2024: xh - rewriting to Typescript
+               - deployment pipeline - deploy to Docker Hub on merge to main branch
