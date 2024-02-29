@@ -15,9 +15,10 @@ import { Navigate } from "react-router-dom";
 import logo from '../../public/ideal-aq-logo.png'
 import {Divider} from "@mui/material";
 import {useAppDispatch} from "../hooks/hooks.ts";
+import { FormEvent } from "react";
 
 
-function Copyright(props) {
+function Copyright(props:any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -35,7 +36,7 @@ export default function LogIn() {
   const dispatch = useAppDispatch();
   const auth = useAuthData()
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const credentials = {
