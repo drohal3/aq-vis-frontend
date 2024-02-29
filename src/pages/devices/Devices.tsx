@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import {useEffect} from "react";
 import deviceService from "../../services/devices"
 import Box from "@mui/material/Box";
-import {useDispatch} from "react-redux";
 import {setDevices} from "../../reducers/devicesReducer";
 import {useDevicesData} from "../../hooks/useDevicesDataHook.js";
 import DevicesTable from "../../components/devices/devicesTable.tsx";
@@ -12,10 +11,11 @@ import {Stack} from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "@src/hooks/hooks";
 
 function Devices(){
   // const [newDeviceFormOpen, setNewDeviceFormOpen] = useState(false)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const devices = useDevicesData()
   const navigate = useNavigate();
 

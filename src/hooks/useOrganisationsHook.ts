@@ -1,5 +1,5 @@
-import {useSelector} from 'react-redux';
+import {useAppSelector} from "@src/hooks/hooks";
 
 export const useOrganisationData = () => {
-  return useSelector((state) => state.organisation);
+  return useAppSelector((state) => state.organisation);
 }

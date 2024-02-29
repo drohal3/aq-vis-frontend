@@ -1,5 +1,5 @@
-import {useSelector} from 'react-redux';
+import {useAppSelector} from "@src/hooks/hooks";
 
 export const useMeasurementData = () => {
-  return useSelector((state) => state.measurementForm);
+  return useAppSelector((state) => state.measurementForm);
 }

@@ -1,5 +1,5 @@
-import {useSelector} from 'react-redux';
+import { useAppSelector } from "@src/hooks/hooks";
 
 export const useAuthData = () => {
-  return useSelector((state) => state.auth);
+  return useAppSelector((state) => state.auth);
 }

@@ -1,5 +1,5 @@
-import {useSelector} from 'react-redux';
+import { useAppSelector } from "@src/hooks/hooks";
 
 export const useDevicesData = () => {
-  return useSelector((state) => state.devices);
+  return useAppSelector((state) => state.devices);
 }

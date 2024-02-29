@@ -1,5 +1,4 @@
 import loginService from "../services/login"
-import { useDispatch } from "react-redux";
 import {setUser} from "../reducers/loggedUserReducer";
 import {useAuthData} from "../hooks/useAuthHook";
 // import * as React from 'react';
@@ -16,6 +15,7 @@ import Container from '@mui/material/Container';
 import { Navigate } from "react-router-dom";
 import logo from '../../public/ideal-aq-logo.png'
 import {Divider} from "@mui/material";
+import {useAppDispatch} from "@src/hooks/hooks";
 
 
 
@@ -34,7 +34,7 @@ function Copyright(props) {
 
 
 export default function LogIn() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const auth = useAuthData()
 
   const handleSubmit = async (event) => {

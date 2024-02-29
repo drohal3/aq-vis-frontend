@@ -1,13 +1,13 @@
 import Typography from "@mui/material/Typography";
 import MultipleSelectChip from "../form/MultipleSelectChip.tsx";
 import {setMeasurementValues, removeMeasurementDevice} from "../../reducers/plotConfigurationReducer";
-import {useDispatch} from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useAppDispatch} from "@src/hooks/hooks";
 
 
 function PlotFormDeviceOption({device}) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const deviceValuesOptions = device.parameters.map((option) => {
     return {

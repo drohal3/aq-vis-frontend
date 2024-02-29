@@ -16,16 +16,16 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
 import deviceService from "../../services/devices"
-import {removeDevice} from "../../reducers/devicesReducer";
-import {useDispatch} from "react-redux";
-import {useAuthData} from "../../hooks/useAuthHook.js";
+import {removeDevice} from "@src/reducers/devicesReducer";
+import {useAuthData} from "@src/hooks/useAuthHook";
+import {useAppDispatch} from "@src/hooks/hooks";
 
 
 
 function Row(props) {
   const { device } = props;
   const [open, setOpen] = React.useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const auth = useAuthData()
   const handleDeleteClick = async (device_id) => {
     console.log("delete", device_id)

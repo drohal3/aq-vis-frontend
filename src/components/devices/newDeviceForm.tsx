@@ -16,17 +16,17 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import {useDispatch} from "react-redux";
-import {useUnitsData} from "../../hooks/useUnitsHook.js";
+import {useUnitsData} from "@src/hooks/useUnitsHook";
 import unitsService from "../../services/units"
-import {setUnits} from "../../reducers/unitsReducer";
-import {addDevice} from "../../reducers/devicesReducer";
+import {setUnits} from "@src/reducers/unitsReducer";
+import {addDevice} from "@src/reducers/devicesReducer";
+import {useAppDispatch} from "@src/hooks/hooks";
 
 
 function AddParameterForm(params){
   const {onConfirmClick, onCancelClick} = params
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const units = useUnitsData()
 
   const [unit, setUnit] = useState("")
@@ -113,7 +113,7 @@ function NewDeviceForm(params){
 
   const [parameterFormHidden, setParameterFormHidden] = useState(true)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const units = useUnitsData()
 
   useEffect(() => {

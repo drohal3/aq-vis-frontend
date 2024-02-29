@@ -4,12 +4,12 @@ import Typography from "@mui/material/Typography";
 import organisationService from "../services/organisations"
 import {useEffect} from "react";
 import {setOrganisation} from "../reducers/organisationsReducer";
-import {useDispatch} from "react-redux";
 import {useOrganisationData} from "../hooks/useOrganisationsHook.js";
+import {useAppDispatch} from "@src/hooks/hooks";
 
 function Organisation(){
   const auth = useAuthData()
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const organisationData = useOrganisationData()
 
   useEffect(() => {

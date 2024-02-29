@@ -1,5 +1,5 @@
-import {useSelector} from 'react-redux';
+import {useAppSelector} from "@src/hooks/hooks";
 
 export const useUnitsData = () => {
-  return useSelector((state) => state.units);
+  return useAppSelector((state) => state.units);
 }

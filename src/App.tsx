@@ -2,7 +2,6 @@ import { Navigate, Outlet, BrowserRouter, Routes, Route } from "react-router-dom
 import Measurements from './pages/Measurements';
 import LogIn from "./pages/LogIn";
 import LogOut from "./pages/LogOut";
-import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
 import {setUser, signOut} from "./reducers/loggedUserReducer";
 import {useAuthData} from "./hooks/useAuthHook";
@@ -12,6 +11,7 @@ import aqTheme from "./themes/aqTheme";
 import Devices from "./pages/devices/Devices";
 import Organisation from "./pages/Organisation";
 import NewDevice from "./pages/devices/NewDevice";
+import {useAppDispatch} from "@src/hooks/hooks";
 
 const ProtectedRoute = ({user, redirectPath = '/login'}) => {
     console.log(user)
@@ -29,7 +29,7 @@ function TODO() {
 
 function App() {
     const [dataReady, setDataReady] = useState(false);
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
 
     const auth = useAuthData()
