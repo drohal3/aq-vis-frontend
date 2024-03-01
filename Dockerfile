@@ -11,7 +11,7 @@ FROM alpine:3.16.0
 
 WORKDIR /usr/src/app
 
-COPY --from=build-stage /usr/src/app .
+COPY --from=build /usr/src/app .
 
 RUN apk update && \
     apk add --no-cache nodejs npm && \
