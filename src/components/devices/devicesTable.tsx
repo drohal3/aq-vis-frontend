@@ -18,6 +18,7 @@ import deviceService from "../../services/devices"
 import {DeviceData, removeDevice} from "../../reducers/devicesReducer.ts";
 import {useAuthData} from "../../hooks/useAuthHook.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
+import {useNavigate} from "react-router-dom";
 
 
 function Row({ device }: {device: DeviceData}) {
@@ -29,6 +30,8 @@ function Row({ device }: {device: DeviceData}) {
     await deviceService.remove(auth, device_id)
     dispatch(removeDevice(device_id))
   }
+
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -47,7 +50,8 @@ function Row({ device }: {device: DeviceData}) {
         </TableCell>
         <TableCell align="left">{device.code}</TableCell>
         <TableCell align="center">
-          <IconButton aria-label="delete" size="medium">
+          <IconButton aria-label="delete" size="medium"
+                      onClick={() => navigate(`/devices/${device.id}/update`)}>
             <EditIcon fontSize="inherit" />
           </IconButton>
           <IconButton aria-label="delete" size="medium"

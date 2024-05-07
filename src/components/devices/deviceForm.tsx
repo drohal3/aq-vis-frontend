@@ -19,7 +19,7 @@ import InputLabel from "@mui/material/InputLabel";
 import {useUnitsData} from "../../hooks/useUnitsHook.ts";
 import unitsService from "../../services/units"
 import {setUnits} from "../../reducers/unitsReducer.ts";
-import {addDevice, DeviceParameterData} from "../../reducers/devicesReducer.ts";
+import {addDevice, removeDevice, DeviceParameterData} from "../../reducers/devicesReducer.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
 
 
@@ -113,9 +113,10 @@ function AddParameterForm(params:AddParameterFormProps){
 interface NewDeviceFormProps {
   onConfirmClick: () => void;
   onCancelClick: () => void;
+  device?: any;
 }
-function NewDeviceForm(params: NewDeviceFormProps){
-  const {onConfirmClick, onCancelClick} = params
+function DeviceForm(params: NewDeviceFormProps){
+  const {onConfirmClick, onCancelClick, device} = params
 
   const [name, setDeviceName] = useState("")
   const [code, setDeviceCode] = useState("")
@@ -136,6 +137,11 @@ function NewDeviceForm(params: NewDeviceFormProps){
 
       loadUnits()
     }
+
+    setDeviceName(device ? device.name : "")
+    setDeviceCode(device ? device.code : "")
+    setDeviceParameters(device ? device.parameters : [])
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
@@ -155,14 +161,25 @@ function NewDeviceForm(params: NewDeviceFormProps){
       throw Error("Missing organisation")
     }
 
-    const data = {
-      name, code, "organisation": organisation_id, parameters
+    let data = {
+      name, code, "organisation": organisation_id, parameters, "id": ""
     }
 
-    console.log("create device", data)
-    const response = await deviceService.create(auth, data)
-    console.log(response)
-    dispatch(addDevice(response))
+    if (device) {
+      data.id = device.id
+      console.log("update device", data)
+      const response = await deviceService.update(auth, data)
+      console.log(response)
+      dispatch(removeDevice(response.id))
+      dispatch(addDevice(response))
+    } else {
+      console.log("create device", data)
+      const response = await deviceService.create(auth, data)
+      console.log(response)
+      dispatch(addDevice(response))
+    }
+
+
     resetForm()
     onConfirmClick()
   }
@@ -242,4 +259,4 @@ function NewDeviceForm(params: NewDeviceFormProps){
   )
 }
 
-export default NewDeviceForm
+export default DeviceForm

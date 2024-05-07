@@ -11,6 +11,7 @@ import aqTheme from "./themes/aqTheme";
 import Devices from "./pages/devices/Devices";
 import Organisation from "./pages/Organisation";
 import NewDevice from "./pages/devices/NewDevice";
+import UpdateDevice from "./pages/devices/UpdateDevice";
 import { useAppDispatch } from "./hooks/hooks";
 
 const ProtectedRoute = ({auth, redirectPath = '/login'}: {auth:AuthData, redirectPath?: string}) => {
@@ -71,6 +72,7 @@ function App() {
                             <Route index path="/" element={<Measurements />} />
                             <Route path="/devices" element={<Devices />} />
                             <Route path="/devices/new" element={<NewDevice/>} />
+                            <Route path="/devices/:id/update" element={<UpdateDevice/>} />
                             <Route path="/organisation" element={<Organisation />} />
                             <Route path="account" element={<TODO />} />
                         </Route>
