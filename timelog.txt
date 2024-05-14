@@ -15,3 +15,7 @@
           TASK (TODO:): - mocking backend with cy.intercept
           SOURCE: https://kailash-pathak.medium.com/mocking-api-response-in-cypress-a73dea514cfd
 2024-05-06: 0h - Devices page - Edit device
+2024-05-08: xh
+          QUESTION: how to write reusable code to retrieve data from backend if not retrieved yet?
+          POSSIBLE ANSWER: https://redux.js.org/tutorials/essentials/part-5-async-logic
+          TODO: load data in reducer: https://redux-toolkit.js.org/api/createSlice#the-reducers-creator-callback-notation
