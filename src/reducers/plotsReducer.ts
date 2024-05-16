@@ -1,19 +1,31 @@
 import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit'
 import {AppDispatch} from "../utils/store.ts";
 
-export interface MeasurementParameter {
-    parameter: string
-    unit: string
-}
+// export interface MeasurementParameter {
+//     parameter: string
+//     unit: string
+// }
 
 export interface DeviceToPlot {
     device: string,
-    parameters: Array<MeasurementParameter>
+    parameters: Array<ParameterConfig>
 }
 
 export interface Plot {
     id: string
     devices: Array<DeviceToPlot>
+}
+
+export interface ParameterConfig {
+    id: string
+    parameter: string | undefined
+    hexColor: string
+}
+
+interface AddParameterProps {
+    deviceId: string
+    plotId: string
+    parameter: ParameterConfig
 }
 
 // const defaultPlotData = {
@@ -29,7 +41,6 @@ const plotsSlice = createSlice({
     reducers: {
         add: {
             reducer: (state, action: PayloadAction<Plot>) => {
-                console.log("===>")
                 return [...state, action.payload]
             },
             prepare: (measurements: Array<DeviceToPlot>) => {
@@ -58,11 +69,36 @@ const plotsSlice = createSlice({
             if (plot) {
                 plot.devices = plot.devices.filter((device) => device.device != deviceId)
             }
-        }
+        },
+        addParameter: {
+            reducer: (state, action: PayloadAction<AddParameterProps>) => {
+                const {plotId, deviceId, parameter} = action.payload
+                const plot = state.find((plot) => plot.id == plotId)
+                if (!plot) {
+                    return
+                }
+                const device = plot.devices.find((device) => device.device == deviceId)
+                if (!device) {
+                    return
+                }
+                device.parameters.push(parameter)
+            },
+            prepare: (plotId: string, deviceId: string, parameter: string|undefined, hexColor: string) => {
+                const id = nanoid()
+                return { payload: {plotId, deviceId, parameter: {id, parameter, hexColor}}}
+            }
+        },
     }
 })
 
-export const { add, remove, reset, addDevice, removeDevice } = plotsSlice.actions;
+export const {
+    add,
+    remove,
+    reset,
+    addDevice,
+    removeDevice,
+    addParameter
+} = plotsSlice.actions;
 
 export const resetPlots = () => {
     return (dispatch:AppDispatch) => {
@@ -98,8 +134,10 @@ export const removeDeviceFromPlot = (plotId: string, deviceId: string) => {
     }
 }
 
-export const addParameterToDeviceToPlot = (plotId: string, device: string, parameter: MeasurementParameter) => {
-
+export const addParameterToDeviceToPlot = (plotId: string, deviceId: string, parameter: string|undefined = undefined, hexColor: string = "#000000") => {
+    return (dispatch:AppDispatch) => {
+        dispatch(addParameter(plotId, deviceId, parameter, hexColor))
+    }
 }
 
 export default plotsSlice.reducer

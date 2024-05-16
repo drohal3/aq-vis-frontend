@@ -15,50 +15,15 @@ import {useAuthData} from "../hooks/useAuthHook.ts";
 import {usePlotsData} from "../hooks/usePlotsHook.ts";
 import {useAppDispatch} from "../hooks/hooks.ts";
 import {useDevicesData} from "../hooks/useDevicesDataHook.ts";
-import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select, {SelectChangeEvent} from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import {ButtonGroup, Stack} from "@mui/material";
+
 import {v4 as uuidv4} from 'uuid';
 import {addPlot, removePlot, addDeviceToPlot} from "../reducers/plotsReducer";
 import Plot from "../components/plot/Plot.tsx";
-
-
-function SelectAutoWidth() {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
-
-  return (
-      <div>
-        <FormControl sx={{ m: 1, minWidth: 80 }}>
-          <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
-          <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              value={age}
-              onChange={handleChange}
-              autoWidth
-              label="Age"
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Twenty</MenuItem>
-            <MenuItem value={21}>Twenty one</MenuItem>
-            <MenuItem value={22}>Twenty one and a half</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-  );
-}
+import {Block} from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 
 function Measurements(){
   const dispatch = useAppDispatch()
@@ -122,12 +87,20 @@ function Measurements(){
         </Grid>
         <Divider sx={{m:2}}/>
 
-        <Button onClick={addPlotClick} disableElevation variant="contained">Add Plot</Button>
-
         {plotsData.map((plot) => (
-            <Plot key={plot.id} plot={plot} onRemoveClick={() => removePlotClick(plot.id)} devices={devices} />
+            <div key={plot.id}>
+              <Plot key={plot.id} plot={plot} onRemoveClick={() => removePlotClick(plot.id)} devices={devices} />
+              <Divider sx={{marginTop:2, marginBottom:2}}/>
+            </div>
         ))}
 
+        <Button
+            fullWidth
+            onClick={addPlotClick}
+            disableElevation
+            variant="outlined"
+            startIcon={<AddIcon />}
+        >Add Plot</Button>
 
       </AppLayout>
       {/*{devices.map((device, key) => (<p key={key}>{device.name}</p>))}*/}
