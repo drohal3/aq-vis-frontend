@@ -8,16 +8,66 @@ import Select from '@mui/material/Select';
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import {useAppDispatch} from "../../hooks/hooks.ts";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Stack} from "@mui/material";
+import {
+    Alert,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Stack
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TuneIcon from '@mui/icons-material/Tune';
 import { useTheme } from '@mui/material/styles';
 import {Fragment, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
 
-function DeviceConfiguration() {
-    return (
+function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot:PlotData}) {
+    const dispatch = useAppDispatch()
+    const theme = useTheme()
+
+    console.log("device", device)
+    console.log("plot", plot)
+
+    const plotDevice = plot.devices?.find((d)=> d.device == device?.id)
+
+
+    console.log("plotDevice", plotDevice)
+
+    const removeClick = () => {
+        if (device != undefined) {
+            dispatch(removeDeviceFromPlot(plot.id, device.id ?? ""))
+        }
+    }
+
+    return device && (
         <>
+            <Box sx={{my: 1, border: `1px solid ${theme.palette.primary.main}`}}>
+                <Stack
+                    direction="row"
+                    useFlexGap
+                    flexWrap="wrap"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    spacing={2}
+                    sx={{
+                        backgroundColor: theme.palette.primary.main,
+                        p: 2,
+                        color: theme.palette.primary.contrastText
+                    }}
+                >
+                    <Typography>Device: {device.name}</Typography>
+                    <Button startIcon={<DeleteIcon/>} variant="contained" disableElevation onClick={() => removeClick()}>remove device</Button>
+                </Stack>
+
+                <Box sx={{p: 2}}>
+                    parameters to be here!
+                </Box>
+
+
+            </Box>
         </>
     )
 }
@@ -131,6 +181,12 @@ function Plot(props: PlotProps) {
         return devices.find((device) => device.id == deviceId)
     }
 
+    const deviceConfig = plot.devices && plot.devices?.length > 0 ? plot.devices?.map((device) => (
+        <Box key={device.device}>
+            <DeviceConfiguration device={deviceById(device.device)} plot={plot} />
+        </Box>
+    )) : (<Alert severity="info">No device added!</Alert>)
+
     return (
         <Box
             sx={{
@@ -179,24 +235,11 @@ function Plot(props: PlotProps) {
                 </Button>
             </Stack>
             <Box sx={{p:2, backgroundColor: theme.palette.primary.light}}>
-                <Box sx={{marginTop: 2}}>
-                    <Typography>
-                        Devices:
-                    </Typography>
-                    {
-                        plot.devices?.map((device) => (
-                            <Typography key={device.device}>
-                                {deviceById(device.device)?.name}
-                                <Button onClick={() => clickRemoveDevice(plot.id, device.device)}>remove device</Button>
-                            </Typography>
-                        ))
-                    }
-                    <AddDeviceDialog confirmAction={submitAddDevice} plot={plot} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
-
-                </Box>
+                {deviceConfig}
+                <AddDeviceDialog confirmAction={submitAddDevice} plot={plot} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
             </Box>
-            <Box sx={{p:2}}>
-                <Typography>Plot will be here</Typography>
+            <Box sx={{p:10}}>
+                <Typography variant="h1">Plot will be here!</Typography>
             </Box>
         </Box>
     )
