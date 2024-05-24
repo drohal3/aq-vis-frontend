@@ -1,4 +1,4 @@
-import {addDeviceToPlot, removeDeviceFromPlot, Plot as PlotData, DeviceToPlot} from "../../reducers/plotsReducer.ts";
+import {addDeviceToPlot, removeDeviceFromPlot, Plot as PlotData} from "../../reducers/plotsReducer.ts";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
@@ -59,11 +59,14 @@ function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot
                     }}
                 >
                     <Typography>Device: {device.name}</Typography>
+
                     <Button startIcon={<DeleteIcon/>} variant="contained" disableElevation onClick={() => removeClick()}>remove device</Button>
                 </Stack>
-
-                <Box sx={{p: 2}}>
-                    parameters to be here!
+                <Box sx={{p:2}}>
+                    <Typography>
+                        parameters to be here!
+                    </Typography>
+                    <Button startIcon={<AddIcon/>} variant="outlined" fullWidth disableElevation>Add parameter</Button>
                 </Box>
 
 
