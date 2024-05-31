@@ -1,10 +1,17 @@
-import {addDeviceToPlot, removeDeviceFromPlot, Plot as PlotData} from "../../reducers/plotsReducer.ts";
+import {
+    addDeviceToPlot,
+    removeDeviceFromPlot,
+    addParameterToDeviceToPlot,
+    removeParameterFromDeviceToPlot,
+    Plot as PlotData,
+    ParameterConfig
+} from "../../reducers/plotsReducer.ts";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Select from '@mui/material/Select';
+import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import {useAppDispatch} from "../../hooks/hooks.ts";
@@ -23,6 +30,58 @@ import TuneIcon from '@mui/icons-material/Tune';
 import { useTheme } from '@mui/material/styles';
 import {Fragment, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+
+
+function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterConfig, device:DeviceData|undefined, plotId:string|undefined}) {
+    const dispatch = useAppDispatch()
+
+    const [selectedParameter, setSelectedParameter] = useState("")
+    const [color, setColor] = useState({});
+
+    console.log("param config device:", device)
+    const removeParameterClick = () => {
+        if (plotId && device && device.id) {
+            dispatch(removeParameterFromDeviceToPlot(parameter.id, plotId, device.id))
+        }
+    }
+
+    console.log("color", color)
+
+    return (
+        <Box>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 12, sm: 2, md: 3 }}>
+                <Grid item xs={12} md={3} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>Parameter</InputLabel>
+                        <Select
+                            label="Parameter"
+                            value={selectedParameter}
+                            onChange={(event: SelectChangeEvent) => setSelectedParameter(event.target.value as string)}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {device?.parameters.map(
+                                (parameter) => (
+                                    <MenuItem key={parameter.code} value={parameter.code}>{parameter.name}</MenuItem>
+                                )
+                            )}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} md={2} lg={1} justifyContent="center">
+                    <TextField size="small" fullWidth label="Color" variant="outlined" />
+                </Grid>
+            </Grid>
+
+            <Button
+                onClick={removeParameterClick}
+            >Delete</Button>
+        </Box>
+    )
+}
 
 function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot:PlotData}) {
     const dispatch = useAppDispatch()
@@ -32,9 +91,16 @@ function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot
     console.log("plot", plot)
 
     const plotDevice = plot.devices?.find((d)=> d.device == device?.id)
-
+    const plotParameters = plotDevice?.parameters
 
     console.log("plotDevice", plotDevice)
+    console.log("plotParameters", plotParameters)
+
+    const addParameterClick = () => {
+        if (device && device.id) {
+            dispatch(addParameterToDeviceToPlot(plot.id, device.id))
+        }
+    }
 
     const removeClick = () => {
         if (device != undefined) {
@@ -42,9 +108,22 @@ function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot
         }
     }
 
+    const parametersConfiguration = plotParameters && plotParameters.length > 0 ? (
+        plotParameters.map((plotParameter) => (
+            <ParameterConfiguration
+                parameter={plotParameter}
+                device={device}
+                plotId={plot.id}
+                key={plotParameter.id}
+            />
+        ))
+    ) : (
+        <Alert severity="info">No parameter added!</Alert>
+    )
+
     return device && (
         <>
-            <Box sx={{my: 1, border: `1px solid ${theme.palette.primary.main}`}}>
+            <Box sx={{my: 1, border: `1px solid ${theme.palette.primary.main}`, backgroundColor: theme.palette.common.white}}>
                 <Stack
                     direction="row"
                     useFlexGap
@@ -63,10 +142,18 @@ function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot
                     <Button startIcon={<DeleteIcon/>} variant="contained" disableElevation onClick={() => removeClick()}>remove device</Button>
                 </Stack>
                 <Box sx={{p:2}}>
-                    <Typography>
-                        parameters to be here!
-                    </Typography>
-                    <Button startIcon={<AddIcon/>} variant="outlined" fullWidth disableElevation>Add parameter</Button>
+                    <Stack spacing={2}>
+                        {parametersConfiguration}
+                    </Stack>
+                    <Button
+                        startIcon={<AddIcon/>}
+                        variant="outlined"
+                        fullWidth
+                        disableElevation
+                        onClick={addParameterClick}
+                    >
+                        Add parameter
+                    </Button>
                 </Box>
 
 
