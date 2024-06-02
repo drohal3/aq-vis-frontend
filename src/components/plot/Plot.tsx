@@ -3,6 +3,7 @@ import {
     removeDeviceFromPlot,
     addParameterToDeviceToPlot,
     removeParameterFromDeviceToPlot,
+    updateParameterFromDeviceToPlot,
     Plot as PlotData,
     ParameterConfig
 } from "../../reducers/plotsReducer.ts";
@@ -22,32 +23,60 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider,
+    Divider, FormHelperText,
     Stack
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TuneIcon from '@mui/icons-material/Tune';
 import { useTheme } from '@mui/material/styles';
-import {Fragment, useState} from "react";
+import {Fragment, useState, ChangeEvent} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 
 
 function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterConfig, device:DeviceData|undefined, plotId:string|undefined}) {
+    const deviceId = device?.id
     const dispatch = useAppDispatch()
+    const [colorError, setColorError] = useState("aaaa")
 
-    const [selectedParameter, setSelectedParameter] = useState("")
-    const [color, setColor] = useState({});
+
 
     console.log("param config device:", device)
     const removeParameterClick = () => {
-        if (plotId && device && device.id) {
-            dispatch(removeParameterFromDeviceToPlot(parameter.id, plotId, device.id))
+        if (plotId && deviceId) {
+            dispatch(removeParameterFromDeviceToPlot(parameter.id, plotId, deviceId))
         }
     }
 
-    console.log("color", color)
+    const updateParameter = (value: string) => {
+        const newValue = {...parameter, parameter: value}
+        if (!plotId || !deviceId) {
+            return
+        }
+
+        dispatch(updateParameterFromDeviceToPlot(plotId, deviceId, newValue))
+    }
+
+    const validateHEXColor = (value: string) => {
+        return value.match(/^#[a-f|0-9]{6}$/)
+    }
+
+    const updateColor = (value: string) => {
+        if (!validateHEXColor(value)) {
+            setColorError("Error: invalid HEX color")
+        } else {
+            setColorError("")
+        }
+
+
+        if (!plotId || !deviceId) {
+            return
+        }
+
+        const newValue = {...parameter, hexColor: value}
+        dispatch(updateParameterFromDeviceToPlot(plotId, deviceId, newValue))
+    }
 
     return (
         <Box>
@@ -57,8 +86,8 @@ function ParameterConfiguration({parameter, device, plotId}:{parameter:Parameter
                         <InputLabel>Parameter</InputLabel>
                         <Select
                             label="Parameter"
-                            value={selectedParameter}
-                            onChange={(event: SelectChangeEvent) => setSelectedParameter(event.target.value as string)}
+                            value={parameter.parameter ?? ""}
+                            onChange={(event: SelectChangeEvent) => updateParameter(event.target.value as string)}
                         >
                             <MenuItem value="">
                                 <em>None</em>
@@ -72,13 +101,27 @@ function ParameterConfiguration({parameter, device, plotId}:{parameter:Parameter
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={2} lg={1} justifyContent="center">
-                    <TextField size="small" fullWidth label="Color" variant="outlined" />
+                    <FormControl error variant="outlined">
+                        <TextField
+                            value={parameter.hexColor ?? ""}
+                            size="small"
+                            fullWidth
+                            label="Color"
+                            placeholder="#000000"
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                updateColor(event.target.value)
+                            }}
+                        />
+                        <FormHelperText>{colorError}</FormHelperText>
+                    </FormControl>
+
+                </Grid>
+                <Grid item xs={12} md={2} lg={1} justifyContent="center">
+                    <Button
+                        onClick={removeParameterClick}
+                    >Delete</Button>
                 </Grid>
             </Grid>
-
-            <Button
-                onClick={removeParameterClick}
-            >Delete</Button>
         </Box>
     )
 }
@@ -142,7 +185,7 @@ function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot
                     <Button startIcon={<DeleteIcon/>} variant="contained" disableElevation onClick={() => removeClick()}>remove device</Button>
                 </Stack>
                 <Box sx={{p:2}}>
-                    <Stack spacing={2}>
+                    <Stack spacing={2} sx={{paddingBottom: 2}}>
                         {parametersConfiguration}
                     </Stack>
                     <Button
@@ -155,8 +198,6 @@ function DeviceConfiguration({device, plot}:{device:DeviceData | undefined, plot
                         Add parameter
                     </Button>
                 </Box>
-
-
             </Box>
         </>
     )
@@ -194,6 +235,12 @@ function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotData,dev
                 disabled={devicesToAdd.length == 0}
             >
                 Add device to plot
+            </Button>
+            <Button
+                variant="contained"
+                onClick={handleClickOpen}
+            >
+                Plot
             </Button>
             <Dialog
                 fullWidth

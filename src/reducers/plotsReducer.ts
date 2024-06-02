@@ -88,6 +88,18 @@ const plotsSlice = createSlice({
                 return { payload: {plotId, deviceId, parameter: {id, parameter, hexColor}}}
             }
         },
+        updateParameter: (state, action) => {
+            const {plotId, deviceId, newValue} = action.payload
+            const plot = state.find((plot) => plot.id == plotId)
+            if (!plot) {
+                return
+            }
+            const device = plot.devices.find((device) => device.device == deviceId)
+            if (!device) {
+                return
+            }
+            device.parameters = device.parameters.map((parameter) => parameter.id != newValue.id ? parameter : newValue)
+        },
         removeParameter: (state, action) => {
             const {plotId, deviceId, parameterId} = action.payload
             const plot = state.find((plot) => plot.id == plotId)
@@ -110,7 +122,8 @@ export const {
     addDevice,
     removeDevice,
     addParameter,
-    removeParameter
+    removeParameter,
+    updateParameter
 } = plotsSlice.actions;
 
 export const resetPlots = () => {
@@ -156,6 +169,14 @@ export const addParameterToDeviceToPlot = (plotId: string, deviceId: string, par
 export const removeParameterFromDeviceToPlot = (parameterId: string, plotId: string, deviceId: string) => {
     return (dispatch:AppDispatch) => {
         dispatch(removeParameter({plotId, deviceId, parameterId}))
+    }
+}
+
+export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string, newValue: ParameterConfig) => {
+    return (dispatch:AppDispatch) => {
+        dispatch(updateParameter({
+            plotId, deviceId, newValue
+        }))
     }
 }
 
