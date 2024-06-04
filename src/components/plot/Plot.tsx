@@ -6,7 +6,7 @@ import {
     updateParameterFromDeviceToPlot,
     Plot as PlotData,
     ParameterConfig
-} from "../../reducers/plotsReducer.ts";
+} from "../../reducers/plotConfigurationsReducer.ts";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
@@ -33,13 +33,15 @@ import {Fragment, useState, ChangeEvent} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import {useAuthData} from "../../hooks/useAuthHook.ts";
+import measurementService from "../../services/measurements.ts"
+import {Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
 
 
 function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterConfig, device:DeviceData|undefined, plotId:string|undefined}) {
     const deviceId = device?.id
     const dispatch = useAppDispatch()
-    const [colorError, setColorError] = useState("aaaa")
-
+    const [colorError, setColorError] = useState("")
 
 
     console.log("param config device:", device)
@@ -236,12 +238,6 @@ function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotData,dev
             >
                 Add device to plot
             </Button>
-            <Button
-                variant="contained"
-                onClick={handleClickOpen}
-            >
-                Plot
-            </Button>
             <Dialog
                 fullWidth
                 maxWidth="md"
@@ -293,15 +289,19 @@ function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotData,dev
 interface PlotProps {
     plot: PlotData,
     devices: Array<DeviceData>,
-    onRemoveClick: (plotId: string) => void
+    onRemoveClick: (plotId: string) => void,
+    dateTimeFrom: string,
+    dateTimeTo: string
 }
 
 function Plot(props: PlotProps) {
     const [addDeviceValue, setAddDeviceValue] = useState("")
-
+    const [plotDebug, setPlotDebug] = useState("")
+    const auth = useAuthData()
     const theme = useTheme()
     const dispatch = useAppDispatch()
-    const {plot, onRemoveClick, devices} = props
+    const {plot, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
+    const devicesToPlot = plot.devices
     const selectedDevices = plot.devices.map((device) => device.device)
 
     const submitAddDevice = (plotId: string, deviceId: string) => {
@@ -310,12 +310,24 @@ function Plot(props: PlotProps) {
         setAddDeviceValue("")
     }
 
-    const clickRemoveDevice = (plotId: string, deviceId: string) => {
-        dispatch(removeDeviceFromPlot(plotId, deviceId))
-    }
+    // const clickRemoveDevice = (plotId: string, deviceId: string) => {
+    //     dispatch(removeDeviceFromPlot(plotId, deviceId))
+    // }
 
     const deviceById = (deviceId: string) => {
         return devices.find((device) => device.id == deviceId)
+    }
+
+    const loadPlotData = async () => {
+        setPlotDebug(JSON.stringify(plot))
+        for (const deviceToPlot of devicesToPlot) {
+            const deviceId = deviceById(deviceToPlot.device)?.code ?? ""
+            const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
+            const loadedData = await measurementService.get(deviceId, parameters, dateTimeFrom, dateTimeTo, auth)
+            console.log("loadedData",loadedData)
+        }
+        // const loadedData = measurementService.get("0", dateTimeFrom, dateTimeTo, auth)
+        // console.log(loadedData)
     }
 
     const deviceConfig = plot.devices && plot.devices?.length > 0 ? plot.devices?.map((device) => (
@@ -323,6 +335,45 @@ function Plot(props: PlotProps) {
             <DeviceConfiguration device={deviceById(device.device)} plot={plot} />
         </Box>
     )) : (<Alert severity="info">No device added!</Alert>)
+
+    const exampleDataA = [
+        {sample_date_time: '2024-05-01T00:00:00Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:01Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:02Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:03Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:04Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:05Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:06Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:07Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:08Z', device_id: 0, condenser_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:09Z', device_id: 0, condenser_temperature: 21.304043636675573}
+    ]
+
+    const exampleDataB = [
+        {sample_date_time: '2024-05-01T00:00:00Z', device_id: 0, condenser_temperature: 23.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:01Z', device_id: 0, condenser_temperature: 24.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:02Z', device_id: 0, condenser_temperature: 25.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:03Z', device_id: 0, condenser_temperature: 26.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:04Z', device_id: 0, condenser_temperature: 27.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:05Z', device_id: 0, condenser_temperature: 28.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:06Z', device_id: 0, condenser_temperature: 29.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:07Z', device_id: 0, condenser_temperature: 28.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:08Z', device_id: 0, condenser_temperature: 27.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:09Z', device_id: 0, condenser_temperature: 26.304043636675573}
+    ]
+
+    const exampleDataC = [
+        {sample_date_time: '2024-05-01T00:00:00Z', device_id: 0, saturator_temperature: 23.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:01Z', device_id: 0, saturator_temperature: 22.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:02Z', device_id: 0, saturator_temperature: 21.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:03Z', device_id: 0, saturator_temperature: 20.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:04Z', device_id: 0, saturator_temperature: 19.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:05Z', device_id: 0, saturator_temperature: 18.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:06Z', device_id: 0, saturator_temperature: 17.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:07Z', device_id: 0, saturator_temperature: 18.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:08Z', device_id: 0, saturator_temperature: 20.304043636675573},
+        {sample_date_time: '2024-05-01T00:00:09Z', device_id: 0, saturator_temperature: 18.304043636675573}
+    ]
 
     return (
         <Box
@@ -373,10 +424,59 @@ function Plot(props: PlotProps) {
             </Stack>
             <Box sx={{p:2, backgroundColor: theme.palette.primary.light}}>
                 {deviceConfig}
-                <AddDeviceDialog confirmAction={submitAddDevice} plot={plot} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
+                <Stack direction="row" spacing={2}>
+                    <AddDeviceDialog confirmAction={submitAddDevice} plot={plot} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
+                    <Button
+                        variant="contained"
+                        onClick={loadPlotData}
+                    >
+                        Plot
+                    </Button>
+                </Stack>
             </Box>
             <Box sx={{p:10}}>
                 <Typography variant="h1">Plot will be here!</Typography>
+                <Typography>{plotDebug}</Typography>
+
+                <LineChart
+                    width={1200}
+                    height={500}
+                >
+                    <XAxis dataKey="sample_date_time" allowDuplicatedCategory={false} />
+                    <YAxis type="number" />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                        type="monotone"
+                        data={exampleDataA}
+                        dataKey="condenser_temperature"
+                        name="particle concentration #/cm3"
+                        stroke="#20BFC3"
+                        strokeWidth={2}
+                        activeDot={{ r: 5 }}
+                        dot={false}
+                    />
+                    <Line
+                        type="monotone"
+                        data={exampleDataB}
+                        dataKey="condenser_temperature"
+                        name="particle concentration #/cm3"
+                        stroke="#20BFFF"
+                        strokeWidth={2}
+                        activeDot={{ r: 5 }}
+                        dot={false}
+                    />
+                    <Line
+                        type="monotone"
+                        data={exampleDataC}
+                        dataKey="saturator_temperature"
+                        name="particle concentration #/cm3"
+                        stroke="#EF0F00"
+                        strokeWidth={2}
+                        activeDot={{ r: 5 }}
+                        dot={false}
+                    />
+                </LineChart>
             </Box>
         </Box>
     )

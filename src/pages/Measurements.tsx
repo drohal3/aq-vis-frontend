@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ChangeEvent, useState} from "react";
 // import {useAuthData} from "../hooks/useAuthHook";
 import deviceService from "../services/devices"
 import AppLayout from "../components/AppLayout.tsx";
@@ -20,12 +20,13 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 
 import {v4 as uuidv4} from 'uuid';
-import {addPlot, removePlot, addDeviceToPlot} from "../reducers/plotsReducer";
+import {addPlot, removePlot} from "../reducers/plotConfigurationsReducer.ts";
 import Plot from "../components/plot/Plot.tsx";
-import {Block} from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 
 function Measurements(){
+  const [dateTimeFrom, setDateTimeFrom] = useState("")
+  const [dateTimeTo, setDateTimeTo] = useState("")
   const dispatch = useAppDispatch()
   const devices = useDevicesData()
   const auth = useAuthData()
@@ -74,6 +75,8 @@ function Measurements(){
                 label="From"
                 variant="standard"
                 placeholder="yyyy-mm-dd hh:mm:ss"
+                value={dateTimeFrom}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeFrom(event.target.value)}
             />
           </Grid>
           <Grid item md={4}>
@@ -82,6 +85,8 @@ function Measurements(){
                 label="To"
                 variant="standard"
                 placeholder="yyyy-mm-dd hh:mm:ss"
+                value={dateTimeTo}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeTo(event.target.value)}
             />
           </Grid>
         </Grid>
@@ -89,7 +94,13 @@ function Measurements(){
 
         {plotsData.map((plot) => (
             <div key={plot.id}>
-              <Plot key={plot.id} plot={plot} onRemoveClick={() => removePlotClick(plot.id)} devices={devices} />
+              <Plot
+                  key={plot.id}
+                  plot={plot}
+                  onRemoveClick={() => removePlotClick(plot.id)}
+                  devices={devices}
+                  dateTimeFrom={dateTimeFrom}
+                  dateTimeTo={dateTimeTo}/>
               <Divider sx={{marginTop:2, marginBottom:2}}/>
             </div>
         ))}
