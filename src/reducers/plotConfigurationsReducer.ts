@@ -114,12 +114,17 @@ const plotsSlice = createSlice({
                 return
             }
             const current = plot.current
-            plot.loaded = {...current}
+            plot.loaded = [...current]
         },
-        // revert: (state) => {
-        //     const loaded = state.loaded
-        //     state.current = {...loaded}
-        // }
+        revertPlot: (state, action) => {
+            const { plotId } = action.payload
+            const plot = state.find(p => p.id == plotId)
+            if (!plot) {
+                return
+            }
+            const loaded = plot.current
+            plot.current = [...loaded]
+        }
     }
 })
 
@@ -132,7 +137,8 @@ export const {
     addParameter,
     removeParameter,
     updateParameter,
-    confirmPlot
+    confirmPlot,
+    revertPlot
 } = plotsSlice.actions;
 
 // export const resetPlots = () => {
@@ -192,6 +198,12 @@ export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string
 export const confirmPlotToPlot = (plotId: string) => {
     return (dispatch:AppDispatch) => {
         dispatch(confirmPlot({plotId}))
+    }
+}
+
+export const revertPlotToPlot= (plotId: string) => {
+    return (dispatch:AppDispatch) => {
+        dispatch(revertPlot({plotId}))
     }
 }
 
