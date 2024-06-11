@@ -112,46 +112,7 @@ function Plot(props: PlotProps) {
         dispatch(revertPlotToPlot(plotConfiguration.id))
     }
 
-
-
-    const exampleDataA = [
-        {sample_date_time: '2024-05-01T00:00:00Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:01Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:02Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:03Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:04Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:05Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:06Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:07Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:08Z', device_id: 0, condenser_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:09Z', device_id: 0, condenser_temperature: 21.304043636675573}
-    ]
-
-    const exampleDataB = [
-        {sample_date_time: '2024-05-01T00:00:00Z', device_id: 0, condenser_temperature: 23.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:01Z', device_id: 0, condenser_temperature: 24.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:02Z', device_id: 0, condenser_temperature: 25.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:03Z', device_id: 0, condenser_temperature: 26.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:04Z', device_id: 0, condenser_temperature: 27.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:05Z', device_id: 0, condenser_temperature: 28.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:06Z', device_id: 0, condenser_temperature: 29.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:07Z', device_id: 0, condenser_temperature: 28.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:08Z', device_id: 0, condenser_temperature: 27.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:09Z', device_id: 0, condenser_temperature: 26.304043636675573}
-    ]
-
-    const exampleDataC = [
-        {sample_date_time: '2024-05-01T00:00:00Z', device_id: 0, saturator_temperature: 23.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:01Z', device_id: 0, saturator_temperature: 22.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:02Z', device_id: 0, saturator_temperature: 21.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:03Z', device_id: 0, saturator_temperature: 20.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:04Z', device_id: 0, saturator_temperature: 19.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:05Z', device_id: 0, saturator_temperature: 18.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:06Z', device_id: 0, saturator_temperature: 17.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:07Z', device_id: 0, saturator_temperature: 18.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:08Z', device_id: 0, saturator_temperature: 20.304043636675573},
-        {sample_date_time: '2024-05-01T00:00:09Z', device_id: 0, saturator_temperature: 18.304043636675573}
-    ]
+    // TODO: plot lines
 
     const revertMessage = (plotConfiguration.modified && plotConfiguration.loaded.length > 0) ? (
         <Box alignContent="center">
@@ -252,36 +213,7 @@ function Plot(props: PlotProps) {
                         <YAxis type="number" />
                         <Tooltip />
                         <Legend />
-                        <Line
-                            type="monotone"
-                            data={exampleDataA}
-                            dataKey="condenser_temperature"
-                            name="particle concentration #/cm3"
-                            stroke="#20BFC3"
-                            strokeWidth={2}
-                            activeDot={{ r: 5 }}
-                            dot={false}
-                        />
-                        <Line
-                            type="monotone"
-                            data={exampleDataB}
-                            dataKey="condenser_temperature"
-                            name="particle concentration #/cm3"
-                            stroke="#20BFFF"
-                            strokeWidth={2}
-                            activeDot={{ r: 5 }}
-                            dot={false}
-                        />
-                        <Line
-                            type="monotone"
-                            data={exampleDataC}
-                            dataKey="saturator_temperature"
-                            name="particle concentration #/cm3"
-                            stroke="#EF0F00"
-                            strokeWidth={2}
-                            activeDot={{ r: 5 }}
-                            dot={false}
-                        />
+                    {/*    TODO: plot lines*/}
                     </LineChart>
                 </ResponsiveContainer>
 

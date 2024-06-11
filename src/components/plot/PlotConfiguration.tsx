@@ -111,7 +111,6 @@ export function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotC
 }
 
 function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterToPlotState, device:DeviceData|undefined, plotId:string|undefined}) {
-    console.log("parameter configuration device", device)
     const deviceCode = device?.code
     const dispatch = useAppDispatch()
     const [colorError, setColorError] = useState("")
@@ -206,9 +205,6 @@ export function DeviceConfiguration({device, plot}:{device:DeviceData | undefine
 
     const plotDevice = plot.current.find((d)=> d.deviceCode == device?.code)
     const plotParameters = plotDevice?.parameters
-
-    console.log("plotParameters", plotParameters)
-
     const addParameterClick = () => {
         if (device && device.code) {
             dispatch(addParameterToDeviceToPlot(plot.id, device.code))
@@ -273,10 +269,10 @@ export function DeviceConfiguration({device, plot}:{device:DeviceData | undefine
     )
 }
 
-function PlotConfiguration() {
-      return (
-          <>
-
-          </>
-      )
-}
+// function PlotConfiguration() {
+//       return (
+//           <>
+//
+//           </>
+//       )
+// }

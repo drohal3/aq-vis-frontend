@@ -3,7 +3,7 @@ import {AppDispatch} from "../utils/store.ts";
 
 
 export interface LoadedDeviceDataState {
-    deviceId: string,
+    deviceCode: string,
     data: {}[]
 }
 export interface LoadedPlotDataState {
@@ -32,9 +32,9 @@ const loadedPlotsSlice = createSlice({
                 plotData = {plotId, deviceData:[]}
                 state.push(plotData)
             }
-            let deviceData = plotData.deviceData.find(d => d.deviceId == deviceId)
+            let deviceData = plotData.deviceData.find(d => d.deviceCode == deviceId)
             if (!deviceData) {
-                deviceData = {deviceId, data:[]}
+                deviceData = {deviceCode: deviceId, data:[]}
                 plotData.deviceData.push(deviceData)
             }
             deviceData.data = data
