@@ -1,32 +1,26 @@
 import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit'
 import {AppDispatch} from "../utils/store.ts";
 
-// export interface MeasurementParameter {
-//     parameter: string
-//     unit: string
-// }
-
+export interface ParameterToPlot {
+    id: string
+    parameter: string | undefined
+    hexColor: string
+}
 export interface DeviceToPlot {
     device: string,
-    parameters: Array<ParameterConfig>
+    parameters: Array<ParameterToPlot>
 }
 
-export interface PlotConfiguration {
+export interface PlotToPlot {
     id: string,
     current: Array<DeviceToPlot>, // state of configuration, edit mode
     loaded: Array<DeviceToPlot> // last loaded configuration
 }
 
-export interface ParameterConfig {
-    id: string
-    parameter: string | undefined
-    hexColor: string
-}
-
 interface AddParameterProps {
     deviceId: string
     plotId: string
-    parameter: ParameterConfig
+    parameter: ParameterToPlot
 }
 
 // const defaultPlotData = {
@@ -34,14 +28,14 @@ interface AddParameterProps {
 //     measurements: []
 // }
 
-const initialState = Array<PlotConfiguration>()
+const initialState = Array<PlotToPlot>()
 
 const plotsSlice = createSlice({
     name: "measurements",
     initialState,
     reducers: {
         add: {
-            reducer: (state, action: PayloadAction<PlotConfiguration>) => {
+            reducer: (state, action: PayloadAction<PlotToPlot>) => {
                 return [...state, action.payload]
             },
             prepare: (measurements: Array<DeviceToPlot>) => {
@@ -113,10 +107,15 @@ const plotsSlice = createSlice({
             }
             device.parameters = device.parameters.filter((parameter) => parameter.id != parameterId)
         },
-        // confirm: (state) => {
-        //     const current = state.current
-        //     state.loaded = {...current}
-        // },
+        confirmPlot: (state, action: PayloadAction<{plotId: string}>) => {
+            const { plotId } = action.payload
+            const plot = state.find(p => p.id == plotId)
+            if (!plot) {
+                return
+            }
+            const current = plot.current
+            plot.loaded = {...current}
+        },
         // revert: (state) => {
         //     const loaded = state.loaded
         //     state.current = {...loaded}
@@ -132,7 +131,8 @@ export const {
     removeDevice,
     addParameter,
     removeParameter,
-    updateParameter
+    updateParameter,
+    confirmPlot
 } = plotsSlice.actions;
 
 // export const resetPlots = () => {
@@ -181,11 +181,17 @@ export const removeParameterFromDeviceToPlot = (parameterId: string, plotId: str
     }
 }
 
-export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string, newValue: ParameterConfig) => {
+export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string, newValue: ParameterToPlot) => {
     return (dispatch:AppDispatch) => {
         dispatch(updateParameter({
             plotId, deviceId, newValue
         }))
+    }
+}
+
+export const confirmPlotToPlot = (plotId: string) => {
+    return (dispatch:AppDispatch) => {
+        dispatch(confirmPlot({plotId}))
     }
 }
 
