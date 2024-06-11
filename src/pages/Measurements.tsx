@@ -60,62 +60,54 @@ function Measurements(){
   }
 
   return (
-    <>
-      <AppLayout>
-        <Box sx={{m:1}}>
-          <Typography variant="h4" gutterBottom>
-            Measurements
-          </Typography>
-          <Divider />
-        </Box>
-        <Grid container spacing={2} sx={{m:1}}>
-          <Grid item md={4}>
-            <TextField
-                fullWidth
-                label="From"
-                variant="standard"
-                placeholder="yyyy-mm-dd hh:mm:ss"
-                value={dateTimeFrom}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeFrom(event.target.value)}
-            />
-          </Grid>
-          <Grid item md={4}>
-            <TextField
-                fullWidth
-                label="To"
-                variant="standard"
-                placeholder="yyyy-mm-dd hh:mm:ss"
-                value={dateTimeTo}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeTo(event.target.value)}
-            />
-          </Grid>
+    <AppLayout title="Measurements">
+      <Grid container spacing={2} sx={{marginTop:1}}>
+        <Grid item md={4}>
+          <TextField
+              fullWidth
+              label="From"
+              variant="standard"
+              placeholder="yyyy-mm-dd hh:mm:ss"
+              value={dateTimeFrom}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeFrom(event.target.value)}
+          />
         </Grid>
-        <Divider sx={{m:2}}/>
+        <Grid item md={4}>
+          <TextField
+              fullWidth
+              label="To"
+              variant="standard"
+              placeholder="yyyy-mm-dd hh:mm:ss"
+              value={dateTimeTo}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeTo(event.target.value)}
+          />
+        </Grid>
+      </Grid>
+      <Divider sx={{m:2}}/>
 
-        {plotsData.map((plot) => (
-            <div key={plot.id}>
-              <Plot
-                  key={plot.id}
-                  plot={plot}
-                  onRemoveClick={() => removePlotClick(plot.id)}
-                  devices={devices}
-                  dateTimeFrom={dateTimeFrom}
-                  dateTimeTo={dateTimeTo}/>
-              <Divider sx={{marginTop:2, marginBottom:2}}/>
-            </div>
-        ))}
+      {plotsData.map((plot) => (
+          <div key={plot.id}>
+            <Plot
+                key={plot.id}
+                plot={plot}
+                onRemoveClick={() => removePlotClick(plot.id)}
+                devices={devices}
+                dateTimeFrom={dateTimeFrom}
+                dateTimeTo={dateTimeTo}/>
+            <Divider sx={{marginTop:2, marginBottom:2}}/>
+          </div>
+      ))}
 
-        <Button
-            fullWidth
-            onClick={addPlotClick}
-            disableElevation
-            variant="outlined"
-            startIcon={<AddIcon />}
-        >Add Plot</Button>
-
-      </AppLayout>
-      {/*{devices.map((device, key) => (<p key={key}>{device.name}</p>))}*/}
-    </>
+      <Button
+          fullWidth
+          onClick={addPlotClick}
+          disableElevation
+          variant="outlined"
+          startIcon={<AddIcon />}
+      >
+        Add Plot
+      </Button>
+    </AppLayout>
   )
 }
 
