@@ -1,8 +1,8 @@
 import {
-    addDeviceToPlot, confirmPlotToPlot,
+    addDeviceToPlot, confirmPlotToPlot, DeviceToPlotState, ParameterToPlotState,
     PlotConfigurationState, revertPlotToPlot,
 } from "../../reducers/plotConfigurationsReducer.ts";
-import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
+import {addLoadedPlotDeviceData, LoadedDeviceDataState} from "../../reducers/plotDataReducer.ts";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
@@ -43,21 +43,21 @@ interface PlotProps {
 
 function Plot(props: PlotProps) {
     const {plotConfiguration, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
-    console.log("props", props)
-
-
     const auth = useAuthData()
     const theme = useTheme()
     const [_addDeviceValue, setAddDeviceValue] = useState("")
     const [plotDebug, setPlotDebug] = useState("")
 
     const dispatch = useAppDispatch()
+
     const loadedPlotData = usePlotData(plotConfiguration.id)
-    console.log("====> plot", plotConfiguration)
-    const selectedDevices = plotConfiguration.current.map((device) => device.device)
+
+    console.log("====> plotConfiguration", plotConfiguration)
+    console.log("====> ---> plot data", loadedPlotData)
+    const selectedDevices = plotConfiguration.current.map((device) => device.deviceCode)
 
     const submitAddDevice = (plotId: string, deviceId: string) => {
-        dispatch(addDeviceToPlot(plotId, {device: deviceId, parameters: []}))
+        dispatch(addDeviceToPlot(plotId, {deviceCode: deviceId, parameters: []}))
         setAddDeviceValue("")
     }
 
@@ -65,8 +65,12 @@ function Plot(props: PlotProps) {
     //     dispatch(removeDeviceFromPlot(plotId, deviceId))
     // }
 
-    const deviceById = (deviceId: string) => {
+    const deviceById = (deviceId: string):DeviceData|undefined => {
         return devices.find((device) => device.id == deviceId)
+    }
+
+    const deviceByCode = (deviceCode: string):DeviceData|undefined => {
+        return devices.find((device) => device.code == deviceCode)
     }
 
     const loadedPlotDataDebug = loadedPlotData ? JSON.stringify(loadedPlotData) : "Not loaded."
@@ -74,20 +78,35 @@ function Plot(props: PlotProps) {
     const loadPlotData = async () => {
         setPlotDebug(JSON.stringify(plotConfiguration))
         for (const deviceToPlot of plotConfiguration.current) {
-            const deviceId = deviceById(deviceToPlot.device)?.code ?? ""
             const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
-            const loadedData = await measurementService.get(deviceId, parameters, dateTimeFrom, dateTimeTo, auth)
-            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceId, loadedData))
+            const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
+            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
         }
         dispatch(confirmPlotToPlot(plotConfiguration.id))
         // const loadedData = measurementService.get("0", dateTimeFrom, dateTimeTo, auth)
     }
 
     const deviceConfig = plotConfiguration.current && plotConfiguration.current?.length > 0 ? plotConfiguration.current?.map((device) => (
-        <Box key={device.device}>
-            <DeviceConfiguration device={deviceById(device.device)} plot={plotConfiguration} />
+        <Box key={device.deviceCode}>
+            <DeviceConfiguration device={deviceByCode(device.deviceCode)} plot={plotConfiguration} />
         </Box>
     )) : (<Alert severity="info">No device added!</Alert>)
+
+
+    // const plotLines = plotConfiguration.loaded.map((deviceConfiguration:DeviceToPlotState) => {
+    //         const deviceId = deviceConfiguration.device
+    //
+    //         const deviceDataIndex = loadedPlotData?.deviceData.findIndex((d)=>d.deviceId == deviceId)
+    //
+    //         return deviceConfiguration.parameters.map((parameter:ParameterToPlotState) => {
+    //
+    //         })
+    //
+    //
+    //     }
+    // )
+
+
 
     const revertConfig = () => {
         dispatch(revertPlotToPlot(plotConfiguration.id))

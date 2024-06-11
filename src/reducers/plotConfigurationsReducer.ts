@@ -7,7 +7,7 @@ export interface ParameterToPlotState {
     hexColor: string
 }
 export interface DeviceToPlotState {
-    device: string,
+    deviceCode: string,
     parameters: Array<ParameterToPlotState>
 }
 
@@ -19,7 +19,7 @@ export interface PlotConfigurationState {
 }
 
 interface AddParameterProps {
-    deviceId: string
+    deviceCode: string
     plotId: string
     parameter: ParameterToPlotState
 }
@@ -61,39 +61,43 @@ const plotsSlice = createSlice({
             })
         },
         removeDevice: (state, action) => {
-            const {plotId, deviceId} = action.payload
+            const {plotId, deviceCode} = action.payload
             const plot = state.find((plot) => plot.id == plotId)
             if (plot) {
-                plot.current = plot.current.filter((device) => device.device != deviceId)
+                plot.current = plot.current.filter((device) => device.deviceCode != deviceCode)
                 plot.modified = true
             }
         },
         addParameter: {
             reducer: (state, action: PayloadAction<AddParameterProps>) => {
-                const {plotId, deviceId, parameter} = action.payload
+                const {plotId, deviceCode, parameter} = action.payload
+                console.log("searching for", deviceCode)
+
                 const plot = state.find((plot) => plot.id == plotId)
                 if (!plot) {
+                    console.log("!!!! PLOT NOT FOUND")
                     return
                 }
-                const device = plot.current.find((device) => device.device == deviceId)
+                const device = plot.current.find((device) => device.deviceCode == deviceCode)
                 if (!device) {
+                    console.log("!!!! DEVICE NOT FOUND")
                     return
                 }
                 device.parameters.push(parameter)
                 plot.modified = true
             },
-            prepare: (plotId: string, deviceId: string, parameter: string|undefined, hexColor: string) => {
+            prepare: (plotId: string, deviceCode: string, parameter: string|undefined, hexColor: string) => {
                 const id = nanoid()
-                return { payload: {plotId, deviceId, parameter: {id, parameter, hexColor}}}
+                return { payload: {plotId, deviceCode, parameter: {id, parameter, hexColor}}}
             }
         },
         updateParameter: (state, action) => {
-            const {plotId, deviceId, newValue} = action.payload
+            const {plotId, plotCode, newValue} = action.payload
             const plot = state.find((plot) => plot.id == plotId)
             if (!plot) {
                 return
             }
-            const device = plot.current.find((device) => device.device == deviceId)
+            const device = plot.current.find((device) => device.deviceCode == plotCode)
             if (!device) {
                 return
             }
@@ -101,12 +105,12 @@ const plotsSlice = createSlice({
             plot.modified = true
         },
         removeParameter: (state, action) => {
-            const {plotId, deviceId, parameterId} = action.payload
+            const {plotId, plotCode, parameterId} = action.payload
             const plot = state.find((plot) => plot.id == plotId)
             if (!plot) {
                 return
             }
-            const device = plot.current.find((device) => device.device == deviceId)
+            const device = plot.current.find((device) => device.deviceCode == plotCode)
             if (!device) {
                 return
             }
@@ -175,30 +179,31 @@ export const addDeviceToPlot = (plotId: string, deviceToPlot:DeviceToPlotState) 
     }
 }
 
-export const removeDeviceFromPlot = (plotId: string, deviceId: string) => {
+export const removeDeviceFromPlot = (plotId: string, plotCode: string) => {
     return (dispatch:AppDispatch) => {
         dispatch(removeDevice({
-            plotId, deviceId
+            plotId, plotCode
         }))
     }
 }
 
-export const addParameterToDeviceToPlot = (plotId: string, deviceId: string, parameter: string|undefined = undefined, hexColor: string = "#000000") => {
+export const addParameterToDeviceToPlot = (plotId: string, plotCode: string, parameter: string|undefined = undefined, hexColor: string = "#000000") => {
+    console.log("dispatch", plotCode)
     return (dispatch:AppDispatch) => {
-        dispatch(addParameter(plotId, deviceId, parameter, hexColor))
+        dispatch(addParameter(plotId, plotCode, parameter, hexColor))
     }
 }
 
-export const removeParameterFromDeviceToPlot = (parameterId: string, plotId: string, deviceId: string) => {
+export const removeParameterFromDeviceToPlot = (parameterId: string, plotId: string, plotCode: string) => {
     return (dispatch:AppDispatch) => {
-        dispatch(removeParameter({plotId, deviceId, parameterId}))
+        dispatch(removeParameter({plotId, plotCode, parameterId}))
     }
 }
 
-export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string, newValue: ParameterToPlotState) => {
+export const updateParameterFromDeviceToPlot = (plotId: string, plotCode: string, newValue: ParameterToPlotState) => {
     return (dispatch:AppDispatch) => {
         dispatch(updateParameter({
-            plotId, deviceId, newValue
+            plotId, plotCode, newValue
         }))
     }
 }

@@ -89,7 +89,7 @@ export function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotC
                                     <em>None</em>
                                 </MenuItem>
                                 {devicesToAdd.map((device) => (
-                                    <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
+                                    <MenuItem key={device.code} value={device.code}>{device.name}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -111,24 +111,25 @@ export function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotC
 }
 
 function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterToPlotState, device:DeviceData|undefined, plotId:string|undefined}) {
-    const deviceId = device?.id
+    console.log("parameter configuration device", device)
+    const deviceCode = device?.code
     const dispatch = useAppDispatch()
     const [colorError, setColorError] = useState("")
     // TODO: plot configuration should be kept in state (useState) and loaded with values from redux when page is loaded
     // TODO: The plot should be loaded from data in the redux
     const removeParameterClick = () => {
-        if (plotId && deviceId) {
-            dispatch(removeParameterFromDeviceToPlot(parameter.id, plotId, deviceId))
+        if (plotId && deviceCode) {
+            dispatch(removeParameterFromDeviceToPlot(parameter.id, plotId, deviceCode))
         }
     }
 
     const updateParameter = (value: string) => {
         const newValue = {...parameter, parameter: value}
-        if (!plotId || !deviceId) {
+        if (!plotId || !deviceCode) {
             return
         }
 
-        dispatch(updateParameterFromDeviceToPlot(plotId, deviceId, newValue))
+        dispatch(updateParameterFromDeviceToPlot(plotId, deviceCode, newValue))
     }
 
     const validateHEXColor = (value: string) => {
@@ -143,12 +144,12 @@ function ParameterConfiguration({parameter, device, plotId}:{parameter:Parameter
         }
 
 
-        if (!plotId || !deviceId) {
+        if (!plotId || !deviceCode) {
             return
         }
 
         const newValue = {...parameter, hexColor: value}
-        dispatch(updateParameterFromDeviceToPlot(plotId, deviceId, newValue))
+        dispatch(updateParameterFromDeviceToPlot(plotId, deviceCode, newValue))
     }
 
     return (
@@ -203,18 +204,20 @@ export function DeviceConfiguration({device, plot}:{device:DeviceData | undefine
     const dispatch = useAppDispatch()
     const theme = useTheme()
 
-    const plotDevice = plot.current.find((d)=> d.device == device?.id)
+    const plotDevice = plot.current.find((d)=> d.deviceCode == device?.code)
     const plotParameters = plotDevice?.parameters
 
+    console.log("plotParameters", plotParameters)
+
     const addParameterClick = () => {
-        if (device && device.id) {
-            dispatch(addParameterToDeviceToPlot(plot.id, device.id))
+        if (device && device.code) {
+            dispatch(addParameterToDeviceToPlot(plot.id, device.code))
         }
     }
 
     const removeClick = () => {
         if (device != undefined) {
-            dispatch(removeDeviceFromPlot(plot.id, device.id ?? ""))
+            dispatch(removeDeviceFromPlot(plot.id, device.code ?? ""))
         }
     }
 

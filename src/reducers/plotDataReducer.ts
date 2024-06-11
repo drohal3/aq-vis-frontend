@@ -2,18 +2,18 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {AppDispatch} from "../utils/store.ts";
 
 
-export interface loadedDeviceData {
+export interface LoadedDeviceDataState {
     deviceId: string,
     data: {}[]
 }
-export interface LoadedPlotData {
+export interface LoadedPlotDataState {
     plotId: string,
-    deviceData: loadedDeviceData[]
+    deviceData: LoadedDeviceDataState[]
 }
 
 
 
-const initialState = Array<LoadedPlotData>()
+const initialState = Array<LoadedPlotDataState>()
 
 interface AddLoadedPlotsReducerProps {
     plotId:string,
