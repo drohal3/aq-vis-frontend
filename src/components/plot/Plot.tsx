@@ -1,6 +1,6 @@
 import {
     addDeviceToPlot,
-    PlotToPlot,
+    PlotToPlotState,
 } from "../../reducers/plotConfigurationsReducer.ts";
 import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import Typography from "@mui/material/Typography";
@@ -44,7 +44,7 @@ import {AddDeviceDialog, DeviceConfiguration} from "./PlotConfiguration.tsx";
 
 
 interface PlotProps {
-    plot: PlotToPlot,
+    plot: PlotToPlotState,
     devices: Array<DeviceData>,
     onRemoveClick: (plotId: string) => void,
     dateTimeFrom: string,

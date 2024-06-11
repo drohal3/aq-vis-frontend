@@ -1,26 +1,26 @@
 import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit'
 import {AppDispatch} from "../utils/store.ts";
 
-export interface ParameterToPlot {
+export interface ParameterToPlotState {
     id: string
     parameter: string | undefined
     hexColor: string
 }
-export interface DeviceToPlot {
+export interface DeviceToPlotState {
     device: string,
-    parameters: Array<ParameterToPlot>
+    parameters: Array<ParameterToPlotState>
 }
 
-export interface PlotToPlot {
+export interface PlotToPlotState {
     id: string,
-    current: Array<DeviceToPlot>, // state of configuration, edit mode
-    loaded: Array<DeviceToPlot> // last loaded configuration
+    current: Array<DeviceToPlotState>, // state of configuration, edit mode
+    loaded: Array<DeviceToPlotState> // last loaded configuration
 }
 
 interface AddParameterProps {
     deviceId: string
     plotId: string
-    parameter: ParameterToPlot
+    parameter: ParameterToPlotState
 }
 
 // const defaultPlotData = {
@@ -28,17 +28,17 @@ interface AddParameterProps {
 //     measurements: []
 // }
 
-const initialState = Array<PlotToPlot>()
+const initialState = Array<PlotToPlotState>()
 
 const plotsSlice = createSlice({
     name: "measurements",
     initialState,
     reducers: {
         add: {
-            reducer: (state, action: PayloadAction<PlotToPlot>) => {
+            reducer: (state, action: PayloadAction<PlotToPlotState>) => {
                 return [...state, action.payload]
             },
-            prepare: (measurements: Array<DeviceToPlot>) => {
+            prepare: (measurements: Array<DeviceToPlotState>) => {
                 const id = nanoid()
                 return { payload: { id, current: measurements, loaded: [] } }
             }
@@ -141,7 +141,7 @@ export const {
 //     }
 // }
 
-export const addPlot = (measurements: Array<DeviceToPlot> = []) => {
+export const addPlot = (measurements: Array<DeviceToPlotState> = []) => {
     console.log("adding plot (addPlot)", measurements)
     return (dispatch:AppDispatch) => {
         dispatch(add(measurements))
@@ -155,7 +155,7 @@ export const removePlot = (plotId: string) => {
     }
 }
 
-export const addDeviceToPlot = (plotId: string, deviceToPlot:DeviceToPlot) => {
+export const addDeviceToPlot = (plotId: string, deviceToPlot:DeviceToPlotState) => {
     return (dispatch:AppDispatch) => {
         dispatch(addDevice({plotId, deviceToPlot}))
     }
@@ -181,7 +181,7 @@ export const removeParameterFromDeviceToPlot = (parameterId: string, plotId: str
     }
 }
 
-export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string, newValue: ParameterToPlot) => {
+export const updateParameterFromDeviceToPlot = (plotId: string, deviceId: string, newValue: ParameterToPlotState) => {
     return (dispatch:AppDispatch) => {
         dispatch(updateParameter({
             plotId, deviceId, newValue

@@ -1,5 +1,5 @@
 import {
-    addParameterToDeviceToPlot, ParameterToPlot, PlotToPlot as PlotConfigurationData,
+    addParameterToDeviceToPlot, ParameterToPlotState, PlotToPlotState as PlotConfigurationData,
     removeDeviceFromPlot, removeParameterFromDeviceToPlot, updateParameterFromDeviceToPlot
 } from "../../reducers/plotConfigurationsReducer.ts";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
@@ -110,7 +110,7 @@ export function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotC
     )
 }
 
-function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterToPlot, device:DeviceData|undefined, plotId:string|undefined}) {
+function ParameterConfiguration({parameter, device, plotId}:{parameter:ParameterToPlotState, device:DeviceData|undefined, plotId:string|undefined}) {
     const deviceId = device?.id
     const dispatch = useAppDispatch()
     const [colorError, setColorError] = useState("")
