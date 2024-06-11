@@ -14,7 +14,8 @@ export interface DeviceToPlotState {
 export interface PlotConfigurationState {
     id: string,
     current: Array<DeviceToPlotState>, // state of configuration, edit mode
-    loaded: Array<DeviceToPlotState> // last loaded configuration
+    loaded: Array<DeviceToPlotState>, // last loaded configuration
+    modified?: boolean
 }
 
 interface AddParameterProps {
@@ -55,6 +56,7 @@ const plotsSlice = createSlice({
             state.map((plot) => {
                 if (plot.id == plotId) {
                     plot.current.push(deviceToPlot)
+                    plot.modified = true
                 }
             })
         },
@@ -63,6 +65,7 @@ const plotsSlice = createSlice({
             const plot = state.find((plot) => plot.id == plotId)
             if (plot) {
                 plot.current = plot.current.filter((device) => device.device != deviceId)
+                plot.modified = true
             }
         },
         addParameter: {
@@ -77,6 +80,7 @@ const plotsSlice = createSlice({
                     return
                 }
                 device.parameters.push(parameter)
+                plot.modified = true
             },
             prepare: (plotId: string, deviceId: string, parameter: string|undefined, hexColor: string) => {
                 const id = nanoid()
@@ -94,6 +98,7 @@ const plotsSlice = createSlice({
                 return
             }
             device.parameters = device.parameters.map((parameter) => parameter.id != newValue.id ? parameter : newValue)
+            plot.modified = true
         },
         removeParameter: (state, action) => {
             const {plotId, deviceId, parameterId} = action.payload
@@ -106,6 +111,7 @@ const plotsSlice = createSlice({
                 return
             }
             device.parameters = device.parameters.filter((parameter) => parameter.id != parameterId)
+            plot.modified = true
         },
         confirmPlot: (state, action: PayloadAction<{plotId: string}>) => {
             const { plotId } = action.payload
@@ -115,6 +121,7 @@ const plotsSlice = createSlice({
             }
             const current = plot.current
             plot.loaded = [...current]
+            plot.modified = false
         },
         revertPlot: (state, action) => {
             const { plotId } = action.payload
@@ -122,8 +129,9 @@ const plotsSlice = createSlice({
             if (!plot) {
                 return
             }
-            const loaded = plot.current
+            const loaded = plot.loaded
             plot.current = [...loaded]
+            plot.modified = false
         }
     }
 })
