@@ -16,9 +16,9 @@ const get = async (deviceId:string, parameters:string[], dateTimeFrom:string, da
   const parametersToPlot = parameters.join(",")
 
   const params = {
-    date_time_from: dateTimeFrom,
-    date_time_to: dateTimeTo,
-    device_id: deviceId,
+    time_from: dateTimeFrom,
+    time_to: dateTimeTo,
+    device: deviceId,
     parameters: parametersToPlot
   }
 

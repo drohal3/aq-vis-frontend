@@ -21,3 +21,5 @@
           TODO: load data in reducer: https://redux-toolkit.js.org/api/createSlice#the-reducers-creator-callback-notation
 2024-05-14: 8h - measurement page
 2024-05-16: 6h - plot configuration (layout, components, theme, etc.)
+2024-06-??: 16h - design chart, try and error playing with rechats library
+2026-06-10: 7h - refactoring measurements

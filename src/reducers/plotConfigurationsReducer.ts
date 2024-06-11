@@ -11,9 +11,10 @@ export interface DeviceToPlot {
     parameters: Array<ParameterConfig>
 }
 
-export interface Plot {
-    id: string
-    devices: Array<DeviceToPlot>
+export interface PlotConfiguration {
+    id: string,
+    current: Array<DeviceToPlot>, // state of configuration, edit mode
+    loaded: Array<DeviceToPlot> // last loaded configuration
 }
 
 export interface ParameterConfig {
@@ -33,19 +34,19 @@ interface AddParameterProps {
 //     measurements: []
 // }
 
-const initialState = Array<Plot>()
+const initialState = Array<PlotConfiguration>()
 
 const plotsSlice = createSlice({
     name: "measurements",
     initialState,
     reducers: {
         add: {
-            reducer: (state, action: PayloadAction<Plot>) => {
+            reducer: (state, action: PayloadAction<PlotConfiguration>) => {
                 return [...state, action.payload]
             },
             prepare: (measurements: Array<DeviceToPlot>) => {
                 const id = nanoid()
-                return { payload: { id, devices: measurements } }
+                return { payload: { id, current: measurements, loaded: [] } }
             }
         },
         remove: (state, action) => {
@@ -59,7 +60,7 @@ const plotsSlice = createSlice({
             const { plotId, deviceToPlot } = action.payload
             state.map((plot) => {
                 if (plot.id == plotId) {
-                    plot.devices.push(deviceToPlot)
+                    plot.current.push(deviceToPlot)
                 }
             })
         },
@@ -67,7 +68,7 @@ const plotsSlice = createSlice({
             const {plotId, deviceId} = action.payload
             const plot = state.find((plot) => plot.id == plotId)
             if (plot) {
-                plot.devices = plot.devices.filter((device) => device.device != deviceId)
+                plot.current = plot.current.filter((device) => device.device != deviceId)
             }
         },
         addParameter: {
@@ -77,7 +78,7 @@ const plotsSlice = createSlice({
                 if (!plot) {
                     return
                 }
-                const device = plot.devices.find((device) => device.device == deviceId)
+                const device = plot.current.find((device) => device.device == deviceId)
                 if (!device) {
                     return
                 }
@@ -94,7 +95,7 @@ const plotsSlice = createSlice({
             if (!plot) {
                 return
             }
-            const device = plot.devices.find((device) => device.device == deviceId)
+            const device = plot.current.find((device) => device.device == deviceId)
             if (!device) {
                 return
             }
@@ -106,12 +107,20 @@ const plotsSlice = createSlice({
             if (!plot) {
                 return
             }
-            const device = plot.devices.find((device) => device.device == deviceId)
+            const device = plot.current.find((device) => device.device == deviceId)
             if (!device) {
                 return
             }
             device.parameters = device.parameters.filter((parameter) => parameter.id != parameterId)
-        }
+        },
+        // confirm: (state) => {
+        //     const current = state.current
+        //     state.loaded = {...current}
+        // },
+        // revert: (state) => {
+        //     const loaded = state.loaded
+        //     state.current = {...loaded}
+        // }
     }
 })
 
@@ -126,11 +135,11 @@ export const {
     updateParameter
 } = plotsSlice.actions;
 
-export const resetPlots = () => {
-    return (dispatch:AppDispatch) => {
-        dispatch(reset())
-    }
-}
+// export const resetPlots = () => {
+//     return (dispatch:AppDispatch) => {
+//         dispatch(reset())
+//     }
+// }
 
 export const addPlot = (measurements: Array<DeviceToPlot> = []) => {
     console.log("adding plot (addPlot)", measurements)
