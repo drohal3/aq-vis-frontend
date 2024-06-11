@@ -1,5 +1,5 @@
 import {
-    addParameterToDeviceToPlot, ParameterToPlotState, PlotToPlotState as PlotConfigurationData,
+    addParameterToDeviceToPlot, ParameterToPlotState, PlotConfigurationState as PlotConfigurationData,
     removeDeviceFromPlot, removeParameterFromDeviceToPlot, updateParameterFromDeviceToPlot
 } from "../../reducers/plotConfigurationsReducer.ts";
 import {DeviceData} from "../../reducers/devicesReducer.ts";

@@ -1,6 +1,6 @@
 import {
     addDeviceToPlot,
-    PlotToPlotState,
+    PlotConfigurationState,
 } from "../../reducers/plotConfigurationsReducer.ts";
 import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import Typography from "@mui/material/Typography";
@@ -44,7 +44,7 @@ import {AddDeviceDialog, DeviceConfiguration} from "./PlotConfiguration.tsx";
 
 
 interface PlotProps {
-    plot: PlotToPlotState,
+    plotConfiguration: PlotConfigurationState,
     devices: Array<DeviceData>,
     onRemoveClick: (plotId: string) => void,
     dateTimeFrom: string,
@@ -52,7 +52,7 @@ interface PlotProps {
 }
 
 function Plot(props: PlotProps) {
-    const {plot, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
+    const {plotConfiguration, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
 
     console.log("props", props)
 
@@ -65,10 +65,10 @@ function Plot(props: PlotProps) {
     const [plotDebug, setPlotDebug] = useState("")
 
     const dispatch = useAppDispatch()
-    const loadedPlotData = usePlotData(plot.id)
-    console.log("====> plot", plot)
-    const devicesToPlot = plot.current
-    const selectedDevices = plot.current.map((device) => device.device)
+    const loadedPlotData = usePlotData(plotConfiguration.id)
+    console.log("====> plot", plotConfiguration)
+    const devicesToPlot = plotConfiguration.current
+    const selectedDevices = plotConfiguration.current.map((device) => device.device)
 
     const submitAddDevice = (plotId: string, deviceId: string) => {
         dispatch(addDeviceToPlot(plotId, {device: deviceId, parameters: []}))
@@ -86,19 +86,19 @@ function Plot(props: PlotProps) {
     const loadedPlotDataDebug = loadedPlotData ? JSON.stringify(loadedPlotData) : "Not loaded."
 
     const loadPlotData = async () => {
-        setPlotDebug(JSON.stringify(plot))
+        setPlotDebug(JSON.stringify(plotConfiguration))
         for (const deviceToPlot of devicesToPlot) {
             const deviceId = deviceById(deviceToPlot.device)?.code ?? ""
             const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
             const loadedData = await measurementService.get(deviceId, parameters, dateTimeFrom, dateTimeTo, auth)
-            dispatch(addLoadedPlotDeviceData(plot.id, deviceId, loadedData))
+            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceId, loadedData))
         }
         // const loadedData = measurementService.get("0", dateTimeFrom, dateTimeTo, auth)
     }
 
-    const deviceConfig = plot.current && plot.current?.length > 0 ? plot.current?.map((device) => (
+    const deviceConfig = plotConfiguration.current && plotConfiguration.current?.length > 0 ? plotConfiguration.current?.map((device) => (
         <Box key={device.device}>
-            <DeviceConfiguration device={deviceById(device.device)} plot={plot} />
+            <DeviceConfiguration device={deviceById(device.device)} plot={plotConfiguration} />
         </Box>
     )) : (<Alert severity="info">No device added!</Alert>)
 
@@ -170,7 +170,7 @@ function Plot(props: PlotProps) {
                     divider={<Divider orientation="vertical" flexItem sx={{p:1}} />}
                 >
                     <Typography>
-                        Plot #{plot.id}
+                        Plot #{plotConfiguration.id}
                     </Typography>
                     <Button
                         startIcon={<TuneIcon/>}
@@ -182,7 +182,7 @@ function Plot(props: PlotProps) {
                 </Stack>
 
                 <Button
-                    onClick={() => onRemoveClick(plot.id)}
+                    onClick={() => onRemoveClick(plotConfiguration.id)}
                     startIcon={<DeleteIcon />}
                     variant="contained"
                     disableElevation
@@ -193,7 +193,7 @@ function Plot(props: PlotProps) {
             <Box sx={{p:2, backgroundColor: theme.palette.primary.light}}>
                 {deviceConfig}
                 <Stack direction="row" spacing={2}>
-                    <AddDeviceDialog confirmAction={submitAddDevice} plot={plot} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
+                    <AddDeviceDialog confirmAction={submitAddDevice} plot={plotConfiguration} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
                     <Button
                         variant="contained"
                         onClick={loadPlotData}

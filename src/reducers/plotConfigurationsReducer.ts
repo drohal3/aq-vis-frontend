@@ -11,7 +11,7 @@ export interface DeviceToPlotState {
     parameters: Array<ParameterToPlotState>
 }
 
-export interface PlotToPlotState {
+export interface PlotConfigurationState {
     id: string,
     current: Array<DeviceToPlotState>, // state of configuration, edit mode
     loaded: Array<DeviceToPlotState> // last loaded configuration
@@ -28,14 +28,14 @@ interface AddParameterProps {
 //     measurements: []
 // }
 
-const initialState = Array<PlotToPlotState>()
+const initialState = Array<PlotConfigurationState>()
 
 const plotsSlice = createSlice({
     name: "measurements",
     initialState,
     reducers: {
         add: {
-            reducer: (state, action: PayloadAction<PlotToPlotState>) => {
+            reducer: (state, action: PayloadAction<PlotConfigurationState>) => {
                 return [...state, action.payload]
             },
             prepare: (measurements: Array<DeviceToPlotState>) => {

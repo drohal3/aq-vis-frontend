@@ -2,17 +2,15 @@ import {ChangeEvent, useState} from "react";
 // import {useAuthData} from "../hooks/useAuthHook";
 import deviceService from "../services/devices"
 import AppLayout from "../components/AppLayout.tsx";
-import Typography from "@mui/material/Typography";
 
 // import measurementsService from "../services/measurements"
 
 // import PlotForm from "../components/measurements/PlotForm.tsx";
 import Divider from '@mui/material/Divider';
-import Box from "@mui/material/Box";
 import {useEffect} from "react";
 import {setDevices} from "../reducers/devicesReducer.ts";
 import {useAuthData} from "../hooks/useAuthHook.ts";
-import {usePlotsData} from "../hooks/usePlotsHook.ts";
+import {usePlotsConfigurationState} from "../hooks/usePlotsHook.ts";
 import {useAppDispatch} from "../hooks/hooks.ts";
 import {useDevicesData} from "../hooks/useDevicesDataHook.ts";
 import Button from "@mui/material/Button";
@@ -30,8 +28,8 @@ function Measurements(){
   const dispatch = useAppDispatch()
   const devices = useDevicesData()
   const auth = useAuthData()
-  const plotsData = usePlotsData()
-  console.log("plots data", plotsData)
+  const plotConfiguration = usePlotsConfigurationState()
+  console.log("plots data", plotConfiguration)
 
   useEffect(() => {
     const loadDevices = async () => {
@@ -85,11 +83,11 @@ function Measurements(){
       </Grid>
       <Divider sx={{m:2}}/>
 
-      {plotsData.map((plot) => (
+      {plotConfiguration.map((plot) => (
           <div key={plot.id}>
             <Plot
                 key={plot.id}
-                plot={plot}
+                plotConfiguration={plot}
                 onRemoveClick={() => removePlotClick(plot.id)}
                 devices={devices}
                 dateTimeFrom={dateTimeFrom}
