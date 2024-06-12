@@ -1,8 +1,8 @@
 import {
-    addDeviceToPlot, confirmPlotToPlot, DeviceToPlotState, ParameterToPlotState,
+    addDeviceToPlot, confirmPlotToPlot,
     PlotConfigurationState, revertPlotToPlot,
 } from "../../reducers/plotConfigurationsReducer.ts";
-import {addLoadedPlotDeviceData, LoadedDeviceDataState} from "../../reducers/plotDataReducer.ts";
+import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
@@ -46,14 +46,11 @@ function Plot(props: PlotProps) {
     const auth = useAuthData()
     const theme = useTheme()
     const [_addDeviceValue, setAddDeviceValue] = useState("")
-    const [plotDebug, setPlotDebug] = useState("")
 
     const dispatch = useAppDispatch()
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
-    console.log("====> plotConfiguration", plotConfiguration)
-    console.log("====> ---> plot data", loadedPlotData)
     const selectedDevices = plotConfiguration.current.map((device) => device.deviceCode)
 
     const submitAddDevice = (plotId: string, deviceId: string) => {
@@ -65,18 +62,11 @@ function Plot(props: PlotProps) {
     //     dispatch(removeDeviceFromPlot(plotId, deviceId))
     // }
 
-    const deviceById = (deviceId: string):DeviceData|undefined => {
-        return devices.find((device) => device.id == deviceId)
-    }
-
     const deviceByCode = (deviceCode: string):DeviceData|undefined => {
         return devices.find((device) => device.code == deviceCode)
     }
 
-    const loadedPlotDataDebug = loadedPlotData ? JSON.stringify(loadedPlotData) : "Not loaded."
-
     const loadPlotData = async () => {
-        setPlotDebug(JSON.stringify(plotConfiguration))
         for (const deviceToPlot of plotConfiguration.current) {
             const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
             const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
@@ -93,26 +83,42 @@ function Plot(props: PlotProps) {
     )) : (<Alert severity="info">No device added!</Alert>)
 
 
-    // const plotLines = plotConfiguration.loaded.map((deviceConfiguration:DeviceToPlotState) => {
-    //         const deviceId = deviceConfiguration.device
-    //
-    //         const deviceDataIndex = loadedPlotData?.deviceData.findIndex((d)=>d.deviceId == deviceId)
-    //
-    //         return deviceConfiguration.parameters.map((parameter:ParameterToPlotState) => {
-    //
-    //         })
-    //
-    //
-    //     }
-    // )
-
-
-
     const revertConfig = () => {
         dispatch(revertPlotToPlot(plotConfiguration.id))
     }
 
     // TODO: plot lines
+    interface ParameterLine {
+        color:string,
+        parameter:string,
+        dataIndex:number
+    }
+
+    const plotLinesData = plotConfiguration.loaded.reduce((acc, cur) => {
+        const deviceCode = cur.deviceCode
+        if (loadedPlotData == undefined) {
+            return acc
+        }
+        const loadedDataIndex = loadedPlotData.deviceData.findIndex(d => d.deviceCode == deviceCode)
+
+        if (loadedDataIndex == undefined) {
+            return acc
+        }
+
+        const parameterLines = cur.parameters.map((parameter) => {
+            if (parameter.parameter == undefined) {
+                return
+            }
+            return {
+                color:parameter.hexColor,
+                parameter:parameter.parameter,
+                dataIndex:loadedDataIndex
+            }
+        })
+
+        return [...acc, ...parameterLines]
+
+    }, Array<ParameterLine|undefined>()).filter(p=>p != undefined)
 
     const revertMessage = (plotConfiguration.modified && plotConfiguration.loaded.length > 0) ? (
         <Box alignContent="center">
@@ -196,14 +202,6 @@ function Plot(props: PlotProps) {
                 </Stack>
             </Box>
             <Box sx={{p:10}}>
-                <Typography variant="h1">Plot will be here!</Typography>
-                <Box sx={{backgroundColor: "yellow"}}>
-                    <Typography>Debug: </Typography>
-                    {loadedPlotDataDebug}
-                </Box>
-
-                <Typography>{plotDebug}</Typography>
-
                 <ResponsiveContainer width='100%' aspect={4.0/1.5}>
                     <LineChart
                         width={1000}
@@ -213,7 +211,21 @@ function Plot(props: PlotProps) {
                         <YAxis type="number" />
                         <Tooltip />
                         <Legend />
-                    {/*    TODO: plot lines*/}
+                        {
+                            plotLinesData.map((line)=>line && (
+                                <Line
+                                    key={line.parameter}
+                                    type="monotone"
+                                    data={loadedPlotData?.deviceData[0].data}
+                                    dataKey={line.parameter}
+                                    name={line.parameter}
+                                    stroke={line.color}
+                                    strokeWidth={2}
+                                    activeDot={{ r: 5 }}
+                                    dot={false}
+                                />
+                            ))
+                        }
                     </LineChart>
                 </ResponsiveContainer>
 

@@ -179,10 +179,10 @@ export const addDeviceToPlot = (plotId: string, deviceToPlot:DeviceToPlotState) 
     }
 }
 
-export const removeDeviceFromPlot = (plotId: string, plotCode: string) => {
+export const removeDeviceFromPlot = (plotId: string, deviceCode: string) => {
     return (dispatch:AppDispatch) => {
         dispatch(removeDevice({
-            plotId, plotCode
+            plotId, deviceCode
         }))
     }
 }
