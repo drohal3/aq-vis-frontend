@@ -154,7 +154,7 @@ function ParameterConfiguration({parameter, device, plotId}:{parameter:Parameter
     return (
         <Box>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 12, sm: 2, md: 3 }}>
-                <Grid item xs={12} md={3} lg={2}>
+                <Grid item xs={12} md={4} lg={3}>
                     <FormControl fullWidth size="small">
                         <InputLabel>Parameter</InputLabel>
                         <Select
@@ -173,7 +173,7 @@ function ParameterConfiguration({parameter, device, plotId}:{parameter:Parameter
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} md={2} lg={1} justifyContent="center">
+                <Grid item xs={12} md={3} lg={2} justifyContent="center">
                     <FormControl error variant="outlined">
                         <TextField
                             value={parameter.hexColor ?? ""}
