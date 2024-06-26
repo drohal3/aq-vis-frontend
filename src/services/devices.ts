@@ -11,10 +11,9 @@ const setToken = (token:string|null) => {
 
 const get = async (auth:AuthData) => {
   setToken(auth.token)
-  const params = {
-    organisation_id: auth.currentUser?.organisation
-  }
-  const response = await api.get('/devices', {params})
+  const organisation_id = auth.currentUser?.organisation
+
+  const response = await api.get(`/organisations/${organisation_id}/devices`)
   return response.data
 }
 
