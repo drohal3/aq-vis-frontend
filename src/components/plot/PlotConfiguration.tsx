@@ -1,6 +1,12 @@
 import {
-    addParameterToDeviceToPlot, ParameterToPlotState, PlotConfigurationState as PlotConfigurationData,
-    removeDeviceFromPlot, removeParameterFromDeviceToPlot, updateParameterFromDeviceToPlot
+    addDeviceToPlot,
+    addParameterToDeviceToPlot,
+    ParameterToPlotState,
+    PlotConfigurationState,
+    PlotConfigurationState as PlotConfigurationData,
+    removeDeviceFromPlot,
+    removeParameterFromDeviceToPlot, revertPlotToPlot,
+    updateParameterFromDeviceToPlot
 } from "../../reducers/plotConfigurationsReducer.ts";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
 import {ChangeEvent, Fragment, useState} from "react";
@@ -27,7 +33,7 @@ import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-
+import UndoIcon from "@mui/icons-material/Undo";
 
 export function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotConfigurationData,devicesToAdd:DeviceData[], confirmAction: (plotId: string, deviceId: string) => void}) {
     // https://mui.com/material-ui/react-dialog/
@@ -269,10 +275,69 @@ export function DeviceConfiguration({device, plot}:{device:DeviceData | undefine
     )
 }
 
-// function PlotConfiguration() {
-//       return (
-//           <>
-//
-//           </>
-//       )
-// }
+export default function PlotConfiguration({plotConfiguration, devices, loadPlotData}:{plotConfiguration:PlotConfigurationState, devices: Array<DeviceData>, loadPlotData:()=>void}){
+    const dispatch = useAppDispatch()
+    const theme = useTheme()
+
+    const selectedDevices = plotConfiguration.current.map((device) => device.deviceCode)
+    console.log("PlotConfiguration - devices: ", devices)
+    console.log("PlotConfiguration - selectedDevices: ", selectedDevices)
+    const devicesToAdd = devices.filter((device) => !selectedDevices.includes(device.code ? device.code : ""))
+    console.log("PlotConfiguration - devicesToAdd: ", devicesToAdd)
+    const revertConfig = () => {
+        dispatch(revertPlotToPlot(plotConfiguration.id))
+    }
+
+    const deviceByCode = (deviceCode: string):DeviceData|undefined => {
+        return devices.find((device) => device.code == deviceCode)
+    }
+
+    const submitAddDevice = (plotId: string, deviceId: string) => {
+        dispatch(addDeviceToPlot(plotId, {deviceCode: deviceId, parameters: []}))
+    }
+
+    const deviceConfig = plotConfiguration.current && plotConfiguration.current?.length > 0 ? plotConfiguration.current?.map((device) => (
+        <Box key={device.deviceCode}>
+            <DeviceConfiguration device={deviceByCode(device.deviceCode)} plot={plotConfiguration} />
+        </Box>
+    )) : (<Alert severity="info">No device added!</Alert>)
+
+    const revertMessage = (plotConfiguration.modified && plotConfiguration.loaded.length > 0) ? (
+        <Box alignContent="center">
+            <Alert
+                severity="info"
+                action={
+                    <Button
+                        startIcon={<UndoIcon/>}
+                        color="inherit"
+                        size="medium"
+                        onClick={revertConfig}
+                    >
+                        UNDO
+                    </Button>
+                }
+            >
+                This plot configuration has been modified.
+            </Alert>
+        </Box>
+    ) : null
+
+    console.log("PlotConfiguration - plotConfiguration data: ", plotConfiguration)
+    return (
+        <Box sx={{p:2}}>
+            {revertMessage}
+            {deviceConfig}
+            <Box sx={{p:2, backgroundColor: theme.palette.primary.light}}>
+                <Stack direction="row" spacing={2}>
+                    <AddDeviceDialog confirmAction={submitAddDevice} plot={plotConfiguration} devicesToAdd={devicesToAdd} />
+                    <Button
+                        variant="contained"
+                        onClick={loadPlotData}
+                    >
+                        Plot
+                    </Button>
+                </Stack>
+            </Box>
+        </Box>
+    )
+}

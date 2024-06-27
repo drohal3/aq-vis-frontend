@@ -1,6 +1,6 @@
 import {
-    addDeviceToPlot, confirmPlotToPlot,
-    PlotConfigurationState, revertPlotToPlot,
+    confirmPlotToPlot,
+    PlotConfigurationState,
 } from "../../reducers/plotConfigurationsReducer.ts";
 import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import Typography from "@mui/material/Typography";
@@ -9,7 +9,6 @@ import {DeviceData} from "../../reducers/devicesReducer.ts";
 import Box from "@mui/material/Box";
 import {useAppDispatch} from "../../hooks/hooks.ts";
 import {
-    Alert,
     Divider,
     Stack
 } from "@mui/material";
@@ -21,8 +20,7 @@ import {useAuthData} from "../../hooks/useAuthHook.ts";
 import measurementService from "../../services/measurements.ts"
 import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {usePlotData} from "../../hooks/usePlotDataHook.ts";
-import {AddDeviceDialog, DeviceConfiguration} from "./PlotConfiguration.tsx";
-import UndoIcon from '@mui/icons-material/Undo';
+import PlotConfiguration from "./PlotConfiguration.tsx";
 
 /* TODO:
 *
@@ -45,26 +43,15 @@ function Plot(props: PlotProps) {
     const {plotConfiguration, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
     const auth = useAuthData()
     const theme = useTheme()
-    const [_addDeviceValue, setAddDeviceValue] = useState("")
+    const [configurationOpen, setConfigurationOpen] = useState(true)
 
     const dispatch = useAppDispatch()
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
-    const selectedDevices = plotConfiguration.current.map((device) => device.deviceCode)
-
-    const submitAddDevice = (plotId: string, deviceId: string) => {
-        dispatch(addDeviceToPlot(plotId, {deviceCode: deviceId, parameters: []}))
-        setAddDeviceValue("")
-    }
-
     // const clickRemoveDevice = (plotId: string, deviceId: string) => {
     //     dispatch(removeDeviceFromPlot(plotId, deviceId))
     // }
-
-    const deviceByCode = (deviceCode: string):DeviceData|undefined => {
-        return devices.find((device) => device.code == deviceCode)
-    }
 
     const loadPlotData = async () => {
         for (const deviceToPlot of plotConfiguration.current) {
@@ -74,17 +61,6 @@ function Plot(props: PlotProps) {
         }
         dispatch(confirmPlotToPlot(plotConfiguration.id))
         // const loadedData = measurementService.get("0", dateTimeFrom, dateTimeTo, auth)
-    }
-
-    const deviceConfig = plotConfiguration.current && plotConfiguration.current?.length > 0 ? plotConfiguration.current?.map((device) => (
-        <Box key={device.deviceCode}>
-            <DeviceConfiguration device={deviceByCode(device.deviceCode)} plot={plotConfiguration} />
-        </Box>
-    )) : (<Alert severity="info">No device added!</Alert>)
-
-
-    const revertConfig = () => {
-        dispatch(revertPlotToPlot(plotConfiguration.id))
     }
 
     // TODO: plot lines
@@ -120,25 +96,14 @@ function Plot(props: PlotProps) {
 
     }, Array<ParameterLine|undefined>()).filter(p=>p != undefined)
 
-    const revertMessage = (plotConfiguration.modified && plotConfiguration.loaded.length > 0) ? (
-        <Box alignContent="center">
-            <Alert
-                severity="info"
-                action={
-                    <Button
-                        startIcon={<UndoIcon/>}
-                        color="inherit"
-                        size="medium"
-                        onClick={revertConfig}
-                    >
-                        UNDO
-                    </Button>
-                }
-            >
-                This plot configuration has been modified.
-            </Alert>
-        </Box>
-    ) : null
+
+    const plotConfigurationBlock = configurationOpen && (
+            <Box sx={{backgroundColor: theme.palette.primary.light}}>
+                <PlotConfiguration plotConfiguration={plotConfiguration} devices={devices} loadPlotData={loadPlotData}/>
+            </Box>
+    )
+
+
 
     return (
         <Box
@@ -173,6 +138,7 @@ function Plot(props: PlotProps) {
                         startIcon={<TuneIcon/>}
                         variant="contained"
                         disableElevation
+                        onClick={() => setConfigurationOpen(!configurationOpen)}
                     >
                         Configure plot
                     </Button>
@@ -188,19 +154,8 @@ function Plot(props: PlotProps) {
                 </Button>
             </Stack>
 
-            <Box sx={{p:2, backgroundColor: theme.palette.primary.light}}>
-                {revertMessage}
-                {deviceConfig}
-                <Stack direction="row" spacing={2}>
-                    <AddDeviceDialog confirmAction={submitAddDevice} plot={plotConfiguration} devicesToAdd={devices.filter((device) => !selectedDevices.includes(device.id ? device.id : ""))} />
-                    <Button
-                        variant="contained"
-                        onClick={loadPlotData}
-                    >
-                        Plot
-                    </Button>
-                </Stack>
-            </Box>
+            {plotConfigurationBlock}
+
             <Box sx={{p:10}}>
                 <ResponsiveContainer width='100%' aspect={4.0/1.5}>
                     <LineChart
