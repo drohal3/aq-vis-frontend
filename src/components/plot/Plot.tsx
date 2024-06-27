@@ -22,15 +22,6 @@ import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} fro
 import {usePlotData} from "../../hooks/usePlotDataHook.ts";
 import PlotConfiguration from "./PlotConfiguration.tsx";
 
-/* TODO:
-*
-*  Plot
-*   - PlotConfiguration
-*       - PlotConfigurationDevice
-*   - PlotChart
-*
-* */
-
 interface PlotProps {
     plotConfiguration: PlotConfigurationState,
     devices: Array<DeviceData>,
@@ -49,10 +40,6 @@ function Plot(props: PlotProps) {
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
-    // const clickRemoveDevice = (plotId: string, deviceId: string) => {
-    //     dispatch(removeDeviceFromPlot(plotId, deviceId))
-    // }
-
     const loadPlotData = async () => {
         for (const deviceToPlot of plotConfiguration.current) {
             const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
@@ -60,7 +47,7 @@ function Plot(props: PlotProps) {
             dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
         }
         dispatch(confirmPlotToPlot(plotConfiguration.id))
-        // const loadedData = measurementService.get("0", dateTimeFrom, dateTimeTo, auth)
+        setConfigurationOpen(false)
     }
 
     // TODO: plot lines
