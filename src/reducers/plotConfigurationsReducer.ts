@@ -9,6 +9,7 @@ export interface ParameterToPlotState {
 export interface DeviceToPlotState {
     deviceCode: string,
     parameters: Array<ParameterToPlotState>
+    //  date from / date to individually for each plot in the future?
 }
 
 export interface PlotConfigurationState {
