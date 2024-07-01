@@ -22,6 +22,7 @@ import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
 import {useAuthData} from "../../hooks/useAuthHook.ts";
 import {timeStringValid} from "../../utils/validators.ts";
+import {addNotification} from "../../utils/notifications.ts";
 
 interface PlotProps {
     plotConfiguration: PlotConfigurationState,
@@ -72,13 +73,18 @@ function Plot(props: PlotProps) {
     }
 
     const loadPlotData = async (dateTimeFrom: string, dateTimeTo: string) => {
-        for (const deviceToPlot of plotConfiguration.current) {
-            const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
-            const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
-            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
-            setConfigurationOpen(false)
+        try {
+            for (const deviceToPlot of plotConfiguration.current) {
+                const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
+                const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
+                dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
+                setConfigurationOpen(false)
+            }
+            dispatch(confirmPlotToPlot(plotConfiguration.id))
+        } catch (e) {
+            addNotification(dispatch, "Something went wrong!", "error", 2000)
         }
-        dispatch(confirmPlotToPlot(plotConfiguration.id))
+
     }
 
     interface ParameterLine {
