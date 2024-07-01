@@ -1,6 +1,6 @@
 import {
     addDeviceToPlot,
-    addParameterToDeviceToPlot, confirmPlotToPlot,
+    addParameterToDeviceToPlot,
     ParameterToPlotState,
     PlotConfigurationState,
     PlotConfigurationState as PlotConfigurationData,
@@ -34,9 +34,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import UndoIcon from "@mui/icons-material/Undo";
-import measurementService from "../../services/measurements.ts";
-import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
-import {useAuthData} from "../../hooks/useAuthHook.ts";
 
 export function AddDeviceDialog({plot, devicesToAdd, confirmAction}:{plot: PlotConfigurationData,devicesToAdd:DeviceData[], confirmAction: (plotId: string, deviceId: string) => void}) {
     // https://mui.com/material-ui/react-dialog/
@@ -278,9 +275,8 @@ export function DeviceConfiguration({device, plot}:{device:DeviceData | undefine
     )
 }
 
-export default function PlotConfiguration({plotConfiguration, devices, dateTimeFrom, dateTimeTo, onLoadData}:{plotConfiguration:PlotConfigurationState, devices: Array<DeviceData>, dateTimeFrom:string, dateTimeTo:string, onLoadData: () => void}){
+export default function PlotConfiguration({plotConfiguration, devices, dateTimeFrom, dateTimeTo, loadData}:{plotConfiguration:PlotConfigurationState, devices: Array<DeviceData>, dateTimeFrom:string, dateTimeTo:string, loadData: (dateTimeFrom: string, dateTimeTo: string) => Promise<void>}){
     const dispatch = useAppDispatch()
-    const auth = useAuthData()
     const theme = useTheme()
 
     const selectedDevices = plotConfiguration.current.map((device) => device.deviceCode)
@@ -289,14 +285,8 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
     const devicesToAdd = devices.filter((device) => !selectedDevices.includes(device.code ? device.code : ""))
     console.log("PlotConfiguration - devicesToAdd: ", devicesToAdd)
 
-    const loadPlotData = async () => {
-        for (const deviceToPlot of plotConfiguration.current) {
-            const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
-            const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
-            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
-            onLoadData()
-        }
-        dispatch(confirmPlotToPlot(plotConfiguration.id))
+    const onLoadPlotDataClick = async () => {
+        loadData(dateTimeFrom, dateTimeTo)
     }
     const revertConfig = () => {
         dispatch(revertPlotToPlot(plotConfiguration.id))
@@ -346,7 +336,7 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
                     <AddDeviceDialog confirmAction={submitAddDevice} plot={plotConfiguration} devicesToAdd={devicesToAdd} />
                     <Button
                         variant="contained"
-                        onClick={loadPlotData}
+                        onClick={onLoadPlotDataClick}
                     >
                         Plot
                     </Button>

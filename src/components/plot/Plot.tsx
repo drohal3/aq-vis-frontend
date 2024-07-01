@@ -1,4 +1,5 @@
 import {
+    confirmPlotToPlot,
     PlotConfigurationState,
 } from "../../reducers/plotConfigurationsReducer.ts";
 import Typography from "@mui/material/Typography";
@@ -16,6 +17,10 @@ import {useState} from "react";
 import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {usePlotData} from "../../hooks/usePlotDataHook.ts";
 import PlotConfiguration from "./PlotConfiguration.tsx";
+import measurementService from "../../services/measurements.ts";
+import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
+import {useAppDispatch} from "../../hooks/hooks.ts";
+import {useAuthData} from "../../hooks/useAuthHook.ts";
 
 interface PlotProps {
     plotConfiguration: PlotConfigurationState,
@@ -27,11 +32,23 @@ interface PlotProps {
 
 function Plot(props: PlotProps) {
     const {plotConfiguration, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
+    const dispatch = useAppDispatch()
+    const auth = useAuthData()
     const theme = useTheme()
     const [configurationOpen, setConfigurationOpen] = useState(true)
 
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
+
+    const loadPlotData = async (dateTimeFrom: string, dateTimeTo: string) => {
+        for (const deviceToPlot of plotConfiguration.current) {
+            const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
+            const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
+            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
+            setConfigurationOpen(false)
+        }
+        dispatch(confirmPlotToPlot(plotConfiguration.id))
+    }
 
     interface ParameterLine {
         color:string,
@@ -71,7 +88,7 @@ function Plot(props: PlotProps) {
                 <PlotConfiguration
                     plotConfiguration={plotConfiguration}
                     devices={devices}
-                    onLoadData={() => setConfigurationOpen(false)}
+                    loadData={loadPlotData}
                     dateTimeFrom={dateTimeFrom}
                     dateTimeTo={dateTimeTo}
                 />
