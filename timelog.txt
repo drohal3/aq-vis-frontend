@@ -22,4 +22,5 @@
 2024-05-14: 8h - measurement page
 2024-05-16: 6h - plot configuration (layout, components, theme, etc.)
 2024-06-??: 16h - design chart, try and error playing with rechats library
-2026-06-10: 7h - refactoring measurements
+2024-06-10: 7h - refactoring measurements
+2024-07-  :~14h - refactoring SPAGHETTI into components
