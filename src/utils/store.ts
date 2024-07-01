@@ -6,6 +6,7 @@ import organisationReducer from "../reducers/organisationsReducer.js"
 import unitsReducer from "../reducers/unitsReducer.js";
 import plotsReducer from "../reducers/plotConfigurationsReducer.ts";
 import loadedPlotDataReducer from "../reducers/plotDataReducer.ts";
+import notificationReducer from "../reducers/notificationReducer.ts";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     organisation: organisationReducer,
     units: unitsReducer,
     plots: plotsReducer,
-    plotData: loadedPlotDataReducer
+    plotData: loadedPlotDataReducer,
+    notifications: notificationReducer
   },
 });
 
