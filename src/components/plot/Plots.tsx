@@ -13,6 +13,7 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import {Alert} from "@mui/material";
 
 
 function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromChange, dateTimeToChange}:{dateTimeFrom:string, dateTimeTo:string, dateTimeFromChange: (time:string) => void, dateTimeToChange: (time:string) => void}) {
@@ -81,7 +82,7 @@ function Plots() {
         dispatch(removePlot(plotId))
     }
 
-    const plots = plotConfiguration.map(plot => (
+    const plots = plotConfiguration && plotConfiguration.length > 0 ? plotConfiguration.map(plot => (
         <Box key={plot.id} sx={{my: 1}}>
             <Plot
                 plotConfiguration={plot}
@@ -90,7 +91,11 @@ function Plots() {
                 dateTimeFrom={dateTimeFrom}
                 dateTimeTo={dateTimeTo}/>
         </Box>
-    ))
+    )) : (
+        <Alert
+            severity="info"
+        >No plot added!</Alert>
+    )
 
     const actions = (
         <Button
