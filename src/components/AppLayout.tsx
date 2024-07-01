@@ -19,6 +19,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import logo from '../../public/ideal-aq-logo-white.png'
 import {useNavigate} from "react-router-dom";
+import {ReactNode} from "react";
+import Typography from "@mui/material/Typography";
 
 // TODO: refactor to "parent component"
 
@@ -163,4 +165,24 @@ ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
 };
 
-export default ResponsiveDrawer;
+function AppLayout({children, title}:{children: ReactNode, title?:string}) {
+    const pageTitle = title && (
+        <>
+            <Typography variant="h4" gutterBottom>
+                {title}
+            </Typography>
+            <Divider />
+        </>
+    )
+
+    return (
+        <ResponsiveDrawer>
+            <Box sx={{m:1}}>
+                {pageTitle}
+                {children}
+            </Box>
+        </ResponsiveDrawer>
+    )
+}
+
+export default AppLayout;

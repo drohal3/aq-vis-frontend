@@ -1,4 +1,5 @@
 import api from '../utils/api'
+import {AuthData} from "../reducers/loggedUserReducer.ts";
 
 // const baseUrl = "/measurements";
 
@@ -9,18 +10,22 @@ const setToken = (token:string|null) => {
   });
 }
 
-const get = async (deviceId:string, token = null) => {
-  setToken(token)
+const get = async (deviceId:string, parameters:string[], dateTimeFrom:string, dateTimeTo:string, auth:AuthData) => {
+  setToken(auth.token)
+
+  const parametersToPlot = parameters.join(",")
 
   const params = {
-    date_time_from: "2024-02-09 17:12:21",
-    date_time_to: "2024-02-09 17:12:23",
-    device_id: deviceId,
+    time_from: dateTimeFrom,
+    time_to: dateTimeTo,
+    device: deviceId,
+    parameters: parametersToPlot
   }
 
-  const response = await api.get("/measurements", {params})
+  const timeout = 5000
 
-  console.log(response.data)
+  const response = await api.get("/measurements", {params, timeout})
+  return response.data
 }
 
 export default  {get}

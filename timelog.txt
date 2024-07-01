@@ -5,5 +5,22 @@
 28.02.2024: 5h - Transited from create-react to React + Vite
                - started deployment pipeline, linting and transition to Typescript
                SOURCE: https://react-redux.js.org/using-react-redux/usage-with-typescript
-29.02.2024: xh - rewriting to Typescript
+29.02.2024: 8h - rewriting to Typescript
                - deployment pipeline - deploy to Docker Hub on merge to main branch
+01.03.2024: 5h - optimizing Dockerfile, running all containers from single docker-compose.yml,
+               - searching for possibilities to where/how cost effectively deploy the app
+          SOURCE: https://github.com/aws-samples/docker-ecr-actions-workflow/blob/main/.github/workflows/workflow.yaml
+          SOURCE: https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/build-and-push-docker-images-to-amazon-ecr-using-github-actions-and-terraform.html
+               - researching how to test frontend
+          TASK (TODO:): - mocking backend with cy.intercept
+          SOURCE: https://kailash-pathak.medium.com/mocking-api-response-in-cypress-a73dea514cfd
+2024-05-06: 0h - Devices page - Edit device
+2024-05-08: xh
+          QUESTION: how to write reusable code to retrieve data from backend if not retrieved yet?
+          POSSIBLE ANSWER: https://redux.js.org/tutorials/essentials/part-5-async-logic
+          TODO: load data in reducer: https://redux-toolkit.js.org/api/createSlice#the-reducers-creator-callback-notation
+2024-05-14: 8h - measurement page
+2024-05-16: 6h - plot configuration (layout, components, theme, etc.)
+2024-06-??: 16h - design chart, try and error playing with rechats library
+2024-06-10: 7h - refactoring measurements
+2024-07-  :~14h - refactoring SPAGHETTI into components

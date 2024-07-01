@@ -1,41 +1,39 @@
-// import {useState} from "react";
-// import {useAuthData} from "../hooks/useAuthHook";
+import deviceService from "../services/devices"
 import AppLayout from "../components/AppLayout.tsx";
-import Typography from "@mui/material/Typography";
+import {useEffect} from "react";
+import {setDevices} from "../reducers/devicesReducer.ts";
+import {useAuthData} from "../hooks/useAuthHook.ts";
+import {useAppDispatch} from "../hooks/hooks.ts";
+import {useDevicesData} from "../hooks/useDevicesDataHook.ts";
 
-// import measurementsService from "../services/measurements"
-
-// import PlotForm from "../components/measurements/PlotForm.tsx";
-import Divider from '@mui/material/Divider';
-import Box from "@mui/material/Box";
-
+import Plots from "../components/plot/Plots.tsx";
 
 function Measurements(){
-  // const auth = useAuthData()
-  // const [devices, setDevices] = useState([])
+  const dispatch = useAppDispatch()
+  const devices = useDevicesData()
+  const auth = useAuthData()
 
-  // useEffect( () => {
-  //   const loadMeasurements = async () => await measurementsService.get(0, auth?.token)
-  //   // loadMeasurements()
-  // });
+  useEffect(() => {
+    const loadDevices = async () => {
+      const devices = await deviceService.get(auth)
+      dispatch(setDevices(devices))
+      console.log("loaded devices", devices)
+
+    }
+
+    if (devices.length === 0) {
+      loadDevices()
+    } else {
+      console.log("devices already loaded", devices)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
 
   return (
-    <>
-      <AppLayout>
-        <Box sx={{m:1}}>
-          <Typography variant="h4" gutterBottom>
-            Measurements
-          </Typography>
-          <Divider />
-        </Box>
-
-        {/*<PlotForm devices={devices} setDevices={setDevices}/>*/}
-
-
-      </AppLayout>
-      {/*{devices.map((device, key) => (<p key={key}>{device.name}</p>))}*/}
-    </>
+    <AppLayout title="Measurements">
+      <Plots/>
+    </AppLayout>
   )
 }
 

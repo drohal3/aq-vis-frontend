@@ -1,6 +1,5 @@
 import {useAuthData} from "../../hooks/useAuthHook.js";
 import AppLayout from "../../components/AppLayout.tsx";
-import Typography from "@mui/material/Typography";
 import {useEffect} from "react";
 import deviceService from "../../services/devices"
 import Box from "@mui/material/Box";
@@ -38,10 +37,7 @@ function Devices(){
 
   return (
     <>
-      <AppLayout>
-        <Typography variant="h4" gutterBottom>
-          Devices
-        </Typography>
+      <AppLayout title="Devices">
         <Stack direction="row" spacing={2} sx={{p: 2}}>
           <Button variant="contained" startIcon={<AddIcon />} onClick={() => navigate('/devices/new')}>
             Add Device

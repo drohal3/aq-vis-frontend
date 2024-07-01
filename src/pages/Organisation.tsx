@@ -35,10 +35,7 @@ function Organisation(){
 
   return organisationData ? (
     <>
-      <AppLayout>
-        <Typography variant="h4" gutterBottom>
-          Organisation
-        </Typography>
+      <AppLayout title="Organisation">
         <Typography variant="h5" gutterBottom>
           {organisationData.name}
         </Typography>

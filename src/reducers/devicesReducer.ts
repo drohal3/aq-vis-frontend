@@ -57,9 +57,9 @@ export const addDevice = (device:DeviceData) => {
   }
 }
 
-export const removeDevice = (device_id:string) => {
+export const removeDevice = (deviceId:string) => {
   return (dispatch: AppDispatch) => {
-    dispatch(remove(device_id))
+    dispatch(remove(deviceId))
   }
 }
 

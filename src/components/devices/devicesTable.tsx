@@ -18,9 +18,28 @@ import deviceService from "../../services/devices"
 import {DeviceData, removeDevice} from "../../reducers/devicesReducer.ts";
 import {useAuthData} from "../../hooks/useAuthHook.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import unitsService from "../../services/units"
+import {useUnitsData} from "../../hooks/useUnitsHook.ts";
+import {setUnits} from "../../reducers/unitsReducer.ts";
 
 
 function Row({ device }: {device: DeviceData}) {
+  const units = useUnitsData()
+  useEffect(() => {
+    if (units.length === 0) {
+      const loadUnits = async() => {
+        const loadedUnits = await unitsService.get()
+        console.log(loadedUnits)
+        dispatch(setUnits(loadedUnits))
+      }
+
+      loadUnits()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
   const [open, setOpen] = React.useState(false);
   const dispatch = useAppDispatch()
   const auth = useAuthData()
@@ -29,6 +48,28 @@ function Row({ device }: {device: DeviceData}) {
     await deviceService.remove(auth, device_id)
     dispatch(removeDevice(device_id))
   }
+
+  const getUnitName = (code: string) => {
+    const unit = units.find((unit) => unit.id === code)
+    if (unit && unit.name) {
+      return unit.name
+    }
+
+    return "unknown"
+  }
+
+  const getUnitSymbol = (code: string) => {
+    const unit = units.find((unit) => unit.id === code)
+    if (unit && unit.symbol) {
+      return unit.symbol
+    }
+
+    return "unknown"
+  }
+
+  const navigate = useNavigate();
+
+  console.log(device)
 
   return (
     <React.Fragment>
@@ -47,7 +88,8 @@ function Row({ device }: {device: DeviceData}) {
         </TableCell>
         <TableCell align="left">{device.code}</TableCell>
         <TableCell align="center">
-          <IconButton aria-label="delete" size="medium">
+          <IconButton aria-label="delete" size="medium"
+                      onClick={() => navigate(`/devices/${device.id}/update`)}>
             <EditIcon fontSize="inherit" />
           </IconButton>
           <IconButton aria-label="delete" size="medium"
@@ -79,8 +121,8 @@ function Row({ device }: {device: DeviceData}) {
                         {parameter.name}
                       </TableCell>
                       <TableCell>{parameter.code}</TableCell>
-                      <TableCell>TODO:</TableCell>
-                      <TableCell>TODO:</TableCell>
+                      <TableCell>{getUnitName(parameter.unit)}</TableCell>
+                      <TableCell>{getUnitSymbol(parameter.unit)}</TableCell>
                     </TableRow>
                   ))}
                   {/*{row.history.map((historyRow) => (*/}

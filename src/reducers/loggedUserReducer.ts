@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {AppDispatch} from "../utils/store.ts";
+import { AppDispatch } from "../utils/store.ts";
 
 export interface CurrentUser {
   username: string;
