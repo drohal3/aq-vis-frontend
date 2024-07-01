@@ -17,7 +17,7 @@ import TextField from "@mui/material/TextField";
 
 function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromChange, dateTimeToChange}:{dateTimeFrom:string, dateTimeTo:string, dateTimeFromChange: (time:string) => void, dateTimeToChange: (time:string) => void}) {
     return (
-        <Grid container spacing={2} sx={{marginTop:1}}>
+        <Grid container spacing={2} sx={{mt:1}}>
             <Grid item md={4}>
                 <TextField
                     fullWidth
@@ -82,7 +82,7 @@ function Plots() {
     }
 
     const plots = plotConfiguration.map(plot => (
-        <Box key={plot.id} sx={{marginTop: 1, marginBottom: 1}}>
+        <Box key={plot.id} sx={{my: 1}}>
             <Plot
                 plotConfiguration={plot}
                 onRemoveClick={() => removePlotClick(plot.id)}
@@ -106,9 +106,9 @@ function Plots() {
     return (
         <>
             <TimeRange dateTimeFrom={dateTimeFrom} dateTimeTo={dateTimeTo} dateTimeFromChange={(time: string) => setDateTimeFrom(time)} dateTimeToChange={(time: string) => setDateTimeTo(time)} />
-            <Divider sx={{marginTop:2, marginBottom:2}}/>
+            <Divider sx={{my:2}}/>
             {plots}
-            <Divider sx={{marginTop:2, marginBottom:2}}/>
+            <Divider sx={{my:2}}/>
             {actions}
         </>
     )
