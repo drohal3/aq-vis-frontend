@@ -286,7 +286,7 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
     console.log("PlotConfiguration - devicesToAdd: ", devicesToAdd)
 
     const onLoadPlotDataClick = async () => {
-        loadData(dateTimeFrom, dateTimeTo)
+        await loadData(dateTimeFrom, dateTimeTo)
     }
     const revertConfig = () => {
         dispatch(revertPlotToPlot(plotConfiguration.id))
