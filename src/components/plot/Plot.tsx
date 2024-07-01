@@ -1,13 +1,10 @@
 import {
-    confirmPlotToPlot,
     PlotConfigurationState,
 } from "../../reducers/plotConfigurationsReducer.ts";
-import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {DeviceData} from "../../reducers/devicesReducer.ts";
 import Box from "@mui/material/Box";
-import {useAppDispatch} from "../../hooks/hooks.ts";
 import {
     Divider,
     Stack
@@ -16,8 +13,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TuneIcon from '@mui/icons-material/Tune';
 import { useTheme } from '@mui/material/styles';
 import {useState} from "react";
-import {useAuthData} from "../../hooks/useAuthHook.ts";
-import measurementService from "../../services/measurements.ts"
 import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {usePlotData} from "../../hooks/usePlotDataHook.ts";
 import PlotConfiguration from "./PlotConfiguration.tsx";
@@ -32,25 +27,12 @@ interface PlotProps {
 
 function Plot(props: PlotProps) {
     const {plotConfiguration, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
-    const auth = useAuthData()
     const theme = useTheme()
     const [configurationOpen, setConfigurationOpen] = useState(true)
 
-    const dispatch = useAppDispatch()
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
-    const loadPlotData = async () => {
-        for (const deviceToPlot of plotConfiguration.current) {
-            const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
-            const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
-            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
-        }
-        dispatch(confirmPlotToPlot(plotConfiguration.id))
-        setConfigurationOpen(false)
-    }
-
-    // TODO: plot lines
     interface ParameterLine {
         color:string,
         parameter:string,
@@ -86,10 +68,15 @@ function Plot(props: PlotProps) {
 
     const plotConfigurationBlock = configurationOpen && (
             <Box sx={{backgroundColor: theme.palette.primary.light}}>
-                <PlotConfiguration plotConfiguration={plotConfiguration} devices={devices} loadPlotData={loadPlotData}/>
+                <PlotConfiguration
+                    plotConfiguration={plotConfiguration}
+                    devices={devices}
+                    onLoadData={() => setConfigurationOpen(false)}
+                    dateTimeFrom={dateTimeFrom}
+                    dateTimeTo={dateTimeTo}
+                />
             </Box>
     )
-
 
 
     return (
