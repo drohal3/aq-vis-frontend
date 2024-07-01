@@ -300,6 +300,7 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
         dispatch(addDeviceToPlot(plotId, {deviceCode: deviceId, parameters: []}))
     }
 
+
     const deviceConfig = plotConfiguration.current && plotConfiguration.current?.length > 0 ? plotConfiguration.current?.map((device) => (
         <Box key={device.deviceCode}>
             <DeviceConfiguration device={deviceByCode(device.deviceCode)} plot={plotConfiguration} />
