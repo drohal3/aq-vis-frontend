@@ -15,6 +15,32 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 
 
+function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromChange, dateTimeToChange}:{dateTimeFrom:string, dateTimeTo:string, dateTimeFromChange: (time:string) => void, dateTimeToChange: (time:string) => void}) {
+    return (
+        <Grid container spacing={2} sx={{marginTop:1}}>
+            <Grid item md={4}>
+                <TextField
+                    fullWidth
+                    label="From"
+                    variant="standard"
+                    placeholder="yyyy-mm-dd hh:mm:ss"
+                    value={dateTimeFrom}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => dateTimeFromChange(event.target.value)}
+                />
+            </Grid>
+            <Grid item md={4}>
+                <TextField
+                    fullWidth
+                    label="To"
+                    variant="standard"
+                    placeholder="yyyy-mm-dd hh:mm:ss"
+                    value={dateTimeTo}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => dateTimeToChange(event.target.value)}
+                />
+            </Grid>
+        </Grid>
+    )
+}
 
 function Plots() {
     const dispatch = useAppDispatch()
@@ -55,8 +81,6 @@ function Plots() {
         dispatch(removePlot(plotId))
     }
 
-//     TODO: time from - to
-//     TODO: plots
     const plots = plotConfiguration.map(plot => (
         <Box key={plot.id} sx={{marginTop: 1, marginBottom: 1}}>
             <Plot
@@ -81,28 +105,7 @@ function Plots() {
     )
     return (
         <>
-            <Grid container spacing={2} sx={{marginTop:1}}>
-                <Grid item md={4}>
-                    <TextField
-                        fullWidth
-                        label="From"
-                        variant="standard"
-                        placeholder="yyyy-mm-dd hh:mm:ss"
-                        value={dateTimeFrom}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeFrom(event.target.value)}
-                    />
-                </Grid>
-                <Grid item md={4}>
-                    <TextField
-                        fullWidth
-                        label="To"
-                        variant="standard"
-                        placeholder="yyyy-mm-dd hh:mm:ss"
-                        value={dateTimeTo}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => setDateTimeTo(event.target.value)}
-                    />
-                </Grid>
-            </Grid>
+            <TimeRange dateTimeFrom={dateTimeFrom} dateTimeTo={dateTimeTo} dateTimeFromChange={(time: string) => setDateTimeFrom(time)} dateTimeToChange={(time: string) => setDateTimeTo(time)} />
             <Divider sx={{marginTop:2, marginBottom:2}}/>
             {plots}
             <Divider sx={{marginTop:2, marginBottom:2}}/>
