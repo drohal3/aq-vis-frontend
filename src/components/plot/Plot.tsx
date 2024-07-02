@@ -21,6 +21,8 @@ import measurementService from "../../services/measurements.ts";
 import {addLoadedPlotDeviceData} from "../../reducers/plotDataReducer.ts";
 import {useAppDispatch} from "../../hooks/hooks.ts";
 import {useAuthData} from "../../hooks/useAuthHook.ts";
+import {timeStringValid} from "../../utils/validators.ts";
+import {addNotification} from "../../utils/notifications.ts";
 
 interface PlotProps {
     plotConfiguration: PlotConfigurationState,
@@ -40,14 +42,49 @@ function Plot(props: PlotProps) {
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
-    const loadPlotData = async (dateTimeFrom: string, dateTimeTo: string) => {
-        for (const deviceToPlot of plotConfiguration.current) {
-            const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
-            const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
-            dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
-            setConfigurationOpen(false)
+    let errorMessage = null
+    const dateTimeFromValid = timeStringValid(dateTimeFrom)
+    const dateTimeToValid = timeStringValid(dateTimeTo)
+
+    if (!dateTimeFromValid || !dateTimeToValid) {
+        errorMessage = "Invalid time range!"
+    } else {
+        const timeRange = (dateTimeToValid.getTime() - dateTimeFromValid.getTime())/1000
+        if (timeRange < 0) {
+            errorMessage = "Time \"To\" must be after Time \"From\""
         }
-        dispatch(confirmPlotToPlot(plotConfiguration.id))
+
+        if (timeRange > 60 * 15) {
+            errorMessage = "Cannot query more than 15 minutes of data!"
+        }
+    }
+
+    let found = false
+    for (const deviceToPlot of plotConfiguration.current) {
+        const parameters = deviceToPlot.parameters
+        if (parameters.length > 0) {
+            found = true
+            break
+        }
+    }
+
+    if (!found) {
+        errorMessage = "No parameters to Plot!"
+    }
+
+    const loadPlotData = async (dateTimeFrom: string, dateTimeTo: string) => {
+        try {
+            for (const deviceToPlot of plotConfiguration.current) {
+                const parameters = deviceToPlot.parameters.map((parameter) => parameter.parameter ?? "")
+                const loadedData = await measurementService.get(deviceToPlot.deviceCode, parameters, dateTimeFrom, dateTimeTo, auth)
+                dispatch(addLoadedPlotDeviceData(plotConfiguration.id, deviceToPlot.deviceCode, loadedData))
+                setConfigurationOpen(false)
+            }
+            dispatch(confirmPlotToPlot(plotConfiguration.id))
+        } catch (e) {
+            addNotification(dispatch, "Something went wrong!", "error", 2000)
+        }
+
     }
 
     interface ParameterLine {
@@ -91,6 +128,7 @@ function Plot(props: PlotProps) {
                     loadData={loadPlotData}
                     dateTimeFrom={dateTimeFrom}
                     dateTimeTo={dateTimeTo}
+                    errorMessage={errorMessage}
                 />
             </Box>
     )

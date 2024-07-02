@@ -275,7 +275,7 @@ export function DeviceConfiguration({device, plot}:{device:DeviceData | undefine
     )
 }
 
-export default function PlotConfiguration({plotConfiguration, devices, dateTimeFrom, dateTimeTo, loadData}:{plotConfiguration:PlotConfigurationState, devices: Array<DeviceData>, dateTimeFrom:string, dateTimeTo:string, loadData: (dateTimeFrom: string, dateTimeTo: string) => Promise<void>}){
+export default function PlotConfiguration({plotConfiguration, devices, dateTimeFrom, dateTimeTo, loadData, errorMessage}:{plotConfiguration:PlotConfigurationState, devices: Array<DeviceData>, dateTimeFrom:string, dateTimeTo:string, loadData: (dateTimeFrom: string, dateTimeTo: string) => Promise<void>, errorMessage: string|null}){
     const dispatch = useAppDispatch()
     const theme = useTheme()
 
@@ -286,7 +286,7 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
     console.log("PlotConfiguration - devicesToAdd: ", devicesToAdd)
 
     const onLoadPlotDataClick = async () => {
-        loadData(dateTimeFrom, dateTimeTo)
+        await loadData(dateTimeFrom, dateTimeTo)
     }
     const revertConfig = () => {
         dispatch(revertPlotToPlot(plotConfiguration.id))
@@ -299,6 +299,7 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
     const submitAddDevice = (plotId: string, deviceId: string) => {
         dispatch(addDeviceToPlot(plotId, {deviceCode: deviceId, parameters: []}))
     }
+
 
     const deviceConfig = plotConfiguration.current && plotConfiguration.current?.length > 0 ? plotConfiguration.current?.map((device) => (
         <Box key={device.deviceCode}>
@@ -327,19 +328,28 @@ export default function PlotConfiguration({plotConfiguration, devices, dateTimeF
     ) : null
 
     console.log("PlotConfiguration - plotConfiguration data: ", plotConfiguration)
+
+    const errorMessageBlock = errorMessage && (
+        <Alert severity="warning">
+            {errorMessage}
+        </Alert>
+    )
+
     return (
         <Box sx={{p:2}}>
             {revertMessage}
             {deviceConfig}
             <Box sx={{p:2, backgroundColor: theme.palette.primary.light}}>
-                <Stack direction="row" spacing={2}>
+                <Stack direction="row" flexWrap="wrap" spacing={2}>
                     <AddDeviceDialog confirmAction={submitAddDevice} plot={plotConfiguration} devicesToAdd={devicesToAdd} />
                     <Button
                         variant="contained"
                         onClick={onLoadPlotDataClick}
+                        disabled={errorMessage != null}
                     >
                         Plot
                     </Button>
+                    {errorMessageBlock}
                 </Stack>
             </Box>
         </Box>

@@ -14,13 +14,16 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import {Alert} from "@mui/material";
+import {timeStringValid} from "../../utils/validators.ts";
 
 
-function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromChange, dateTimeToChange}:{dateTimeFrom:string, dateTimeTo:string, dateTimeFromChange: (time:string) => void, dateTimeToChange: (time:string) => void}) {
+function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromError, dateTimeToError, dateTimeFromChange, dateTimeToChange}:{dateTimeFrom:string, dateTimeTo:string, dateTimeFromChange: (time:string) => void, dateTimeToChange: (time:string) => void, dateTimeFromError:boolean, dateTimeToError:boolean}) {
     return (
         <Grid container spacing={2} sx={{mt:1}}>
             <Grid item md={4}>
                 <TextField
+                    error={dateTimeFromError}
+                    helperText={dateTimeFromError && "Incorrect or missing entry."}
                     fullWidth
                     label="From"
                     variant="standard"
@@ -31,6 +34,8 @@ function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromChange, dateTimeToChan
             </Grid>
             <Grid item md={4}>
                 <TextField
+                    error={dateTimeToError}
+                    helperText={dateTimeToError && "Incorrect or missing entry."}
                     fullWidth
                     label="To"
                     variant="standard"
@@ -54,7 +59,6 @@ function Plots() {
     console.log("plots - auth data", auth)
     console.log("plots - plotConfiguration data", plotConfiguration)
     console.log("plots - devices data", devices)
-
 
 //  use effect
     useEffect(() => {
@@ -110,7 +114,14 @@ function Plots() {
     )
     return (
         <>
-            <TimeRange dateTimeFrom={dateTimeFrom} dateTimeTo={dateTimeTo} dateTimeFromChange={(time: string) => setDateTimeFrom(time)} dateTimeToChange={(time: string) => setDateTimeTo(time)} />
+            <TimeRange
+                dateTimeFrom={dateTimeFrom}
+                dateTimeTo={dateTimeTo}
+                dateTimeFromError={!timeStringValid(dateTimeFrom)}
+                dateTimeToError={!timeStringValid(dateTimeTo)}
+                dateTimeFromChange={(time: string) => setDateTimeFrom(time)}
+                dateTimeToChange={(time: string) => setDateTimeTo(time)}
+            />
             <Divider sx={{my:2}}/>
             {plots}
             <Divider sx={{my:2}}/>
