@@ -191,7 +191,7 @@ function Plot(props: PlotProps) {
                         width={1000}
                         height={500}
                     >
-                        <XAxis dataKey="sample_date_time" allowDuplicatedCategory={false} />
+                        <XAxis dataKey="time" allowDuplicatedCategory={false} />
                         <YAxis type="number" />
                         <Tooltip />
                         <Legend />
