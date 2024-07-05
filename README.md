@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Backend for IdealAQ sensor data monitoring app
+This app was completed as part of [Full-stack open](fullstackopen.com/en/) course. Additionally, the created solution aims to serve as a useful tool for [IdealAQ](https://idealaq.com/) project with a potential to be the base or a case study for future production version of the web app.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app is used as a frontend for data visualisation app.
 
-## Available Scripts
+The backend app is in its own repository ([AQvis-backend](https://github.com/drohal3/AQvis-backend)).
 
-In the project directory, you can run:
+## Prerequisites
+To build or run Docker image you must install Docker. 
 
-### `npm start`
+## ENV variables
+| variable          | description        | note                              |
+|-------------------|--------------------|-----------------------------------|
+| **backend**       |                    |                                   |
+| VITE_BACKEND_URL  | URL of the backend | example: `http://127.0.0.1:8080 ` |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Useful commands
+To run the frontend app locally, run the following commands from the project root directory.
+```bash
+npm install
+```
+```bash
+npm run dev
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+To build and run Docker image:
+```bash
+# build - change image name based on your preference
+docker build -t aqvis_frontend_local .
+```
+```bash
+# run image - change port 4000 to your preference
+# adjust VITE_BACKEND_URL
+docker run -e VITE_BACKEND_URL='http://127.0.0.1:8080' -p 4000:5000 aqvis_frontend_local   
+```
+accessed at http://localhost:4000/
 
-### `npm test`
+# Instructions to use the app
+Visit the address of the web app (i.e. http://localhost:5173/ if run locally with `npm run dev`)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Login
+Login requires credentials. The credentials are obtained from admins and given only to trusted people and specific purpose.
 
-### `npm run build`
+- The **username** is usually the email address of the user. 
+- The **password** must be kept safe and cannot be shared.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Device configuration
+Before plotting the data, devices must be configured. This is done on the devices page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Devices are assigned to the organisation and shared among all the members of the organisation.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Adding a device requires setting the device name based on the preference and specifying device code that is strictly assigned to the device.
+Additionally, the parameters must be defined. 
 
-### `npm run eject`
+# Future development (pending decisions)
+> **Note:** The app is in beta version and has limited functionality. The more features will be added once the requirements are defined.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- plotting real-time data as they flow from sensors
+- saving plot configuration
+- more...

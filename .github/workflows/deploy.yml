@@ -1,0 +1,36 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize ]
+jobs:
+#  pipeline:
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - name: Checkout to the repository
+#        uses: actions/checkout@v4 # checkout to the repository
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '18'
+  publish-docker-hub:
+    name: Publish image to Docker Hub
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
+#    needs: [ pipeline ]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout to the repository
+        uses: actions/checkout@v4 # checkout to the repository
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: "{{defaultContext}}"
+          push: true
+          tags: drohal3/cpcvis-frontend:latest
