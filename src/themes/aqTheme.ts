@@ -8,7 +8,6 @@ const aqTheme = createTheme({
       dark: "#005D5E",
       contrastText: "white"
     },
-
   },
 });
 
