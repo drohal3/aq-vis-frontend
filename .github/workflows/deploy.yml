@@ -102,7 +102,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: error
-          text: New version of aqvis_frontend image could not be published!
+          text: Failed to publish new version of aqvis_frontend image!
           description: Triggered by ${{ github.triggering_actor }}, commit urls ${{ join(github.event.commits.*.url, ' , ') }}
           details: Publishing Failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
