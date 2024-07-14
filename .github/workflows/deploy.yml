@@ -37,10 +37,6 @@ jobs:
           context: "{{defaultContext}}"
           push: true
           tags: drohal3/$REPOSITORY:$IMAGE_TAG
-        with:
-          context: "{{defaultContext}}"
-          push: true
-          tags: drohal3/$REPOSITORY
   publish-ecr:
     name: Publish image to AWS ECR
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
