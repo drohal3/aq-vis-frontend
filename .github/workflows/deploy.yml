@@ -34,6 +34,12 @@ jobs:
           context: "{{defaultContext}}"
           push: true
           tags: drohal3/aqvis-frontend
+      - name: Build and push tagged
+        uses: docker/build-push-action@v5
+        with:
+          context: "{{defaultContext}}"
+          push: true
+          tags: drohal3/aqvis-frontend:${{ github.sha }}
   publish-ecr:
     name: Publish image to AWS ECR
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
