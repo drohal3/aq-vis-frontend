@@ -7,7 +7,7 @@ export const addNotification = (dispatch:AppDispatch, message:string, severity:S
         dispatch(removeNotificationFromState(timeoutId))
     }
 
-    timeoutId = setTimeout(
+    timeoutId = window.setTimeout(
         handler,
         delaySeconds * 1000
     )

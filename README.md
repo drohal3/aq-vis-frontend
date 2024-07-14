@@ -9,10 +9,10 @@ The backend app is in its own repository ([AQvis-backend](https://github.com/dro
 To build or run Docker image you must install Docker. 
 
 ## ENV variables
-| variable          | description        | note                              |
-|-------------------|--------------------|-----------------------------------|
-| **backend**       |                    |                                   |
-| VITE_BACKEND_URL  | URL of the backend | example: `http://127.0.0.1:8080 ` |
+| variable          | description        | note                                                                      |
+|-------------------|--------------------|---------------------------------------------------------------------------|
+| **backend**       |                    |                                                                           |
+| VITE_BACKEND_URL  | URL of the backend | example: `http://127.0.0.1:8080 ` **Note:** effects during the buld stage |
 
 ## Useful commands
 To run the frontend app locally, run the following commands from the project root directory.
@@ -26,12 +26,13 @@ npm run dev
 To build and run Docker image:
 ```bash
 # build - change image name based on your preference
+# adjust VITE_BACKEND_URL environmental variable if needed
 docker build -t aqvis_frontend_local .
 ```
 ```bash
 # run image - change port 4000 to your preference
-# adjust VITE_BACKEND_URL
-docker run -e VITE_BACKEND_URL='http://127.0.0.1:8080' -p 4000:5000 aqvis_frontend_local   
+# VITE_BACKEND_URL environmental variable is set when the image is built
+docker run -p 4000:5000 aqvis_frontend_local   
 ```
 accessed at http://localhost:4000/
 
