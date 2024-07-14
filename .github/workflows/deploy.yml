@@ -29,11 +29,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          REPOSITORY: aqvis-frontend
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}"
           push: true
-          tags: drohal3/aqvis-frontend
+          tags: drohal3/$REPOSITORY:$IMAGE_TAG
   publish-ecr:
     name: Publish image to AWS ECR
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message),'#skip') }}
