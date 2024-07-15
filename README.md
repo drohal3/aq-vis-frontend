@@ -15,18 +15,19 @@ To build or run Docker image you must install Docker.
 | VITE_BACKEND_URL  | URL of the backend | example: `http://127.0.0.1:8080 ` **Note:** effects during the buld stage |
 
 ## Useful commands
-To run the frontend app locally, run the following commands from the project root directory.
+To run the frontend app locally, run the following commands from the project root directory:
 ```bash
 npm install
 ```
 ```bash
 npm run dev
 ```
+accessed at  http://localhost:5173/ (if differs, the correct url should is printed in terminal)
 
 To build and run Docker image:
 ```bash
 # build - change image name based on your preference
-# adjust VITE_BACKEND_URL environmental variable if needed
+# adjust VITE_BACKEND_URL environmental variable if needed (.env.production)
 docker build -t aqvis_frontend_local .
 ```
 ```bash
@@ -52,6 +53,9 @@ Devices are assigned to the organisation and shared among all the members of the
 
 Adding a device requires setting the device name based on the preference and specifying device code that is strictly assigned to the device.
 Additionally, the parameters must be defined. 
+
+## Data plotting
+TODO:
 
 # Future development (pending decisions)
 > **Note:** The app is in beta version and has limited functionality. The more features will be added once the requirements are defined.
