@@ -25,15 +25,13 @@ function Organisation(){
       }
     }
 
-    if (!organisationData) {
+    if (!organisationData.id) {
       loadOrganisation()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(auth)
-
-  return organisationData ? (
+  return organisationData?.id ? (
     <>
       <AppLayout title="Organisation">
         <Typography variant="h5" gutterBottom>
@@ -43,7 +41,6 @@ function Organisation(){
           TODO: restricted access, members management
         </Typography>
       </AppLayout>
-      {/*{devices.map((device, key) => (<p key={key}>{device.name}</p>))}*/}
     </>
   ) : <Typography>Loading...</Typography>
 }

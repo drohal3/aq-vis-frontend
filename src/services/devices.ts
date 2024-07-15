@@ -12,6 +12,9 @@ const setToken = (token:string|null) => {
 const get = async (auth:AuthData) => {
   setToken(auth.token)
   const organisation_id = auth.currentUser?.organisation
+  if (organisation_id == null) {
+    return null
+  }
 
   const response = await api.get(`/organisations/${organisation_id}/devices`)
   return response.data
