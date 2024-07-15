@@ -36,6 +36,7 @@ export const { set, reset } = userSlice.actions;
 
 
 export const setUser = (user:AuthData) => {
+  console.log("reducer - SignIn")
   return (dispatch: AppDispatch) => {
     window.localStorage.setItem("IdealAQConsoleUserToken", user.token ?? "")
     dispatch(set(user));
@@ -43,7 +44,9 @@ export const setUser = (user:AuthData) => {
 }
 
 export const signOut = () => {
+  console.log("reducer - SignOut")
   window.localStorage.removeItem("IdealAQConsoleUserToken")
+  console.log("item removed", window.localStorage.getItem("IdealAQConsoleUserToken"))
   return (dispatch: AppDispatch) => {
     dispatch(reset());
   }
