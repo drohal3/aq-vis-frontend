@@ -79,7 +79,6 @@ export default function LogIn() {
       <>
         <Box sx={{m:2}}>
           <Notifications />
-          <p>{process.env.VITE_BACKEND_URL}</p>
         </Box>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
