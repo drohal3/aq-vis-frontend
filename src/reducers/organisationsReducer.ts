@@ -3,7 +3,8 @@ import {AppDispatch} from "../utils/store.ts";
 
 const initialState = {
   id: null,
-  name: null
+  name: null,
+  members: []
 }
 
 export interface OrganisationMember {

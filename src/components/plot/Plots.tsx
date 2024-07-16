@@ -15,6 +15,9 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import {Alert} from "@mui/material";
 import {timeStringValid} from "../../utils/validators.ts";
+import {useUnitsData} from "../../hooks/useUnitsHook.ts";
+import unitsService from "../../services/units.ts";
+import {setUnits} from "../../reducers/unitsReducer.ts";
 
 
 function TimeRange({dateTimeFrom, dateTimeTo, dateTimeFromError, dateTimeToError, dateTimeFromChange, dateTimeToChange}:{dateTimeFrom:string, dateTimeTo:string, dateTimeFromChange: (time:string) => void, dateTimeToChange: (time:string) => void, dateTimeFromError:boolean, dateTimeToError:boolean}) {
@@ -56,9 +59,7 @@ function Plots() {
     const auth = useAuthData()
     const plotConfiguration = usePlotsConfigurationState()
     const devices = useDevicesData()
-    console.log("plots - auth data", auth)
-    console.log("plots - plotConfiguration data", plotConfiguration)
-    console.log("plots - devices data", devices)
+    const units = useUnitsData()
 
 //  use effect
     useEffect(() => {
@@ -73,6 +74,19 @@ function Plots() {
             loadDevices()
         } else {
             console.log("devices already loaded", devices)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+
+    useEffect(() => {
+        if (units.length === 0) {
+            const loadUnits = async() => {
+                const loadedUnits = await unitsService.get()
+                console.log(loadedUnits)
+                dispatch(setUnits(loadedUnits))
+            }
+
+            loadUnits()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
@@ -92,6 +106,7 @@ function Plots() {
                 plotConfiguration={plot}
                 onRemoveClick={() => removePlotClick(plot.id)}
                 devices={devices}
+                units={units}
                 dateTimeFrom={dateTimeFrom}
                 dateTimeTo={dateTimeTo}/>
         </Box>

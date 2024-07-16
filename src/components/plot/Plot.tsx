@@ -23,22 +23,24 @@ import {useAppDispatch} from "../../hooks/hooks.ts";
 import {useAuthData} from "../../hooks/useAuthHook.ts";
 import {timeStringValid} from "../../utils/validators.ts";
 import {addNotification} from "../../utils/notifications.ts";
+import {UnitData} from "../../reducers/unitsReducer.ts";
 
 interface PlotProps {
     plotConfiguration: PlotConfigurationState,
     devices: Array<DeviceData>,
+    units: Array<UnitData>,
     onRemoveClick: (plotId: string) => void,
     dateTimeFrom: string,
     dateTimeTo: string
 }
 
 function Plot(props: PlotProps) {
-    const {plotConfiguration, onRemoveClick, devices, dateTimeFrom,dateTimeTo} = props
+    const {plotConfiguration, onRemoveClick, devices, units, dateTimeFrom,dateTimeTo} = props
     const dispatch = useAppDispatch()
     const auth = useAuthData()
     const theme = useTheme()
     const [configurationOpen, setConfigurationOpen] = useState(true)
-
+    console.log("devices: ....", devices)
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
@@ -90,11 +92,13 @@ function Plot(props: PlotProps) {
     interface ParameterLine {
         color:string,
         parameter:string,
-        dataIndex:number
+        dataIndex:number,
+        name: string
     }
 
     const plotLinesData = plotConfiguration.loaded.reduce((acc, cur) => {
         const deviceCode = cur.deviceCode
+        const device = devices.find(device => device.code == deviceCode)
         if (loadedPlotData == undefined) {
             return acc
         }
@@ -108,17 +112,21 @@ function Plot(props: PlotProps) {
             if (parameter.parameter == undefined) {
                 return
             }
+            const deviceParameter = device?.parameters.find(d => d.code == parameter.parameter)
+            const unit = units.find(u => u.id == deviceParameter?.unit)
+            console.log("unit", unit)
+
             return {
                 color:parameter.hexColor,
                 parameter:parameter.parameter,
-                dataIndex:loadedDataIndex
+                dataIndex:loadedDataIndex,
+                name: `${device?.name ?? "unknown"} -  ${deviceParameter?.name} [${unit?.symbol}]`
             }
         })
 
         return [...acc, ...parameterLines]
 
-    }, Array<ParameterLine|undefined>()).filter(p=>p != undefined)
-
+    }, Array<ParameterLine|undefined>().filter(p=>p != undefined))
 
     const plotConfigurationBlock = configurationOpen && (
             <Box sx={{backgroundColor: theme.palette.primary.light}}>
@@ -202,7 +210,7 @@ function Plot(props: PlotProps) {
                                     type="monotone"
                                     data={loadedPlotData?.deviceData[0].data}
                                     dataKey={line.parameter}
-                                    name={line.parameter}
+                                    name={line.name}
                                     stroke={line.color}
                                     strokeWidth={2}
                                     activeDot={{ r: 5 }}

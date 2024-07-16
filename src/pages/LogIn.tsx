@@ -56,7 +56,7 @@ export default function LogIn() {
       const token_data = await loginService.login(credentials)
       const token = token_data.access_token
       const currentUser = await loginService.currentUser(token)
-      if (data.get('remember') === 'remember' || true) { // for now, always remember
+      if (data.get('remember') === 'remember') { // for now, always remember
         window.localStorage.setItem("IdealAQConsoleUserToken", token);
       }
 
