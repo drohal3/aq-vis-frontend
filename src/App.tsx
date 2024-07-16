@@ -16,7 +16,7 @@ import { useAppDispatch } from "./hooks/hooks";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
-const ProtectedRoute = ({redirectPath = '/login'}: {redirectPath?: string}) => {
+const ProtectedRoute = ({redirectPath = '/logout'}: {redirectPath?: string}) => {
     const [dataReady, setDataReady] = useState(false);
     const dispatch = useAppDispatch()
     const auth = useAuthData()
