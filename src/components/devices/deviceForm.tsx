@@ -113,7 +113,7 @@ function AddParameterForm(params:AddParameterFormProps){
 interface NewDeviceFormProps {
   onConfirmClick: () => void;
   onCancelClick: () => void;
-  device?: any;
+  device?: any; // eslint-disable-line
 }
 function DeviceForm(params: NewDeviceFormProps){
   const {onConfirmClick, onCancelClick, device} = params
@@ -161,7 +161,7 @@ function DeviceForm(params: NewDeviceFormProps){
       throw Error("Missing organisation")
     }
 
-    let data = {
+    const data = {
       name, code, "organisation": organisation_id, parameters, "id": ""
     }
 

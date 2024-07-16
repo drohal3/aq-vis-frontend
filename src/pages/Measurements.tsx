@@ -5,6 +5,7 @@ import {setDevices} from "../reducers/devicesReducer.ts";
 import {useAuthData} from "../hooks/useAuthHook.ts";
 import {useAppDispatch} from "../hooks/hooks.ts";
 import {useDevicesData} from "../hooks/useDevicesDataHook.ts";
+import {addNotification} from "../utils/notifications.ts";
 
 import Plots from "../components/plot/Plots.tsx";
 
@@ -15,10 +16,13 @@ function Measurements(){
 
   useEffect(() => {
     const loadDevices = async () => {
-      const devices = await deviceService.get(auth)
+      let devices = await deviceService.get(auth)
+      if (devices == null) {
+        addNotification(dispatch, "Something went wrong, contact admin for more details!", "error", 10)
+        devices = []
+      }
       dispatch(setDevices(devices))
       console.log("loaded devices", devices)
-
     }
 
     if (devices.length === 0) {

@@ -4,7 +4,7 @@ import {AppDispatch} from "../utils/store.ts";
 
 export interface LoadedDeviceDataState {
     deviceCode: string,
-    data: {}[]
+    data: any[] // eslint-disable-line
 }
 export interface LoadedPlotDataState {
     plotId: string,
@@ -18,7 +18,7 @@ const initialState = Array<LoadedPlotDataState>()
 interface AddLoadedPlotsReducerProps {
     plotId:string,
     deviceId:string,
-    data:any[]
+    data:any[] // eslint-disable-line
 }
 
 const loadedPlotsSlice = createSlice({
@@ -47,6 +47,7 @@ const loadedPlotsSlice = createSlice({
 
 export const {addDeviceData} = loadedPlotsSlice.actions
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const addLoadedPlotDeviceData = (plotId: string, deviceId: string, data: any[]) => {
     return (dispatch:AppDispatch) => {
         console.log("adding device data")

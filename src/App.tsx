@@ -3,7 +3,7 @@ import Measurements from './pages/Measurements';
 import LogIn from "./pages/LogIn";
 import LogOut from "./pages/LogOut";
 import {useEffect, useState} from "react";
-import {AuthData, setUser, signOut} from "./reducers/loggedUserReducer";
+import {setUser, signOut} from "./reducers/loggedUserReducer";
 import {useAuthData} from "./hooks/useAuthHook";
 import loginService from './services/login'
 import {ThemeProvider} from "@mui/material/styles";
@@ -13,34 +13,23 @@ import Organisation from "./pages/Organisation";
 import NewDevice from "./pages/devices/NewDevice";
 import UpdateDevice from "./pages/devices/UpdateDevice";
 import { useAppDispatch } from "./hooks/hooks";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 
-const ProtectedRoute = ({auth, redirectPath = '/login'}: {auth:AuthData, redirectPath?: string}) => {
-    console.log(auth)
-    return !auth?.token ? (<Navigate to={redirectPath} replace />) : <Outlet />;
-}
-
-
-function TODO() {
-    return (
-        <>
-            <p>TODO:</p>
-        </>
-    )
-}
-
-function App() {
+const ProtectedRoute = ({redirectPath = '/logout'}: {redirectPath?: string}) => {
     const [dataReady, setDataReady] = useState(false);
     const dispatch = useAppDispatch()
-    const localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
-
     const auth = useAuthData()
 
     useEffect(() => {
+        let localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
         const fetchData = async () => {
             console.log("fetch user data")
             try {
+                localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
                 if (localToken) {
                     const currentUser = await loginService.currentUser(localToken)
+                    console.log("set user", {currentUser, token: localToken})
                     dispatch(setUser({currentUser, token: localToken}))
                     setDataReady(true)
                 }
@@ -59,28 +48,49 @@ function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const auth2 = useAuthData()
+    if (!dataReady) {
+        return (
+            <Typography>Loading...</Typography>
+        )
+    }
 
-    return dataReady ? (
+    return !auth?.token ? (<Navigate to={redirectPath} replace />) : <Outlet />;
+}
+
+const UserWithOrganisationRoute = () => {
+    const auth = useAuthData()
+    return !auth?.currentUser?.organisation
+        ? (
+            <>
+                <Typography>Your profile is not assigned to any organisation! Contact <Link sx={{color: "blue"}} href="mailto:dominik.rohal@helsinki.fi?subject=[AQvis%20login]%20No%20organisation">admin</Link> to resolve this issue!</Typography>
+                <br/>
+                <Link href="/logout">Logout</Link>
+            </>
+        ) : <Outlet />
+}
+
+function App() {
+    return (
         <>
             <ThemeProvider theme={aqTheme}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="login" element={<LogIn/>} />
                         <Route path="logout" element={<LogOut />} />
-                        <Route element={<ProtectedRoute auth={auth2} />}>
-                            <Route index path="/" element={<Measurements />} />
-                            <Route path="/devices" element={<Devices />} />
-                            <Route path="/devices/new" element={<NewDevice/>} />
-                            <Route path="/devices/:id/update" element={<UpdateDevice/>} />
-                            <Route path="/organisation" element={<Organisation />} />
-                            <Route path="account" element={<TODO />} />
+                        <Route element={<ProtectedRoute />}>
+                            <Route element={<UserWithOrganisationRoute />}>
+                                <Route index path="/" element={<Measurements />} />
+                                <Route path="/devices" element={<Devices />} />
+                                <Route path="/devices/new" element={<NewDevice/>} />
+                                <Route path="/devices/:id/update" element={<UpdateDevice/>} />
+                                <Route path="/organisation" element={<Organisation />} />
+                            </Route>
                         </Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
         </>
-    ) : <p>Loading...</p>;
+    )
 }
 
 export default App;

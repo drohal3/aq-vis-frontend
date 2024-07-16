@@ -1,22 +1,23 @@
-import { Navigate } from "react-router-dom";
-import { signOut } from '../reducers/loggedUserReducer'
-import {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { resetReduxStore } from '../reducers/rootReducer.ts'
+import {useEffect} from "react";
 import {useAppDispatch} from "../hooks/hooks.ts";
+import Typography from "@mui/material/Typography";
+import {signOut} from "../reducers/loggedUserReducer.ts";
 
 function LogOut() {
   const dispatch = useAppDispatch();
-  const [signedOut, setSignedOut] = useState(false)
+  const navigate = useNavigate()
+  window.localStorage.removeItem("IdealAQConsoleUserToken")
   useEffect(() => {
-    dispatch(signOut())
-    setSignedOut(true)
+    dispatch(signOut()) // obsolete but still decided to keep it here
+    dispatch(resetReduxStore())
+    setTimeout(() => navigate("/login"), 1000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
-  return signedOut ? (
-    <Navigate to='/' />
-    // <p>Logged Out</p>
-  ) : (<p>Signing Out...</p>)
+  return (<Typography>Redirecting...</Typography>)
 }
 
 export  default LogOut

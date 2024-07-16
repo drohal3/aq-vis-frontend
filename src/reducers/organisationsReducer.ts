@@ -3,12 +3,23 @@ import {AppDispatch} from "../utils/store.ts";
 
 const initialState = {
   id: null,
-  name: null
+  name: null,
+  members: []
+}
+
+export interface OrganisationMember {
+  email: string;
+  full_name: string;
+  organisation: string;
+  id: string;
+  is_admin: string;
+  disabled: boolean;
 }
 
 export interface OrganisationData {
   id: string|null;
   name: string|null;
+  members: OrganisationMember[]|null;
 }
 
 const organisationSlice = createSlice({

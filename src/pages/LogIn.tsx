@@ -56,8 +56,7 @@ export default function LogIn() {
       const token_data = await loginService.login(credentials)
       const token = token_data.access_token
       const currentUser = await loginService.currentUser(token)
-      if (data.get('remember') === 'remember') {
-        console.log("remember me")
+      if (data.get('remember') === 'remember') { // for now, always remember
         window.localStorage.setItem("IdealAQConsoleUserToken", token);
       }
 
@@ -69,6 +68,7 @@ export default function LogIn() {
       }
       if (error instanceof TokenError) {
         message = `Could not retrieve user with the token!`
+        setTimeout(()=>window.location.reload(),1000)
       }
 
       addNotification(dispatch, message, "error", 5)
@@ -79,7 +79,6 @@ export default function LogIn() {
       <>
         <Box sx={{m:2}}>
           <Notifications />
-          <p>{process.env.VITE_BACKEND_URL}</p>
         </Box>
         <Container component="main" maxWidth="xs">
           <CssBaseline />

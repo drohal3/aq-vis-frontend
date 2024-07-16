@@ -1,24 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from '../reducers/loggedUserReducer'
-// import measurementFormReducer from "../reducers/plotConfigurationReducer.js";
-import devicesReducer from "../reducers/devicesReducer.js";
-import organisationReducer from "../reducers/organisationsReducer.js"
-import unitsReducer from "../reducers/unitsReducer.js";
-import plotsReducer from "../reducers/plotConfigurationsReducer.ts";
-import loadedPlotDataReducer from "../reducers/plotDataReducer.ts";
-import notificationReducer from "../reducers/notificationReducer.ts";
+import {configureStore} from "@reduxjs/toolkit";
+import {rootReducer} from "../reducers/rootReducer.ts";
+
+
 
 const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    // measurementForm: measurementFormReducer,
-    devices: devicesReducer,
-    organisation: organisationReducer,
-    units: unitsReducer,
-    plots: plotsReducer,
-    plotData: loadedPlotDataReducer,
-    notifications: notificationReducer
-  },
+  reducer: rootReducer
 });
 
 export default store;
