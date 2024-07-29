@@ -31,6 +31,8 @@ const login = async (credentials:Credentials) => {
   formData.append('client_id', '');
   formData.append('client_secret', '');
   try {
+    const test = await api.post('/', {"message": "do you work?"})
+    console.log("Message from API ", test.data)
     const response = await api.post('/token', formData,{
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

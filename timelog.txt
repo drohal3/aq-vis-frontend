@@ -24,3 +24,5 @@
 2024-06-??: 16h - design chart, try and error playing with rechats library
 2024-06-10: 7h - refactoring measurements
 2024-07-  :~14h - refactoring SPAGHETTI into components
+
+PROBLEM DESCRIPTION:
