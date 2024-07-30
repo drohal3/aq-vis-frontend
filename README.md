@@ -41,10 +41,12 @@ accessed at http://localhost:4000/
 Visit the address of the web app (i.e. http://localhost:5173/ if run locally with `npm run dev`)
 
 ## Login
-Login requires credentials. The credentials are obtained from admins and given only to trusted people and specific purpose.
+Login requires credentials. The credentials are obtained from admins and given only to trusted people.
 
 - The **username** is usually the email address of the user. 
 - The **password** must be kept safe and cannot be shared.
+
+![login image](./docs/img/login.png)
 
 ## Device configuration
 Before plotting the data, devices must be configured. This is done on the devices page.
@@ -52,7 +54,13 @@ Before plotting the data, devices must be configured. This is done on the device
 Devices are assigned to the organisation and shared among all the members of the organisation.
 
 Adding a device requires setting the device name based on the preference and specifying device code that is strictly assigned to the device.
-Additionally, the parameters must be defined. 
+Additionally, the parameters must be defined.
+
+An example of the list of available parameters and their codes is available in this [documentation](https://idealaq.github.io/cpcvis-data-docs/).
+
+![devices image](./docs/img/devices.png)
+
+![update device image](./docs/img/update_device.png)
 
 ## Data plotting
 TODO:
