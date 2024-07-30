@@ -31,7 +31,6 @@ function Row({ device }: {device: DeviceData}) {
     if (units.length === 0) {
       const loadUnits = async() => {
         const loadedUnits = await unitsService.get()
-        console.log(loadedUnits)
         dispatch(setUnits(loadedUnits))
       }
 
@@ -44,7 +43,6 @@ function Row({ device }: {device: DeviceData}) {
   const dispatch = useAppDispatch()
   const auth = useAuthData()
   const handleDeleteClick = async (device_id:string) => {
-    console.log("delete", device_id)
     await deviceService.remove(auth, device_id)
     dispatch(removeDevice(device_id))
   }
@@ -68,8 +66,6 @@ function Row({ device }: {device: DeviceData}) {
   }
 
   const navigate = useNavigate();
-
-  console.log(device)
 
   return (
     <React.Fragment>
@@ -148,7 +144,6 @@ function Row({ device }: {device: DeviceData}) {
 }
 
 function DevicesTable({devices}:{devices: Array<DeviceData>}) {
-  console.log("devices", devices)
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">

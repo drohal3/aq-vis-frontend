@@ -25,7 +25,6 @@ const unitsSlice = createSlice({
 export const { set, reset } = unitsSlice.actions;
 
 export const setUnits = (units:Array<UnitData>) => {
-  console.log("units", units)
   return (dispatch:AppDispatch) => {
     dispatch(set(units))
   }

@@ -42,7 +42,6 @@ function AddParameterForm(params:AddParameterFormProps){
     if (units.length === 0) {
       const loadUnits = async() => {
         const loadedUnits = await unitsService.get()
-        console.log(loadedUnits)
         dispatch(setUnits(loadedUnits))
       }
 
@@ -131,7 +130,6 @@ function DeviceForm(params: NewDeviceFormProps){
     if (units.length === 0) {
       const loadUnits = async() => {
         const loadedUnits = await unitsService.get()
-        console.log(loadedUnits)
         dispatch(setUnits(loadedUnits))
       }
 
@@ -154,7 +152,6 @@ function DeviceForm(params: NewDeviceFormProps){
   }
 
   const handleConfirmClick = async () => {
-    console.log("handle click")
     const organisation_id = auth.currentUser?.organisation
 
     if (!organisation_id) {
@@ -167,15 +164,11 @@ function DeviceForm(params: NewDeviceFormProps){
 
     if (device) {
       data.id = device.id
-      console.log("update device", data)
       const response = await deviceService.update(auth, data)
-      console.log(response)
       dispatch(removeDevice(response.id))
       dispatch(addDevice(response))
     } else {
-      console.log("create device", data)
       const response = await deviceService.create(auth, data)
-      console.log(response)
       dispatch(addDevice(response))
     }
 
@@ -185,7 +178,6 @@ function DeviceForm(params: NewDeviceFormProps){
   }
 
   const handleCancelClick = async () => {
-    console.log("Cancel click")
     resetForm()
     onCancelClick()
   }
@@ -193,7 +185,6 @@ function DeviceForm(params: NewDeviceFormProps){
   const addParameter = (parameter: DeviceParameterData) => {
     setDeviceParameters([...parameters, parameter])
     setParameterFormHidden(true)
-    console.log("added", parameter)
   }
 
   const deleteParameter = (parameterCode:string) => {
@@ -202,8 +193,6 @@ function DeviceForm(params: NewDeviceFormProps){
   }
 
   const findUnitSymbolById = (unitId:string) => {
-    console.log("looking for unit", unitId)
-    console.log("looking in", units)
     const unit = units.find(unit => unit.id === unitId)
     return unit?.symbol ?? "unknown"
   }

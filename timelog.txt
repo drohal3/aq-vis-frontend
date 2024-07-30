@@ -26,3 +26,7 @@
 2024-07-  :~14h - refactoring SPAGHETTI into components
 
 PROBLEM DESCRIPTION:
+/token does not work, other post does
+            30h - the main cause was too little resources provisioned by the service where the application was deployed
+            _____
+            147.5 h

@@ -16,7 +16,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 function OrganisationMembers({members}:{members:OrganisationMember[]}) {
-  console.log("members", members)
   return (
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="organisation members">
@@ -61,7 +60,6 @@ function Organisation(){
         } catch (e) {
           window.location.reload()
         }
-        console.log("load organisation", organisation)
         dispatch(setOrganisation(organisation))
       }
     }

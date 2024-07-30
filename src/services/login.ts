@@ -24,7 +24,7 @@ const login = async (credentials:Credentials) => {
   // credentials: email, password
   console.log("login service")
   const formData = new URLSearchParams();
-  formData.append('grant_type', '');
+  formData.append('grant_type', 'password');
   formData.append('username', credentials.username);
   formData.append('password', credentials.password);
   formData.append('scope', '');

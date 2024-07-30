@@ -24,12 +24,10 @@ const ProtectedRoute = ({redirectPath = '/logout'}: {redirectPath?: string}) => 
     useEffect(() => {
         let localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
         const fetchData = async () => {
-            console.log("fetch user data")
             try {
                 localToken = window.localStorage.getItem("IdealAQConsoleUserToken")
                 if (localToken) {
                     const currentUser = await loginService.currentUser(localToken)
-                    console.log("set user", {currentUser, token: localToken})
                     dispatch(setUser({currentUser, token: localToken}))
                     setDataReady(true)
                 }
