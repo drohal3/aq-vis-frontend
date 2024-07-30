@@ -30,3 +30,6 @@ PROBLEM DESCRIPTION:
             30h - the main cause was too little resources provisioned by the service where the application was deployed
             _____
             147.5 h
+
+            Timekeeping for backend is in the same location in the backend repository:
+            https://github.com/drohal3/AQvis-backend/blob/main/timelog.txt

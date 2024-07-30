@@ -3,6 +3,8 @@ This app was completed as part of [Full-stack open](fullstackopen.com/en/) cours
 
 The app is used as a frontend for data visualisation app.
 
+>Navigate to https://drohal3.github.io/projects/AQvis.html to get better overview about parts of this project with links to different GitHub repositories!
+
 The backend app is in its own repository ([AQvis-backend](https://github.com/drohal3/AQvis-backend)).
 
 ## Prerequisites
@@ -95,8 +97,6 @@ Edit existing plot by clicking the "configure" button in the top plot bar.
 ## Organisation
 In organisation section, organisation members are listed:
 ![organisation image](./docs/img/organisation.png)
-
-
 
 
 # Future development (pending decisions)
