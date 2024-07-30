@@ -67,6 +67,10 @@ An example of the list of available parameters and their codes is available in t
 
 ![devices image](./docs/img/devices.png)
 
+You can add/remove parameters to/from TEST 1, TEST 2, TEST 3 and TEST 4, or delete them and recreate them. They support parameters with the same codes as TEST 0.
+
+Please, **DO NOT modify TEST 0!**
+
 ![update device image](./docs/img/update_device.png)
 
 ## Data plotting
