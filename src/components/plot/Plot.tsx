@@ -40,7 +40,6 @@ function Plot(props: PlotProps) {
     const auth = useAuthData()
     const theme = useTheme()
     const [configurationOpen, setConfigurationOpen] = useState(true)
-    console.log("devices: ....", devices)
 
     const loadedPlotData = usePlotData(plotConfiguration.id)
 
@@ -114,7 +113,6 @@ function Plot(props: PlotProps) {
             }
             const deviceParameter = device?.parameters.find(d => d.code == parameter.parameter)
             const unit = units.find(u => u.id == deviceParameter?.unit)
-            console.log("unit", unit)
 
             return {
                 color:parameter.hexColor,
@@ -206,9 +204,9 @@ function Plot(props: PlotProps) {
                         {
                             plotLinesData.map((line)=>line && (
                                 <Line
-                                    key={line.parameter}
+                                    key={`${line.parameter}-${line.dataIndex}`}
                                     type="monotone"
-                                    data={loadedPlotData?.deviceData[0].data}
+                                    data={loadedPlotData?.deviceData[line.dataIndex].data}
                                     dataKey={line.parameter}
                                     name={line.name}
                                     stroke={line.color}

@@ -22,7 +22,6 @@ function Measurements(){
         devices = []
       }
       dispatch(setDevices(devices))
-      console.log("loaded devices", devices)
     }
 
     if (devices.length === 0) {
