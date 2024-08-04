@@ -38,9 +38,9 @@ docker build -t aqvis_frontend_local .
 docker run -p 4000:5000 aqvis_frontend_local   
 ```
 
-alternatively, run image from DockerHub
+alternatively, pull and run the image from DockerHub
 ```bash
-docker push drohal3/aqvis-frontend:latest
+docker run -p 4000:5000 drohal3/aqvis-frontend:latest
 ```
 
 accessed at http://localhost:4000/
