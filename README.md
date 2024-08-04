@@ -1,5 +1,5 @@
-# Backend for IdealAQ sensor data monitoring app
-This app was completed as part of [Full-stack open](fullstackopen.com/en/) course. Additionally, the created solution aims to serve as a useful tool for [IdealAQ](https://idealaq.com/) project with a potential to be the base or a case study for future production version of the web app.
+# Frontend for IdealAQ sensor data monitoring app
+This app was completed as part of [Full-stack open](fullstackopen.com/en/) course. Additionally, the created solution aims to serve as a useful tool for [IdealAQ](https://idealaq.com/) project with the potential to become the base or a case study for future production versions of the web app.
 
 The app is used as a frontend for data visualisation app.
 
@@ -24,7 +24,7 @@ npm install
 ```bash
 npm run dev
 ```
-accessed at  http://localhost:5173/ (if differs, the correct url should is printed in terminal)
+accessed at  http://localhost:5173/ (if it differs, the correct url should be printed in the terminal)
 
 To build and run Docker image:
 ```bash
@@ -37,6 +37,12 @@ docker build -t aqvis_frontend_local .
 # VITE_BACKEND_URL environmental variable is set when the image is built
 docker run -p 4000:5000 aqvis_frontend_local   
 ```
+
+alternatively, run image from DockerHub
+```bash
+docker push drohal3/aqvis-frontend:latest
+```
+
 accessed at http://localhost:4000/
 
 # Instructions to use the app
